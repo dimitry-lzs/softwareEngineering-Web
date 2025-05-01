@@ -1,0 +1,31 @@
+{
+    "name": "softwareengineering",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc -b && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.0",
+        "@mui/icons-material": "^7.0.2",
+        "@mui/joy": "^5.0.0-beta.52",
+        "mobx": "^6.13.7",
+        "mobx-react-lite": "^4.1.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-router": "^7.5.3",
+        "react-router-dom": "^7.5.3"
+    },
+    "devDependencies": {
+        "@types/react": "^19.0.10",
+        "@types/react-dom": "^19.0.4",
+        "@vitejs/plugin-react": "^4.3.4",
+        "globals": "^16.0.0",
+        "typescript": "~5.7.2",
+        "vite": "^6.3.1"
+    }
+}
