@@ -1,14 +1,15 @@
 import { redirect, RouterProvider } from 'react-router';
 import { createBrowserRouter } from 'react-router-dom';
 
-import App from './App';
+import App from './app/App';
 import ErrorPage from './pages/Error';
 import Secondary from './pages/Secondary';
-import CheckAuth from './components/CheckAuth';
+// import CheckAuth from './components/CheckAuth';
 import FormPage from './pages/FormPage';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import { Fragment } from 'react/jsx-runtime';
+import Main from './pages/Main';
 
 const root = document.getElementById('root');
 
@@ -19,8 +20,18 @@ if (!root) {
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <CheckAuth Element={App} redirectTo='/auth' requireAuth={true} />,
+        // element: <CheckAuth Element={App} redirectTo='/auth' requireAuth={true} />,
+        element: <App />,
         children: [
+            {
+                index: true,
+                element: <Fragment />,
+                loader: () => redirect('main'),
+            },
+            {
+                path: '/main',
+                element: <Main />,
+            },
             {
                 path: '/secondary',
                 element: <Secondary />,
