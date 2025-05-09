@@ -10,6 +10,8 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import { Fragment } from 'react/jsx-runtime';
 import Main from './pages/Main';
+import MyProfile from './components/Profile';
+import { AppointmentHistoryTable } from './components/AppointmentHistory';
 
 const root = document.getElementById('root');
 
@@ -36,6 +38,14 @@ const router = createBrowserRouter([
                 path: '/secondary',
                 element: <Secondary />,
             },
+            {
+                path: '/profile',
+                element: <MyProfile />,
+            },
+            {
+                path: '/history',
+                element: <AppointmentHistoryTable />,
+            }
         ],
         errorElement: <ErrorPage />,
     },

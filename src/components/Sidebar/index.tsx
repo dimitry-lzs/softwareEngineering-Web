@@ -117,7 +117,7 @@ export default function Sidebar() {
                         </ListItemButton>
                     </ListItem>
                     <ListItem>
-                        <ListItemButton>
+                        <ListItemButton to="/history" component={Link} role="menuitem">
                             <HistoryIcon />
                             <ListItemContent>
                                 <Typography level="title-sm">History</Typography>
@@ -125,7 +125,7 @@ export default function Sidebar() {
                         </ListItemButton>
                     </ListItem>
                     <ListItem>
-                        <ListItemButton>
+                        <ListItemButton to="/profile" component={Link} role="menuitem">
                             <AccountCircleIcon />
                             <ListItemContent>
                                 <Typography level="title-sm">Profile</Typography>
