@@ -14,7 +14,7 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
-export default function MyProfile() {
+export default function Profile() {
     return (
       <Box sx={{ flex: 1, width: '100%' }}>
         <Box

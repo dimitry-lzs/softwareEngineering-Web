@@ -3,15 +3,15 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import App from './app/App';
 import ErrorPage from './pages/Error';
-import Secondary from './pages/Secondary';
 // import CheckAuth from './components/CheckAuth';
 import FormPage from './pages/FormPage';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import { Fragment } from 'react/jsx-runtime';
-import Main from './pages/Main';
-import MyProfile from './components/Profile';
-import { AppointmentHistoryTable } from './components/AppointmentHistory';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import AppointmentHistory from './pages/AppointmentHistory';
+import Calendar from './pages/Calendar';
 
 const root = document.getElementById('root');
 
@@ -28,23 +28,23 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Fragment />,
-                loader: () => redirect('main'),
+                loader: () => redirect('home'),
             },
             {
-                path: '/main',
-                element: <Main />,
+                path: '/home',
+                element: <Home />,
             },
             {
-                path: '/secondary',
-                element: <Secondary />,
+                path: '/calendar',
+                element: <Calendar />,
             },
             {
                 path: '/profile',
-                element: <MyProfile />,
+                element: <Profile />,
             },
             {
                 path: '/history',
-                element: <AppointmentHistoryTable />,
+                element: <AppointmentHistory />,
             }
         ],
         errorElement: <ErrorPage />,

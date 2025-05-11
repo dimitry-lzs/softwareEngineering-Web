@@ -101,7 +101,7 @@ export default function Sidebar() {
                     }}
                 >
                     <ListItem>
-                        <ListItemButton to="/main" component={Link} role="menuitem">
+                        <ListItemButton to="/home" component={Link} role="menuitem">
                             <HomeRoundedIcon />
                             <ListItemContent>
                                 <Typography level="title-sm">Home</Typography>
@@ -109,7 +109,7 @@ export default function Sidebar() {
                         </ListItemButton>
                     </ListItem>
                     <ListItem>
-                        <ListItemButton to="/secondary" component={Link} role="menuitem">
+                        <ListItemButton to="/calendar" component={Link} role="menuitem">
                             <CalendarMonthIcon />
                             <ListItemContent>
                                 <Typography level="title-sm">Calendar</Typography>

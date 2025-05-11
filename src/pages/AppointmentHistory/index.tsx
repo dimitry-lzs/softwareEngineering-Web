@@ -251,7 +251,7 @@ function RowMenu() {
     );
 }
  
-export function AppointmentHistoryTable() {
+export default function AppointmentHistory() {
 const [order, setOrder] = React.useState<Order>('desc');
 const [selected, setSelected] = React.useState<readonly string[]>([]);
 const [open, setOpen] = React.useState(false);
