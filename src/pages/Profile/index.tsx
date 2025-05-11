@@ -19,7 +19,7 @@ import SectionTitle from "../../components/SectionTitle";
 import { useState } from "react";
 
 export default function Profile() {
-    const [disabled, setDisabled] = useState(true);
+    // const [disabled, setDisabled] = useState(true);
     const [formValues] = useState({
         firstName: "Chuck",
         lastName: "Norris",
@@ -29,14 +29,13 @@ export default function Profile() {
         createDate: "2023-10-01",
     });
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-
-        const values = Object.fromEntries(formData.entries());
-        console.log(values);
-        setDisabled(true);
-    };
+    // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    //     event.preventDefault();
+    //     const formData = new FormData(event.currentTarget);
+    //     const formJson = Object.fromEntries((formData as any).entries());
+    //     alert(JSON.stringify(formJson));
+    //     // setDisabled(true);
+    // };
 
     return (
         <Box sx={{ flex: 1, width: "100%" }}>
@@ -59,7 +58,14 @@ export default function Profile() {
                         <Typography level="title-lg">Personal info</Typography>
                     </Box>
                     <Divider />
-                    <form onSubmit={handleSubmit} onChange={() => setDisabled(false)}>
+                    <form
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            const formData = new FormData(event.currentTarget);
+                            const formJson = Object.fromEntries((formData as any).entries());
+                            alert(JSON.stringify(formJson));
+                        }}
+                    >
                         <Stack
                             direction="row"
                             spacing={3}
@@ -116,7 +122,7 @@ export default function Profile() {
                                             name="firstName"
                                             size="sm"
                                             placeholder="First name"
-                                            defaultValue={formValues.firstName}
+                                            // defaultValue={formValues.firstName}
                                         />
                                     </FormControl>
                                     <FormControl
@@ -129,7 +135,7 @@ export default function Profile() {
                                             name="lastName"
                                             size="sm"
                                             placeholder="Last name"
-                                            defaultValue={formValues.lastName}
+                                            // defaultValue={formValues.lastName}
                                             sx={{ flexGrow: 1 }}
                                         />
                                     </FormControl>
@@ -141,7 +147,7 @@ export default function Profile() {
                                             name="phoneNumber"
                                             type="tel"
                                             size="sm"
-                                            defaultValue={formValues.phoneNumber}
+                                            // defaultValue={formValues.phoneNumber}
                                             startDecorator={<PhoneIcon />}
                                         />
                                     </FormControl>
@@ -150,7 +156,7 @@ export default function Profile() {
                                         <Input
                                             name="amka"
                                             size="sm"
-                                            defaultValue={formValues.amka}
+                                            // defaultValue={formValues.amka}
                                             startDecorator={<AssignmentIndIcon />}
                                         />
                                     </FormControl>
@@ -168,7 +174,7 @@ export default function Profile() {
                                             type="email"
                                             startDecorator={<EmailRoundedIcon />}
                                             placeholder="email"
-                                            defaultValue={formValues.email}
+                                            // defaultValue={formValues.email}
                                             sx={{ width: "255px" }} // adjust the width as needed
                                         />
                                     </FormControl>
@@ -234,7 +240,7 @@ export default function Profile() {
                                             name="firstName"
                                             size="sm"
                                             placeholder="First name"
-                                            defaultValue={formValues.firstName}
+                                            // defaultValue={formValues.firstName}
                                         />
                                     </FormControl>
                                     <FormControl
@@ -250,7 +256,7 @@ export default function Profile() {
                                             name="lastName"
                                             size="sm"
                                             placeholder="Last name"
-                                            defaultValue={formValues.lastName}
+                                            // defaultValue={formValues.lastName}
                                         />
                                     </FormControl>
                                 </Stack>
@@ -261,7 +267,7 @@ export default function Profile() {
                                     name="phoneNumber"
                                     type="tel"
                                     size="sm"
-                                    defaultValue={formValues.phoneNumber}
+                                    // defaultValue={formValues.phoneNumber}
                                 />
                             </FormControl>
                             <FormControl>
@@ -269,7 +275,7 @@ export default function Profile() {
                                 <Input
                                     name="amka"
                                     size="sm"
-                                    defaultValue={formValues.amka}
+                                    // defaultValue={formValues.amka}
                                 />
                             </FormControl>
                             <FormControl sx={{ flexGrow: 1 }}>
@@ -280,7 +286,7 @@ export default function Profile() {
                                     type="email"
                                     startDecorator={<EmailRoundedIcon />}
                                     placeholder="email"
-                                    defaultValue={formValues.email}
+                                    // defaultValue={formValues.email}
                                     sx={{ flexGrow: 1 }}
                                 />
                             </FormControl>
@@ -290,7 +296,7 @@ export default function Profile() {
                                 <Button
                                     size="sm"
                                     variant="solid"
-                                    disabled={disabled}
+                                    // disabled={disabled}
                                     type="submit"
                                     startDecorator={<EditRoundedIcon />}
                                 >
