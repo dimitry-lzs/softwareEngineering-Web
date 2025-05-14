@@ -3,6 +3,9 @@ import { Outlet } from "react-router";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import Notification from "../components/Notification";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import 'dayjs/locale/en';
 
 export default function App() {
     return (
@@ -31,7 +34,9 @@ export default function App() {
                     }}
                 >
                     <Header />
-                    <Outlet />
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
+                        <Outlet />
+                    </LocalizationProvider>
                 </Box>
             </Box>
         </CssVarsProvider>
