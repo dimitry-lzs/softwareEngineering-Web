@@ -2,10 +2,12 @@ import { Box, CssBaseline, CssVarsProvider } from "@mui/joy";
 import { Outlet } from "react-router";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import Notification from "../components/Notification";
 
 export default function App() {
     return (
         <CssVarsProvider disableTransitionOnChange>
+            <Notification />
             <CssBaseline />
             <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
                 <Sidebar />

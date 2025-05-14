@@ -5,12 +5,14 @@ import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import DarkModeToggle from '../../components/DarkModeToggle';
 import { Outlet } from 'react-router';
+import Notification from '../../components/Notification';
 
 const customTheme = extendTheme();
 
 export default function FormPage() {
     return (
         <CssVarsProvider theme={customTheme} disableTransitionOnChange>
+            <Notification />
             <CssBaseline />
             <GlobalStyles
                 styles={{

@@ -1,6 +1,7 @@
-import { Stack, Typography, Divider, FormControl, FormLabel, Input, Box, Checkbox, Button } from "@mui/joy";
+import { Stack, Typography, Divider, FormControl, FormLabel, Input, Button } from "@mui/joy";
 import { Link } from "react-router";
 import { SignInFormElement } from "../types";
+import { userStore } from "../../stores";
 
 export default function SignIn() {
     return (
@@ -29,15 +30,14 @@ export default function SignIn() {
             </Divider>
             <Stack sx={{ gap: 4, mt: 2 }}>
                 <form
-                    onSubmit={(event: React.FormEvent<SignInFormElement>) => {
+                    onSubmit={async (event: React.FormEvent<SignInFormElement>) => {
                         event.preventDefault();
                         const formElements = event.currentTarget.elements;
                         const data = {
                             email: formElements.email.value,
                             password: formElements.password.value,
-                            persistent: formElements.persistent.checked,
                         };
-                        alert(JSON.stringify(data, null, 2));
+                        await userStore.login(data);
                     }}
                 >
                     <FormControl required>
@@ -49,15 +49,6 @@ export default function SignIn() {
                         <Input type="password" name="password" />
                     </FormControl>
                     <Stack sx={{ gap: 4, mt: 2 }}>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Checkbox size="sm" label="Remember me" name="persistent" />
-                        </Box>
                         <Button type="submit" fullWidth>
                             Sign in
                         </Button>

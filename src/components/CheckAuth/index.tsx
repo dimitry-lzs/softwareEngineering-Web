@@ -1,8 +1,9 @@
-// import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 import { userStore } from '../../stores';
+import LoadingPage from '../../pages/LoadingPage';
 
 function CheckAuth({
     Element,
@@ -13,15 +14,13 @@ function CheckAuth({
     redirectTo: string;
     requireAuth: boolean;
 }) {
-    // const [isLoading, setIsLoading] = useState(true);
+    useEffect(() => {
+        userStore.getLogin();
+    }, []);
 
-    // useEffect(() => {
-    //     userStore.getLogin().then(() => setTimeout(() => setIsLoading(false), 1e3));
-    // }, []);
-
-    // if (isLoading) {
-    //     return <LoadingPage />;
-    // }
+    if (userStore.isLoading) {
+        return <LoadingPage />;
+    }
 
     return userStore.isLoggedIn === requireAuth ? (
         <Element />
