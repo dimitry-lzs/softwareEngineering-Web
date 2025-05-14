@@ -23,6 +23,8 @@ const user = {
     }) => client.post('/login', userData),
     getLogin: async () => client.get('/login'),
     logout: async () => client.get('/logout'),
+    getAvatar: async () => client.get('/avatar'),
+    updateAvatar: async (avatar: string) => client.post('/update-avatar', { avatar }),
 }
 
 export {

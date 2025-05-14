@@ -46,9 +46,50 @@ class UserStore {
     private loading = false;
 
     private userData: UserData | null = null;
+    private avatar: string | null = null;
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    getAvatar = async () => {
+        this.setLoading(true);
+        try {
+            const response = await user.getAvatar();
+            const { data } = response;
+            const { avatar } = data;
+            this.setAvatar(avatar);
+        } catch (error) {
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Cannot get avatar: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger'
+            );
+        } finally {
+            this.setLoading(false);
+        }
+    }
+
+    updateAvatar = async (avatar: string): Promise<boolean> => {
+        try {
+            const response = await user.updateAvatar(avatar);
+            const success = response.status === 200;
+            if (success) {
+                this.setAvatar(avatar);
+            }
+            return success;
+        } catch (error) {
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Cannot update avatar: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger'
+            );
+            return false;
+        } finally {
+            this.setLoading(false);
+        }
     }
 
     getLogin = async () => {
@@ -58,6 +99,7 @@ class UserStore {
             if (response.status === 200) {
                 const { data } = response;
                 this.setUserData(data);
+                this.getAvatar();
             }
         } catch (_) {
         } finally {
@@ -139,6 +181,10 @@ class UserStore {
         }
     };
 
+    setAvatar = (avatar: string | null) => {
+        this.avatar = avatar;
+    };
+
     setLoading = (loading: boolean) => {
         this.loading = loading;
     };
@@ -173,6 +219,9 @@ class UserStore {
     }
     get amka() {
         return this.userData?.amka || '';
+    }
+    get avatarData() {
+        return this.avatar || '';
     }
 }
 

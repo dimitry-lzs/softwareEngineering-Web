@@ -19,10 +19,11 @@ import { userStore } from '../../stores';
 import { OfficeLocation, Speciality, UserType } from '../../stores/UserStore';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import { Select, Option, Textarea } from '@mui/joy';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { PinDropRounded } from '@mui/icons-material';
+import { observer } from 'mobx-react-lite';
 
-export default function Profile() {
+export default observer(function Profile() {
     const formRef = useRef<HTMLFormElement>(null);
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -30,6 +31,13 @@ export default function Profile() {
         const data = Object.fromEntries(formData.entries());
         console.log(data);
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await userStore.getAvatar();
+        };
+        fetchData();
+    }, []);
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
             <Box
@@ -75,7 +83,7 @@ export default function Profile() {
                                 sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
                             >
                                 <img
-                                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+                                    src={userStore.avatarData || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286'}
                                     loading="lazy"
                                     alt=""
                                 />
@@ -84,6 +92,7 @@ export default function Profile() {
                                 aria-label="upload new picture"
                                 size="sm"
                                 variant="outlined"
+                                component="label"
                                 color="neutral"
                                 sx={{
                                     bgcolor: 'background.body',
@@ -96,6 +105,21 @@ export default function Profile() {
                                 }}
                             >
                                 <EditRoundedIcon />
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    style={{ display: 'none', height: '20px', width: '30px' }}
+                                    onChange={(event) => {
+                                        const file = event.target.files?.[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onloadend = async () => {
+                                                await userStore.updateAvatar(reader.result as string);
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                    }}
+                                />
                             </IconButton>
                         </Stack>
                         <Stack spacing={2} sx={{ flex: 1 }}>
@@ -196,4 +220,4 @@ export default function Profile() {
             </Stack >
         </Box >
     );
-}
+});
