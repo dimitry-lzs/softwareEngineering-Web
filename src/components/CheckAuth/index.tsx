@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
@@ -14,11 +14,13 @@ function CheckAuth({
     redirectTo: string;
     requireAuth: boolean;
 }) {
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
-        userStore.getLogin();
+        userStore.getLogin().then(() => setIsLoading(false));
     }, []);
 
-    if (userStore.isLoading) {
+    if (isLoading) {
         return <LoadingPage />;
     }
 
