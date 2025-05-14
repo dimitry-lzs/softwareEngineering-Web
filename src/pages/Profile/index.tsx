@@ -16,7 +16,7 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import Phone from '@mui/icons-material/PhoneRounded';
 import NumbersIcon from '@mui/icons-material/Numbers';
 import { userStore } from '../../stores';
-import { OfficeLocation, Speciality, UserType } from '../../stores/UserStore';
+import { OfficeLocation, Speciality, UserData, UserType } from '../../stores/UserStore';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import { Select, Option, Textarea } from '@mui/joy';
 import { useEffect, useRef } from 'react';
@@ -25,11 +25,11 @@ import { observer } from 'mobx-react-lite';
 
 export default observer(function Profile() {
     const formRef = useRef<HTMLFormElement>(null);
-    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData.entries());
-        console.log(data);
+        await userStore.updateUserData(data as unknown as UserData);
     };
 
     useEffect(() => {
@@ -129,7 +129,7 @@ export default observer(function Profile() {
                                     <FormControl
                                         sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
                                     >
-                                        <Input required size="sm" placeholder="Full name" name='fullName' />
+                                        <Input defaultValue={userStore.fullName} required size="sm" placeholder="Full name" name='fullName' />
                                     </FormControl>
                                 </Stack>
                                 <Stack direction="row" spacing={2}>
@@ -140,12 +140,14 @@ export default observer(function Profile() {
                                             type="email"
                                             startDecorator={<EmailRoundedIcon />}
                                             placeholder="email"
+                                            defaultValue={userStore.email}
                                             sx={{ flex: 1 }}
+                                            name='email'
                                         />
                                     </FormControl>
                                     <FormControl sx={{ flex: 1 }}>
                                         <FormLabel>Phone</FormLabel>
-                                        <Input startDecorator={<Phone />} size="sm" name='phone' placeholder='Phone' />
+                                        <Input defaultValue={userStore.phone} startDecorator={<Phone />} size="sm" name='phone' placeholder='Phone' />
                                     </FormControl>
                                 </Stack>
                                 {userStore.userType === UserType.Doctor ? (
@@ -157,6 +159,7 @@ export default observer(function Profile() {
                                                     required
                                                     size="sm"
                                                     placeholder="Speciality"
+                                                    defaultValue={userStore.speciality}
                                                     name='speciality'
                                                     startDecorator={<MedicalServicesIcon />}
                                                 >
@@ -169,7 +172,7 @@ export default observer(function Profile() {
                                             </FormControl>
                                             <FormControl sx={{ flex: 1 }}>
                                                 <FormLabel>License ID</FormLabel>
-                                                <Input required startDecorator={<NumbersIcon />} size="sm" name='licenceID' placeholder='License ID' />
+                                                <Input defaultValue={userStore.licenceID} required startDecorator={<NumbersIcon />} size="sm" name='licenceID' placeholder='License ID' />
                                             </FormControl>
                                         </Stack>
                                         <Stack direction="row" spacing={2}>
@@ -181,6 +184,7 @@ export default observer(function Profile() {
                                                     placeholder="Office Location"
                                                     name='officeLocation'
                                                     startDecorator={<PinDropRounded />}
+                                                    defaultValue={userStore.officeLocation}
                                                 >
                                                     {Object.keys(OfficeLocation).map((key) => (
                                                         <Option key={key} value={OfficeLocation[key as keyof typeof OfficeLocation]}>
@@ -191,7 +195,7 @@ export default observer(function Profile() {
                                             </FormControl>
                                             <FormControl sx={{ flex: 1 }}>
                                                 <FormLabel>Bio</FormLabel>
-                                                <Textarea size="sm" name='bio' placeholder='Bio' />
+                                                <Textarea defaultValue={userStore.bio} size="sm" name='bio' placeholder='Bio' />
                                             </FormControl>
                                         </Stack>
                                     </>
@@ -199,7 +203,7 @@ export default observer(function Profile() {
                                     <Stack direction="row" spacing={2}>
                                         <FormControl sx={{ flex: 1 }}>
                                             <FormLabel>AMKA</FormLabel>
-                                            <Input startDecorator={<NumbersIcon />} size="sm" name='amka' placeholder='AMKA' />
+                                            <Input defaultValue={userStore.amka} startDecorator={<NumbersIcon />} size="sm" name='amka' placeholder='AMKA' />
                                         </FormControl>
                                     </Stack>
                                 )}
@@ -211,7 +215,7 @@ export default observer(function Profile() {
                             <Button size="sm" variant="outlined" color="neutral">
                                 Cancel
                             </Button>
-                            <Button size="sm" variant="solid" onClick={() => formRef.current?.requestSubmit()}>
+                            <Button loading={userStore.isLoading} size="sm" variant="solid" onClick={() => formRef.current?.requestSubmit()}>
                                 Save
                             </Button>
                         </CardActions>

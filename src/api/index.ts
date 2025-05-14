@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { UserData } from '../stores/UserStore';
 
 export type APIError = AxiosError & { response: { data: { error: string } } }
 
@@ -25,6 +26,7 @@ const user = {
     logout: async () => client.get('/logout'),
     getAvatar: async () => client.get('/avatar'),
     updateAvatar: async (avatar: string) => client.post('/update-avatar', { avatar }),
+    updateUserData: async (userData: UserData) => client.post('/update-user', userData),
 }
 
 export {

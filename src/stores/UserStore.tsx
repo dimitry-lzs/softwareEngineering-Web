@@ -36,10 +36,12 @@ export type UserData = {
     email: string;
     password: string;
     userType: UserType;
+    phone?: string;
     speciality?: string;
     licenceID?: string;
     officeLocation?: OfficeLocation;
     amka?: string;
+    bio?: string;
 };
 
 class UserStore {
@@ -181,6 +183,39 @@ class UserStore {
         }
     };
 
+    updateUserData = async (userData: UserData): Promise<boolean> => {
+        this.setLoading(true);
+        try {
+            const response = await user.updateUserData(userData);
+            if (response.status === 200) {
+                this.getLogin();
+                notificationStore.setNotification(
+                    true,
+                    'User data updated successfully',
+                    'success'
+                );
+                return true;
+            } else {
+                notificationStore.setNotification(
+                    true,
+                    'Update failed',
+                    'danger'
+                );
+                return false;
+            }
+        } catch (error) {
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Cannot update user data: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger'
+            );
+            return false;
+        } finally {
+            this.setLoading(false);
+        }
+    };
+
     setAvatar = (avatar: string | null) => {
         this.avatar = avatar;
     };
@@ -208,6 +243,9 @@ class UserStore {
     get email() {
         return this.userData?.email || '';
     }
+    get phone() {
+        return this.userData?.phone || '';
+    }
     get speciality() {
         return this.userData?.speciality || '';
     }
@@ -222,6 +260,9 @@ class UserStore {
     }
     get avatarData() {
         return this.avatar || '';
+    }
+    get bio() {
+        return this.userData?.bio || '';
     }
 }
 
