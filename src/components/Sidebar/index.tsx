@@ -16,8 +16,9 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import HistoryIcon from '@mui/icons-material/History';
 import { Link } from 'react-router-dom';
 import { userStore } from '../../stores';
+import { observer } from 'mobx-react-lite';
 
-export default function Sidebar() {
+export default observer(function Sidebar() {
     return (
         <Sheet
             className="Sidebar"
@@ -139,7 +140,7 @@ export default function Sidebar() {
                 <Avatar
                     variant="outlined"
                     size="sm"
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+                    src={userStore.avatarData}
                 />
                 <Box sx={{ minWidth: 0, flex: 1 }}>
                     <Typography level="title-sm">{`${userStore.fullName}`}</Typography>
@@ -151,4 +152,4 @@ export default function Sidebar() {
             </Box>
         </Sheet>
     );
-}
+});
