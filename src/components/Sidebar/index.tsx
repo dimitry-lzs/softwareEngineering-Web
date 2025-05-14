@@ -68,7 +68,6 @@ export default function Sidebar() {
                         lg: 'translateX(-100%)',
                     },
                 }}
-            // onClick={() => closeSidebar()}
             />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Box sx={{
@@ -143,8 +142,8 @@ export default function Sidebar() {
                     src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
                 />
                 <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography level="title-sm">Mr Patient</Typography>
-                    <Typography level="body-xs">coolpatient@test.com</Typography>
+                    <Typography level="title-sm">{`${userStore.fullName}`}</Typography>
+                    <Typography level="body-xs">{`${userStore.email}`}</Typography>
                 </Box>
                 <IconButton size="sm" variant="plain" color="neutral" onClick={() => userStore.logout()}>
                     <LogoutRoundedIcon />

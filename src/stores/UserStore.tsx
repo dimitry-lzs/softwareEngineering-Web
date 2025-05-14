@@ -127,6 +127,24 @@ class UserStore {
     get userType() {
         return this.userData?.userType || '';
     }
+    get fullName() {
+        return this.userData?.fullName || '';
+    }
+    get email() {
+        return this.userData?.email || '';
+    }
+    get speciality() {
+        return this.userData?.speciality || '';
+    }
+    get licenceID() {
+        return this.userData?.licenceID || '';
+    }
+    get officeLocation() {
+        return this.userData?.officeLocation || '';
+    }
+    get amka() {
+        return this.userData?.amka || '';
+    }
 }
 
 export default UserStore;
