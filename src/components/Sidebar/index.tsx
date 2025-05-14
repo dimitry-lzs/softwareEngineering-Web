@@ -15,6 +15,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import HistoryIcon from '@mui/icons-material/History';
 import { Link } from 'react-router-dom';
+import { userStore } from '../../stores';
 
 export default function Sidebar() {
     return (
@@ -145,7 +146,7 @@ export default function Sidebar() {
                     <Typography level="title-sm">Mr Patient</Typography>
                     <Typography level="body-xs">coolpatient@test.com</Typography>
                 </Box>
-                <IconButton size="sm" variant="plain" color="neutral">
+                <IconButton size="sm" variant="plain" color="neutral" onClick={() => userStore.logout()}>
                     <LogoutRoundedIcon />
                 </IconButton>
             </Box>

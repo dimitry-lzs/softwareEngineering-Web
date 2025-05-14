@@ -29,20 +29,8 @@ class UserStore {
             if (response.status === 200) {
                 const { data } = response;
                 this.setUserData(data);
-            } else {
-                notificationStore.setNotification(
-                    true,
-                    'Unathorized',
-                    'danger'
-                );
             }
-        } catch (error) {
-            const axiosError = error as APIError;
-            notificationStore.setNotification(
-                true,
-                `Access Denied: ${axiosError.response?.data?.error || 'Unknown error'}`,
-                'danger'
-            );
+        } catch (_) {
         } finally {
             this.setLoading(false);
         }
@@ -80,7 +68,6 @@ class UserStore {
         }
     };
 
-
     register = async (userData: UserData): Promise<boolean> => {
         this.setLoading(true);
         try {
@@ -99,11 +86,35 @@ class UserStore {
         }
     }
 
+    logout = async () => {
+        this.setLoading(true);
+        try {
+            const response = await user.logout();
+            if (response.status === 200) {
+                this.setUserData(null);
+            } else {
+                notificationStore.setNotification(
+                    true,
+                    'Logout failed',
+                    'danger'
+                );
+            }
+        } catch (error) {
+            notificationStore.setNotification(
+                true,
+                'Logout failed',
+                'danger'
+            );
+        } finally {
+            this.setLoading(false);
+        }
+    };
+
     setLoading = (loading: boolean) => {
         this.loading = loading;
     };
 
-    setUserData = (userData: UserData) => {
+    setUserData = (userData: UserData | null) => {
         this.userData = userData;
     };
 

@@ -22,6 +22,7 @@ const user = {
         password: string;
     }) => client.post('/login', userData),
     getLogin: async () => client.get('/login'),
+    logout: async () => client.get('/logout'),
 }
 
 export {
