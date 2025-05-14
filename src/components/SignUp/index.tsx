@@ -1,19 +1,20 @@
-import { Stack, Typography, FormControl, FormLabel, Input, Button, Radio, RadioGroup, List, ListItem, ListItemDecorator } from "@mui/joy";
+import { Stack, Typography, FormControl, FormLabel, Input, Button, Radio, RadioGroup, List, ListItem, ListItemDecorator, Select, Option } from "@mui/joy";
 import { Link, useNavigate } from "react-router";
 import { SignInFormElement } from "../types";
 import { Person, MedicalServices } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import { notificationStore, userStore } from "../../stores";
+import { OfficeLocation, Speciality, UserType } from "../../stores/UserStore";
 
 const userTypes = [
     {
         label: 'Doctor',
-        value: 'DOCTOR',
+        value: UserType.Doctor,
         icon: <MedicalServices />,
     },
     {
         label: 'Patient',
-        value: 'PATIENT',
+        value: UserType.Patient,
         icon: <Person />,
     },
 ]
@@ -32,9 +33,9 @@ export default function SignUp() {
             password: formElements.password.value,
             fullName: formElements.fullName.value,
             userType,
-            speciality: formElements.speciality?.value,
+            speciality: formElements.speciality?.value as Speciality,
             licenceID: formElements.licenceID?.value,
-            officeLocation: formElements.officeLocation?.value,
+            officeLocation: formElements.officeLocation?.value as OfficeLocation,
             amka: formElements.amka?.value,
         };
 
@@ -85,7 +86,7 @@ export default function SignUp() {
                                     value={type.value}
                                     label={type.label}
                                     onChange={(event) => {
-                                        setUserType(event.target.value);
+                                        setUserType(event.target.value as UserType);
                                     }}
                                     sx={{ flexGrow: 1, flexDirection: 'row-reverse' }}
                                     slotProps={{
@@ -125,7 +126,17 @@ export default function SignUp() {
                             <>
                                 <FormControl required>
                                     <FormLabel>Specialization</FormLabel>
-                                    <Input type="text" name="speciality" />
+                                    <Select
+                                        name="speciality"
+
+                                        placeholder="Select Specialization"
+                                    >
+                                        {Object.keys(Speciality).map((key) => (
+                                            <Option key={key} value={Speciality[key as keyof typeof Speciality]}>
+                                                {key}
+                                            </Option>
+                                        ))}
+                                    </Select>
                                 </FormControl>
                                 <FormControl required>
                                     <FormLabel>License ID</FormLabel>
@@ -133,7 +144,16 @@ export default function SignUp() {
                                 </FormControl>
                                 <FormControl required>
                                     <FormLabel>Office Location</FormLabel>
-                                    <Input type="text" name="officeLocation" />
+                                    <Select
+                                        name="officeLocation"
+                                        placeholder="Select Office Location"
+                                    >
+                                        {Object.keys(OfficeLocation).map((key) => (
+                                            <Option key={key} value={OfficeLocation[key as keyof typeof OfficeLocation]}>
+                                                {key}
+                                            </Option>
+                                        ))}
+                                    </Select>
                                 </FormControl>
                             </>
                         )}
