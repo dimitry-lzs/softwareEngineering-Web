@@ -2,7 +2,7 @@ import { Stack, Typography, FormControl, FormLabel, Input, Button, Radio, RadioG
 import { Link, useNavigate } from "react-router";
 import { SignInFormElement } from "../types";
 import { Person, MedicalServices } from "@mui/icons-material";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { notificationStore, userStore } from "../../stores";
 import { OfficeLocation, Speciality, UserType } from "../../stores/UserStore";
 
@@ -21,25 +21,14 @@ const userTypes = [
 
 export default function SignUp() {
     const [userType, setUserType] = useState(userTypes[0].value);
-    const formRef = useRef<HTMLFormElement>(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent<SignInFormElement>) => {
         event.preventDefault(); // This prevents the actual form submission
+        const formData = new FormData(event.currentTarget);
+        const formJson = Object.fromEntries((formData as any).entries());
 
-        const formElements = event.currentTarget.elements;
-        const data = {
-            email: formElements.email.value,
-            password: formElements.password.value,
-            fullName: formElements.fullName.value,
-            userType,
-            speciality: formElements.speciality?.value as Speciality,
-            licenceID: formElements.licenceID?.value,
-            officeLocation: formElements.officeLocation?.value as OfficeLocation,
-            amka: formElements.amka?.value,
-        };
-
-        const registered = await userStore.register(data);
+        const registered = await userStore.register({ ...formJson, userType } as any);
         if (registered) {
             notificationStore.setNotification(
                 true,
@@ -106,7 +95,6 @@ export default function SignUp() {
                     </List>
                 </RadioGroup>
                 <form
-                    ref={formRef}
                     onSubmit={handleSubmit}
                 >
                     <Stack spacing={2}>
@@ -128,12 +116,11 @@ export default function SignUp() {
                                     <FormLabel>Specialization</FormLabel>
                                     <Select
                                         name="speciality"
-
                                         placeholder="Select Specialization"
                                     >
                                         {Object.keys(Speciality).map((key) => (
                                             <Option key={key} value={Speciality[key as keyof typeof Speciality]}>
-                                                {key}
+                                                {Speciality[key as keyof typeof Speciality]}
                                             </Option>
                                         ))}
                                     </Select>
@@ -172,8 +159,8 @@ export default function SignUp() {
                             </Button>
                         </Stack>
                     </Stack>
-                </form>
-            </Stack>
+                </form >
+            </Stack >
         </>
     );
 }
