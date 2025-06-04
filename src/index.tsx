@@ -1,17 +1,18 @@
-import { redirect, RouterProvider } from 'react-router';
+import { RouterProvider, redirect } from 'react-router-dom';
 import { createBrowserRouter } from 'react-router-dom';
 
+import { Fragment } from 'react/jsx-runtime';
 import App from './app/App';
-import ErrorPage from './pages/Error';
 import CheckAuth from './components/CheckAuth';
-import FormPage from './pages/FormPage';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
-import { Fragment } from 'react/jsx-runtime';
-import Home from './pages/Home';
-import Profile from './pages/Profile';
 import AppointmentHistory from './pages/AppointmentHistory';
 import Calendar from './pages/Calendar';
+import Doctors from './pages/Doctors';
+import ErrorPage from './pages/Error';
+import FormPage from './pages/FormPage';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
 
 const root = document.getElementById('root');
 
@@ -22,12 +23,18 @@ if (!root) {
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <CheckAuth Element={App} redirectTo='/auth' requireAuth={true} />,
+        element: (
+            <CheckAuth Element={App} redirectTo='/auth' requireAuth={true} />
+        ),
         children: [
             {
                 index: true,
                 element: <Fragment />,
                 loader: () => redirect('home'),
+            },
+            {
+                path: '/doctors',
+                element: <Doctors />,
             },
             {
                 path: '/home',
@@ -44,13 +51,15 @@ const router = createBrowserRouter([
             {
                 path: '/history',
                 element: <AppointmentHistory />,
-            }
+            },
         ],
         errorElement: <ErrorPage />,
     },
     {
         path: '/auth',
-        element: <CheckAuth Element={FormPage} redirectTo='/' requireAuth={false} />,
+        element: (
+            <CheckAuth Element={FormPage} redirectTo='/' requireAuth={false} />
+        ),
         children: [
             {
                 index: true,
@@ -64,10 +73,10 @@ const router = createBrowserRouter([
             {
                 path: 'register',
                 element: <SignUp />,
-            }
+            },
         ],
         errorElement: <ErrorPage />,
-    }
+    },
 ]);
 
 export default () => {

@@ -1,27 +1,28 @@
-import GlobalStyles from '@mui/joy/GlobalStyles';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import HistoryIcon from '@mui/icons-material/History';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Divider from '@mui/joy/Divider';
+import GlobalStyles from '@mui/joy/GlobalStyles';
 import IconButton from '@mui/joy/IconButton';
 import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
 import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton';
 import ListItemContent from '@mui/joy/ListItemContent';
-import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import HistoryIcon from '@mui/icons-material/History';
+import Typography from '@mui/joy/Typography';
+import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 import { userStore } from '../../stores';
-import { observer } from 'mobx-react-lite';
 
 export default observer(function Sidebar() {
     return (
         <Sheet
-            className="Sidebar"
+            className='Sidebar'
             sx={{
                 position: { xs: 'fixed', md: 'sticky' },
                 transform: {
@@ -53,7 +54,7 @@ export default observer(function Sidebar() {
                 })}
             />
             <Box
-                className="Sidebar-overlay"
+                className='Sidebar-overlay'
                 sx={{
                     position: 'fixed',
                     zIndex: 9998,
@@ -70,15 +71,24 @@ export default observer(function Sidebar() {
                     },
                 }}
             />
-            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Box sx={{
-                    backgroundImage: 'url(/src/assets/mediq.png)',
-                    backgroundSize: 'contain',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    width: 128,
-                    height: 60,
-                }} />
+            <Box
+                sx={{
+                    display: 'flex',
+                    gap: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Box
+                    sx={{
+                        backgroundImage: 'url(/src/assets/mediq.png)',
+                        backgroundSize: 'contain',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        width: 128,
+                        height: 60,
+                    }}
+                />
             </Box>
             <Divider />
             <Box
@@ -94,7 +104,7 @@ export default observer(function Sidebar() {
                 }}
             >
                 <List
-                    size="sm"
+                    size='sm'
                     sx={{
                         gap: 1,
                         '--List-nestedInsetStart': '30px',
@@ -102,34 +112,70 @@ export default observer(function Sidebar() {
                     }}
                 >
                     <ListItem>
-                        <ListItemButton to="/home" component={Link} role="menuitem">
+                        <ListItemButton
+                            to='/home'
+                            component={Link}
+                            role='menuitem'
+                        >
                             <HomeRoundedIcon />
                             <ListItemContent>
-                                <Typography level="title-sm">Home</Typography>
+                                <Typography level='title-sm'>Home</Typography>
                             </ListItemContent>
                         </ListItemButton>
                     </ListItem>
                     <ListItem>
-                        <ListItemButton to="/calendar" component={Link} role="menuitem">
+                        <ListItemButton
+                            to='/doctors'
+                            component={Link}
+                            role='menuitem'
+                        >
+                            <MedicalServicesIcon />
+                            <ListItemContent>
+                                <Typography level='title-sm'>
+                                    Doctors
+                                </Typography>
+                            </ListItemContent>
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem>
+                        <ListItemButton
+                            to='/calendar'
+                            component={Link}
+                            role='menuitem'
+                        >
                             <CalendarMonthIcon />
                             <ListItemContent>
-                                <Typography level="title-sm">Calendar</Typography>
+                                <Typography level='title-sm'>
+                                    Calendar
+                                </Typography>
                             </ListItemContent>
                         </ListItemButton>
                     </ListItem>
                     <ListItem>
-                        <ListItemButton to="/history" component={Link} role="menuitem">
+                        <ListItemButton
+                            to='/history'
+                            component={Link}
+                            role='menuitem'
+                        >
                             <HistoryIcon />
                             <ListItemContent>
-                                <Typography level="title-sm">History</Typography>
+                                <Typography level='title-sm'>
+                                    History
+                                </Typography>
                             </ListItemContent>
                         </ListItemButton>
                     </ListItem>
                     <ListItem>
-                        <ListItemButton to="/profile" component={Link} role="menuitem">
+                        <ListItemButton
+                            to='/profile'
+                            component={Link}
+                            role='menuitem'
+                        >
                             <AccountCircleIcon />
                             <ListItemContent>
-                                <Typography level="title-sm">Profile</Typography>
+                                <Typography level='title-sm'>
+                                    Profile
+                                </Typography>
                             </ListItemContent>
                         </ListItemButton>
                     </ListItem>
@@ -138,15 +184,20 @@ export default observer(function Sidebar() {
             <Divider />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                 <Avatar
-                    variant="outlined"
-                    size="sm"
+                    variant='outlined'
+                    size='sm'
                     src={userStore.avatarData}
                 />
                 <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography level="title-sm">{`${userStore.fullName}`}</Typography>
-                    <Typography level="body-xs">{`${userStore.email}`}</Typography>
+                    <Typography level='title-sm'>{`${userStore.fullName}`}</Typography>
+                    <Typography level='body-xs'>{`${userStore.email}`}</Typography>
                 </Box>
-                <IconButton size="sm" variant="plain" color="neutral" onClick={() => userStore.logout()}>
+                <IconButton
+                    size='sm'
+                    variant='plain'
+                    color='neutral'
+                    onClick={() => userStore.logout()}
+                >
                     <LogoutRoundedIcon />
                 </IconButton>
             </Box>

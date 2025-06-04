@@ -1,6 +1,6 @@
-import { Box, Breadcrumbs, Link, Typography } from '@mui/joy';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import { useLocation, Link as RouterLink } from 'react-router-dom';
+import { Box, Breadcrumbs, Link, Typography } from '@mui/joy';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 
 export default function Header() {
     const location = useLocation();
@@ -9,17 +9,17 @@ export default function Header() {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Breadcrumbs
-                size="sm"
-                aria-label="breadcrumbs"
+                size='sm'
+                aria-label='breadcrumbs'
                 // separator={<ChevronRightRoundedIcon fontSize="sm" />}
                 sx={{ pl: 0 }}
             >
                 <Link
-                    underline="none"
-                    color="neutral"
+                    underline='none'
+                    color='neutral'
                     component={RouterLink}
-                    to="/"
-                    aria-label="Home"
+                    to='/'
+                    aria-label='Home'
                 >
                     <HomeRoundedIcon />
                 </Link>
@@ -29,7 +29,7 @@ export default function Header() {
                     return isLast ? (
                         <Typography
                             key={to}
-                            color="neutral"
+                            color='neutral'
                             sx={{ fontWeight: 500, fontSize: 13 }}
                         >
                             {value}
@@ -37,8 +37,8 @@ export default function Header() {
                     ) : (
                         <Link
                             key={to}
-                            underline="hover"
-                            color="neutral"
+                            underline='hover'
+                            color='neutral'
                             component={RouterLink}
                             to={to}
                             sx={{ fontSize: 13, fontWeight: 500 }}

@@ -1,17 +1,17 @@
 import { makeAutoObservable } from 'mobx';
-import { APIError, user } from '../api';
 import { notificationStore } from '.';
+import { type APIError, user } from '../api';
 
 export enum UserType {
     Doctor = 'DOCTOR',
     Patient = 'PATIENT',
-};
+}
 
 export enum OfficeLocation {
     Athens = 'ATHENS',
     Thessaloniki = 'THESSALONIKI',
     Patras = 'PATRAS',
-};
+}
 
 export enum Speciality {
     Cardiologist = 'CARDIOLOGIST',
@@ -66,12 +66,12 @@ class UserStore {
             notificationStore.setNotification(
                 true,
                 `Cannot get avatar: ${axiosError.response?.data?.error || 'Unknown error'}`,
-                'danger'
+                'danger',
             );
         } finally {
             this.setLoading(false);
         }
-    }
+    };
 
     updateAvatar = async (avatar: string): Promise<boolean> => {
         try {
@@ -86,13 +86,13 @@ class UserStore {
             notificationStore.setNotification(
                 true,
                 `Cannot update avatar: ${axiosError.response?.data?.error || 'Unknown error'}`,
-                'danger'
+                'danger',
             );
             return false;
         } finally {
             this.setLoading(false);
         }
-    }
+    };
 
     getLogin = async () => {
         this.setLoading(true);
@@ -107,7 +107,7 @@ class UserStore {
         } finally {
             this.setLoading(false);
         }
-    }
+    };
 
     login = async ({
         email,
@@ -127,14 +127,14 @@ class UserStore {
                 notificationStore.setNotification(
                     true,
                     'Invalid email or password',
-                    'danger'
+                    'danger',
                 );
             }
         } catch (error) {
             notificationStore.setNotification(
                 true,
                 'Invalid email or password',
-                'danger'
+                'danger',
             );
         } finally {
             this.setLoading(false);
@@ -145,19 +145,19 @@ class UserStore {
         this.setLoading(true);
         try {
             const response = await user.register(userData);
-            return response.status === 201
+            return response.status === 201;
         } catch (error) {
             const axiosError = error as APIError;
             notificationStore.setNotification(
                 true,
                 `Cannot register user: ${axiosError.response?.data?.error || 'Unknown error'}`,
-                'danger'
+                'danger',
             );
             return false;
         } finally {
             this.setLoading(false);
         }
-    }
+    };
 
     logout = async () => {
         this.setLoading(true);
@@ -169,15 +169,11 @@ class UserStore {
                 notificationStore.setNotification(
                     true,
                     'Logout failed',
-                    'danger'
+                    'danger',
                 );
             }
         } catch (error) {
-            notificationStore.setNotification(
-                true,
-                'Logout failed',
-                'danger'
-            );
+            notificationStore.setNotification(true, 'Logout failed', 'danger');
         } finally {
             this.setLoading(false);
         }
@@ -192,23 +188,18 @@ class UserStore {
                 notificationStore.setNotification(
                     true,
                     'User data updated successfully',
-                    'success'
+                    'success',
                 );
                 return true;
-            } else {
-                notificationStore.setNotification(
-                    true,
-                    'Update failed',
-                    'danger'
-                );
-                return false;
             }
+            notificationStore.setNotification(true, 'Update failed', 'danger');
+            return false;
         } catch (error) {
             const axiosError = error as APIError;
             notificationStore.setNotification(
                 true,
                 `Cannot update user data: ${axiosError.response?.data?.error || 'Unknown error'}`,
-                'danger'
+                'danger',
             );
             return false;
         } finally {

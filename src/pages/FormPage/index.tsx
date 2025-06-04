@@ -1,10 +1,10 @@
-import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
-import GlobalStyles from '@mui/joy/GlobalStyles';
-import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
+import CssBaseline from '@mui/joy/CssBaseline';
+import GlobalStyles from '@mui/joy/GlobalStyles';
 import Typography from '@mui/joy/Typography';
-import DarkModeToggle from '../../components/DarkModeToggle';
+import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 import { Outlet } from 'react-router';
+import DarkModeToggle from '../../components/DarkModeToggle';
 import Notification from '../../components/Notification';
 
 const customTheme = extendTheme();
@@ -48,23 +48,36 @@ export default function FormPage() {
                     }}
                 >
                     <Box
-                        component="header"
-                        sx={{ py: 3, display: 'flex', justifyContent: 'space-between' }}
+                        component='header'
+                        sx={{
+                            py: 3,
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                        }}
                     >
-                        <Box sx={{ gap: 2, display: 'flex', alignItems: 'center' }}>
-                            <Box sx={{
-                                backgroundImage: 'url(/src/assets/mediq.png)',
-                                backgroundSize: 'contain',
-                                backgroundPosition: 'center',
-                                backgroundRepeat: 'no-repeat',
-                                width: 128,
-                                height: 60,
-                            }} />
+                        <Box
+                            sx={{
+                                gap: 2,
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    backgroundImage:
+                                        'url(/src/assets/mediq.png)',
+                                    backgroundSize: 'contain',
+                                    backgroundPosition: 'center',
+                                    backgroundRepeat: 'no-repeat',
+                                    width: 128,
+                                    height: 60,
+                                }}
+                            />
                         </Box>
                         <DarkModeToggle />
                     </Box>
                     <Box
-                        component="main"
+                        component='main'
                         sx={{
                             my: 'auto',
                             py: 2,
@@ -88,8 +101,11 @@ export default function FormPage() {
                     >
                         <Outlet />
                     </Box>
-                    <Box component="footer" sx={{ py: 3 }}>
-                        <Typography level="body-xs" sx={{ textAlign: 'center' }}>
+                    <Box component='footer' sx={{ py: 3 }}>
+                        <Typography
+                            level='body-xs'
+                            sx={{ textAlign: 'center' }}
+                        >
                             © Mediq {new Date().getFullYear()}
                         </Typography>
                     </Box>
@@ -110,11 +126,9 @@ export default function FormPage() {
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
-                    backgroundImage:
-                        'url(/src/assets/doctors_light.png)',
+                    backgroundImage: 'url(/src/assets/doctors_light.png)',
                     [theme.getColorSchemeSelector('dark')]: {
-                        backgroundImage:
-                            'url(/src/assets/doctors_dark.png)',
+                        backgroundImage: 'url(/src/assets/doctors_dark.png)',
                     },
                 })}
             />

@@ -1,5 +1,5 @@
-import UserStore from "./UserStore";
-import NotificationStore from "./NotificationStore";
+import NotificationStore from './NotificationStore';
+import UserStore from './UserStore';
 
 const userStore = new UserStore();
 const notificationStore = new NotificationStore();

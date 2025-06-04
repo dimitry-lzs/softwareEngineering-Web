@@ -1,10 +1,10 @@
-import { Box, CssBaseline, CssVarsProvider } from "@mui/joy";
-import { Outlet } from "react-router";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
-import Notification from "../components/Notification";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Box, CssBaseline, CssVarsProvider } from '@mui/joy';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Outlet } from 'react-router';
+import Header from '../components/Header';
+import Notification from '../components/Notification';
+import Sidebar from '../components/Sidebar';
 import 'dayjs/locale/en';
 
 export default function App() {
@@ -15,8 +15,8 @@ export default function App() {
             <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
                 <Sidebar />
                 <Box
-                    component="main"
-                    className="MainContent"
+                    component='main'
+                    className='MainContent'
                     sx={{
                         px: { xs: 2, md: 6 },
                         pt: {
@@ -34,7 +34,10 @@ export default function App() {
                     }}
                 >
                     <Header />
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
+                    <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                        adapterLocale='en'
+                    >
                         <Outlet />
                     </LocalizationProvider>
                 </Box>

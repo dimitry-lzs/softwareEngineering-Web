@@ -1,9 +1,9 @@
+import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
 
-import { userStore } from '../../stores';
 import LoadingPage from '../../pages/LoadingPage';
+import { userStore } from '../../stores';
 
 function CheckAuth({
     Element,

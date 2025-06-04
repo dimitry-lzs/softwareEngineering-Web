@@ -1,9 +1,9 @@
-import axios, { AxiosError } from 'axios';
-import { UserData } from '../stores/UserStore';
+import axios, { type AxiosError } from 'axios';
+import type { UserData } from '../stores/UserStore';
 
-export type APIError = AxiosError & { response: { data: { error: string } } }
+export type APIError = AxiosError & { response: { data: { error: string } } };
 
-const client = axios.create({
+export const client = axios.create({
     baseURL: '/api',
 });
 
@@ -25,10 +25,10 @@ const user = {
     getLogin: async () => client.get('/login'),
     logout: async () => client.get('/logout'),
     getAvatar: async () => client.get('/avatar'),
-    updateAvatar: async (avatar: string) => client.post('/update-avatar', { avatar }),
-    updateUserData: async (userData: UserData) => client.post('/update-user', userData),
-}
+    updateAvatar: async (avatar: string) =>
+        client.post('/update-avatar', { avatar }),
+    updateUserData: async (userData: UserData) =>
+        client.post('/update-user', userData),
+};
 
-export {
-    user
-}
+export { user };

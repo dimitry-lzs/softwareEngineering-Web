@@ -1,6 +1,9 @@
-import { Box, Typography } from "@mui/joy";
+import { Box, Typography } from '@mui/joy';
 
-export default function SectionTitle({ title, subtitle }: { title: string, subtitle: string }) {
+export default function SectionTitle({
+    title,
+    subtitle,
+}: { title: string; subtitle: string }) {
     return (
         <Box
             sx={{
@@ -11,7 +14,7 @@ export default function SectionTitle({ title, subtitle }: { title: string, subti
             }}
         >
             <Box sx={{ flex: 1, width: '100%', textAlign: 'left' }}>
-                <Typography level="h2" component="h1" sx={{ mt: 1 }}>
+                <Typography level='h2' component='h1' sx={{ mt: 1 }}>
                     {title}
                 </Typography>
                 <Typography level='title-md' sx={{ mb: 2 }}>
