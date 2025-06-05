@@ -4,7 +4,7 @@ import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import {ListItem, ListItemContent, ListItemDecorator, List, ListDivider, IconButton } from '@mui/joy';
+import { ListItem, ListItemContent, ListItemDecorator, List, ListDivider, IconButton } from '@mui/joy';
 import { useState } from 'react';
 
 
@@ -27,7 +27,7 @@ const listItems = [
     doctor: {
       initial: 'S',
       name: 'Steve Hampton',
-      specialty: 'Cardiologist', 
+      specialty: 'Cardiologist',
       email: 'steve.hamp@email.com',
     },
   },
@@ -38,7 +38,7 @@ const listItems = [
     doctor: {
       initial: 'C',
       name: 'Ciaran Murray',
-      specialty: 'Cardiologist', 
+      specialty: 'Cardiologist',
       email: 'ciaran.murray@email.com',
     },
   },
@@ -49,19 +49,19 @@ const listItems = [
     doctor: {
       initial: 'M',
       name: 'Maria Macdonald',
-      specialty: 'Cardiologist', 
+      specialty: 'Cardiologist',
       email: 'maria.mc@email.com',
     },
   },
   {
     id: 'INV-1230',
-    date: 'Feb 3, 2023', 
+    date: 'Feb 3, 2023',
     status: 'Cancelled',
-    doctor: { 
-      initial: 'C', 
-      name: 'Charles Fulton', 
-      specialty: 'Cardiologist', 
-      email: 'fulton@email.com', 
+    doctor: {
+      initial: 'C',
+      name: 'Charles Fulton',
+      specialty: 'Cardiologist',
+      email: 'fulton@email.com',
     },
   },
   {
@@ -71,7 +71,7 @@ const listItems = [
     doctor: {
       initial: 'J',
       name: 'Jay Hooper',
-      specialty: 'Cardiologist', 
+      specialty: 'Cardiologist',
       email: 'hooper@email.com',
     },
   },
@@ -80,19 +80,26 @@ const listItems = [
 
 export default function UpcomingAppointments() {
   const [currentPage, setCurrentPage] = useState(1); // current page
-  const listItemsPerPage = 3;
+  const listItemsPerPage = 4;
 
   // Calculating the total number of pages given the number of items
   const startIndex = (currentPage - 1) * listItemsPerPage;
   const endIndex = startIndex + listItemsPerPage;
-  
+
   const currentItems = listItems.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(listItems.length / listItemsPerPage);
 
 
   return (
-    <Box sx={{ display: 'block', gap: 2, width: '450px', height: '500px', maxWidth: '100%'}}>
+    // <Box sx={{ display: 'block', gap: 2, width: '450px', height: '400px', maxWidth: '100%'}}>
+    <Box
+      sx={{
+        width: '100%', // Allow it to stretch within the parent
+        maxWidth: '600px', // Optional: Limit the maximum width
+        flex: 1, // Allow it to grow and shrink within the Stack
+      }}
+    >
       {currentItems.map((listItem) => (
         <List key={listItem.id} size="sm" sx={{ '--ListItem-paddingX': 0 }}>
           <ListItem
@@ -103,12 +110,12 @@ export default function UpcomingAppointments() {
               width: '100%',
             }}
           >
-            <ListItemContent 
-              sx={{ 
-                display: 'flex', 
-                gap: 2, 
-                alignItems: 'start', 
-                flex:1,
+            <ListItemContent
+              sx={{
+                display: 'flex',
+                gap: 2,
+                alignItems: 'start',
+                flex: 1,
               }}
             >
               <ListItemDecorator>
@@ -140,22 +147,22 @@ export default function UpcomingAppointments() {
                     mb: 1,
                   }}
                 >
-                  <Typography level="body-xs" gutterBottom sx={{display:'flex'}}>
-                  {listItem.doctor.specialty}
+                  <Typography level="body-xs" gutterBottom sx={{ display: 'flex' }}>
+                    {listItem.doctor.specialty}
                   </Typography>
-                  <Typography level="body-xs" gutterBottom sx={{display:'flex'}}>
+                  <Typography level="body-xs" gutterBottom sx={{ display: 'flex' }}>
                     {listItem.doctor.email}
                   </Typography>
                 </Box>
-                <Box 
-                  sx={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: 1, 
-                    mb: 1 
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    mb: 1
                   }}
                 >
-                  <Link level="body-sm" component="button" sx={{ml: 'auto'}}>
+                  <Link level="body-sm" component="button" sx={{ ml: 'auto' }}>
                     See details
                   </Link>
                 </Box>

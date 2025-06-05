@@ -1,39 +1,39 @@
 import MaterialCalendar from "../../components/MaterialCalendar";
-import { Box, Divider, Stack, Typography } from "@mui/joy";
+import { Box, Divider, Stack } from "@mui/joy";
 import UpcomingAppointments from "../../components/UpcomingAppointments";
+import SectionTitle from "../../components/SectionTitle";
+import React from "react";
 
 export default function Calendar() {
 
     return (
-        <Typography level="h2" sx={{ mb: 2 }}
-        > Calendar
+        <React.Fragment>
+            <SectionTitle title='Calendar' subtitle='Check all your upcoming appointments' />
             <Box
                 sx={{
                     display: 'flex',
-                    //direction: 'row',
-                    //minWidth: '100%',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    minHeight: '100%',
-                    flexWrap: 'wrap',
-                    marginTop: 2
-                    //padding: 1,
+                    // minHeight: '100%',
+                    width: '100%',
+                    mb: 1,
                 }}
             >
                 <Stack
                     direction="row"
                     spacing={2}
-                    divider={<Divider
-                        orientation="vertical"
-                        sx={{
-                            height: "auto", // Allow the divider to stretch dynamically
-                            //alignSelf: "stretch", // Stretch the divider to match sibling height
-                        }}
-                    />}
+                    // divider={<Divider
+                    //     orientation="vertical"
+                    //     sx={{
+                    //         height: "auto",
+                    //     }}
+                    // />}
                     sx={{
                         justifyContent: 'center',
                         alignItems: 'stretch',
-                        gap: 4,
+                        flexWrap: 'wrap',
+                        flexDirection: { xs: 'column', md: 'row' },
+                        gap: 2,
                     }}
                 >
                     <MaterialCalendar />
@@ -50,6 +50,6 @@ export default function Calendar() {
                     </Box>
                 </Stack>
             </Box>
-        </Typography>
+        </React.Fragment>
     );
 }
