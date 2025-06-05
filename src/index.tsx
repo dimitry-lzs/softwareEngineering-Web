@@ -14,6 +14,7 @@ import FormPage from './pages/FormPage';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Doctor from './pages/Doctor';
+import Appointment from './pages/Appointment';
 
 const root = document.getElementById('root');
 
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
             {
                 path: '/history',
                 element: <AppointmentHistory />,
+            },
+            {
+                path: '/history/:id',
+                element: <Appointment />,
             },
         ],
         errorElement: <ErrorPage />,

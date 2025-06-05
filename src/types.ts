@@ -76,10 +76,11 @@ export type Rating = {
 }
 
 export type Appointment = {
-    id: number;
+    appointmentId: number;
     status: AppointmentStatus;
     doctor: Doctor;
     slot: Availability;
+    reason: string;
 };
 
 export type Availability = {

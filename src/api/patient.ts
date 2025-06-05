@@ -11,4 +11,8 @@ export default {
     appointments: async (status?: string) => client.get('/patient-appointments', {
         params: { status }
     }),
+    appointment: async (id: string) => client.get(`/patient-appointments/${id}`),
+    cancelAppointment: async (id: string) => client.patch(`/cancel-appointment`, {
+        appointmentID: id
+    }),
 }
