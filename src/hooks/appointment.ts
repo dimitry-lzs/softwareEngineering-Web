@@ -21,7 +21,6 @@ export const useAppointments = (status?: string) => {
 
     useEffect(() => {
         fetchAppointments(status);
-        console.log("Appointments fetched:", appointments);
     }, []);
 
     return { appointments, loading, fetchAppointments };
@@ -54,7 +53,7 @@ export const useAppointment = (id?: string) => {
     return { appointment, loading, fetchAppointment };
 }
 
-export const useCancelAppointment = (id: string) => {
+export const useCancelAppointment = () => {
     const [loading, setLoading] = useState(false);
 
     const cancelAppointment = async (id: string) => {
@@ -67,12 +66,6 @@ export const useCancelAppointment = (id: string) => {
             setLoading(false);
         }
     }
-    
-    useEffect(() => {
-        if (id) {
-            cancelAppointment(id);
-        }
-    }, [id]);
     
     return { cancelAppointment, loading };
 }

@@ -3,6 +3,8 @@ import { ColorPaletteProp } from '@mui/joy/styles';
 import { Box, Chip, Link, IconButton, iconButtonClasses, Typography, FormControl, FormLabel, Select, Option, Sheet, Input, Button, Table, Avatar } from '@mui/joy';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import SearchIcon from '@mui/icons-material/Search';
@@ -19,7 +21,7 @@ export default function AppointmentHistory() {
 
     const navigate = useNavigate();
 
-        const renderFilters = () => (
+    const renderFilters = () => (
         <React.Fragment>
             <FormControl size="sm">
                 <FormLabel>Status</FormLabel>
@@ -100,9 +102,20 @@ export default function AppointmentHistory() {
                     </thead>
                     <tbody>
                         {[...appointments]
-                            // .sort(
-                            //     (a, b) => a.slot.timeFrom.getTime() - b.slot.timeFrom.getTime())
+                            .sort(
+                                (a, b) => new Date(b.slot_timefrom).getTime() - new Date(a.slot_timefrom).getTime())
                             .map((appointment) => {
+                                const date = new Date(appointment.slot_timefrom);
+                                const appointmentDate = date.toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                });
+                                const appointmentTime = date.toLocaleTimeString('en-US', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: true,
+                                });
                                 return (
 
                                     <tr key={appointment.appointmentid} onClick={() => navigate(`/history/${appointment.appointmentid}`)}>
@@ -110,10 +123,10 @@ export default function AppointmentHistory() {
                                             <Typography level="body-xs">A25-{appointment.appointmentid}</Typography>
                                         </td>
                                         <td>
-                                            {/* <Typography level="body-xs">{appointment.slot.timeFrom.getDate()}</Typography> */}
+                                            <Typography level="body-xs">{appointmentDate}</Typography>
                                         </td>
                                         <td>
-                                            {/* <Typography level="body-xs">{appointment.slot.timeFrom.getTime()}</Typography> */}
+                                            <Typography level="body-xs">{appointmentTime}</Typography>
                                         </td>
                                         <td>
                                             <Chip
@@ -123,7 +136,7 @@ export default function AppointmentHistory() {
                                                     {
                                                         COMPLETED: <CheckRoundedIcon />,
                                                         CANCELLED: <BlockIcon />,
-                                                        PENDING: <BlockIcon />,
+                                                        PENDING: <HourglassEmptyIcon />,
                                                     }[appointment.status]
                                                 }
                                                 color={
@@ -139,11 +152,11 @@ export default function AppointmentHistory() {
                                         </td>
                                         <td>
                                             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                                {/* <Avatar size="sm">{appointment.doctor?.avatar}</Avatar>
+                                                <Avatar size="sm"></Avatar>
                                                 <div>
-                                                    <Typography level="body-xs">{appointment.doctor?.fullName}</Typography>
-                                                    <Typography level="body-xs">{appointment.doctor?.email}</Typography>
-                                                </div> */}
+                                                    <Typography level="body-xs">{appointment.doctor_name}</Typography>
+                                                    <Typography level="body-xs">({appointment.doctor_specialty.toLowerCase()})</Typography>
+                                                </div>
                                             </Box>
                                         </td>
                                         <td>
