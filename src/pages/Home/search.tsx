@@ -135,7 +135,7 @@ return (
             <Sheet sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             {renderFilters()}
             <Button color="primary" onClick={() => setOpen(false)}>
-                Submit
+                Search
             </Button>
             </Sheet>
         </ModalDialog>

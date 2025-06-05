@@ -11,6 +11,7 @@ import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 // import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import DoctorCard from './doctorCard';
 import Search from './search';
+import SectionTitle from '../../components/SectionTitle';
 
 export default function Home() {
   return (
@@ -25,25 +26,9 @@ export default function Home() {
           // gridTemplateRows: 'auto 1fr auto',
         }}
       >
+       <SectionTitle title="Home" subtitle="Search for doctors in your area"/>
+
         <Search />
-        <Stack
-          sx={{
-            backgroundColor: 'background.surface',
-            px: { xs: 2, md: 4 },
-            py: 2,
-            borderBottom: '1px solid',
-            borderColor: 'divider',
-          }}
-        >
-          <Stack sx={{ mb: 2 }}>
-            <Stack direction="row" sx={{ justifyContent: 'space-between', width: '100%' }}>
-              <Typography level="h3">Relevant results according to your search</Typography>
-            </Stack>
-            <Typography level="body-md" color="neutral">
-              Book your next appointment with a doctor in your area
-            </Typography>
-          </Stack>
-        </Stack>
 
         <Stack spacing={2} sx={{ px: { xs: 2, md: 4 }, pt: 2, minHeight: 0 }}>
           <Stack spacing={2} sx={{ overflow: 'auto' }}>
