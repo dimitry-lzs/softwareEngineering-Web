@@ -15,6 +15,7 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Doctor from './pages/Doctor';
 import Appointment from './pages/Appointment';
+import AppointmentFeedback from './pages/AppointmentFeedback';
 
 const root = document.getElementById('root');
 
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
             {
                 path: '/history/:id',
                 element: <Appointment />,
+            },
+            {
+                path: '/history/:id/feedback',
+                element: <AppointmentFeedback />,
             },
         ],
         errorElement: <ErrorPage />,

@@ -100,6 +100,14 @@ export default function Appointment() {
                         </Button>
                     )}
                     <Button
+                        variant="solid"
+                        onClick={() => navigate(`/history/${id}/feedback`)}
+                        disabled={appointment?.status !== 'COMPLETED'}
+                        startDecorator={<CheckRoundedIcon />}
+                    >
+                        Leave Feedback
+                    </Button>
+                    <Button
                         variant="outlined"
                         onClick={() => navigate(`/history`)}
                     >

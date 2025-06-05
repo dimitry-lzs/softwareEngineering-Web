@@ -17,4 +17,9 @@ export default {
     cancelAppointment: async (id: string) => client.patch(`/cancel-appointment`, {
         appointmentID: id
     }),
+    setRating: async (doctorID: string, stars: number, comments: string) => client.post('/set-rating', {
+        doctorID,
+        stars,
+        comments
+    }),
 }
