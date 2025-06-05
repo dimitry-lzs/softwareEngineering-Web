@@ -7,26 +7,49 @@ export default function Calendar() {
     return (
         <Typography level="h2" sx={{ mb: 2 }}
         > Calendar 
-            <Stack
-                direction="row"
-                spacing={2}
-                divider={<Divider orientation="vertical" />}
+            <Box
                 sx={{ 
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexWrap: 'wrap',
-                      gap: 2,
-                }}
-                // sx={{
-                //     justifyContent: "center",
-                //     alignItems: "center",
-                // }}
-            >
-                <MaterialCalendar/>
-                <UpcomingAppointments/>
-                {/* <AppointmentHistory/> */}
-            </Stack>
-        </Typography>
-    );
+                      display: 'flex',
+                      //direction: 'row',
+                      minWidth: '100%',
+                    //   justifyContent: 'center',
+                    //   alignItems: 'center',
 
+                      minHeight: '100%',
+                      flexWrap: 'wrap',
+                      //padding: 1,
+                }}
+            >
+                <Stack
+                    direction="row"
+                    spacing={2}
+                    divider={<Divider 
+                                orientation="vertical" 
+                                sx={{
+                                    height: "auto", // Allow the divider to stretch dynamically
+                                    //alignSelf: "stretch", // Stretch the divider to match sibling height
+                                }}
+                            />}
+                    sx={{
+                        justifyContent: 'center',
+                        alignItems: 'stretch',
+                        gap: 4,
+                    }}
+                >
+                    <MaterialCalendar/>
+
+                    <Box 
+                        sx={{ 
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            height: '100%',
+                        }}
+                    >
+                        <UpcomingAppointments/>
+                    </Box>
+                </Stack>
+            </Box>
+        </Typography>       
+    );  
 }

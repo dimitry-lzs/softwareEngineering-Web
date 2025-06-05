@@ -1,6 +1,5 @@
 import { redirect, RouterProvider } from 'react-router';
 import { createBrowserRouter } from 'react-router-dom';
-
 import App from './app/App';
 import ErrorPage from './pages/Error';
 import CheckAuth from './components/CheckAuth';
@@ -8,10 +7,10 @@ import FormPage from './pages/FormPage';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import { Fragment } from 'react/jsx-runtime';
-import Home from './pages/Home';
 import Profile from './pages/Profile';
 import AppointmentHistory from './pages/AppointmentHistory';
 import Calendar from './pages/Calendar';
+import Home from './pages/Home';
 
 const root = document.getElementById('root');
 
@@ -44,6 +43,10 @@ const router = createBrowserRouter([
             {
                 path: '/history',
                 element: <AppointmentHistory />,
+            },
+            {
+                path: '/doctor',
+                //element:
             }
         ],
         errorElement: <ErrorPage />,
