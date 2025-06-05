@@ -26,12 +26,12 @@ export default function Home() {
           // gridTemplateRows: 'auto 1fr auto',
         }}
       >
-       <SectionTitle title="Home" subtitle="Search for doctors in your area"/>
+        <SectionTitle title="Home" subtitle="Search for doctors in your area" />
 
         <Search />
 
-        <Stack spacing={2} sx={{ px: { xs: 2, md: 4 }, pt: 2, minHeight: 0 }}>
-          <Stack spacing={2} sx={{ overflow: 'auto' }}>
+        <Stack spacing={2} sx={{ px: { xs: 2, md: 4 } }}>
+          <Stack spacing={2} sx={{ overflowY: 'auto', overflowX: 'hidden', height: '450px' }}>
             <DoctorCard
               title="John Shcmoe"
               specialty="Oncologist"
@@ -83,48 +83,6 @@ export default function Home() {
             />
           </Stack>
         </Stack>
-        {/* <Box
-            className="Pagination-laptopUp"
-            sx={{
-            pt: 2,
-            gap: 1,
-            [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
-            display: {
-                xs: 'none',
-                md: 'flex',
-            },
-            }}
-        >
-            <Button
-            size="sm"
-            variant="outlined"
-            color="neutral"
-            startDecorator={<KeyboardArrowLeftIcon />}
-            >
-            Previous
-            </Button>
-    
-            <Box sx={{ flex: 1 }} />
-            {['1', '2', '3', '…', '8', '9', '10'].map((page) => (
-            <IconButton
-                key={page}
-                size="sm"
-                variant={Number(page) ? 'outlined' : 'plain'}
-                color="neutral"
-            >
-                {page}
-            </IconButton>
-            ))}
-            <Box sx={{ flex: 1 }} />
-            <Button
-            size="sm"
-            variant="outlined"
-            color="neutral"
-            endDecorator={<KeyboardArrowRightIcon />}
-            >
-            Next
-            </Button>
-        </Box> */}
         <div>
           <Box
             className="Pagination-mobile"
@@ -133,6 +91,8 @@ export default function Home() {
               alignItems: 'center',
               mx: 2,
               my: 1,
+              mb: 4,
+              mt: 4
             }}
           >
             <IconButton
