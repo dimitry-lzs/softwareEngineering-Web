@@ -25,123 +25,70 @@ const listItems = [
   {
     id: 'INV-1234',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'O',
-      name: 'Olivia Ryhe',
-      email: 'olivia@email.com',
+    status: 'Cancelled',
+    doctor: {                    // doctor
+      initial: 'O',              // his initial to show in avatar, his picture could be shown instead
+      name: 'Olivia Ryhe',       // doctor name
+      specialty: 'Cardiologist', // doctor specialty
+      email: 'olivia@email.com', // doctor email
     },
   },
   {
     id: 'INV-1233',
     date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
+    status: 'Pending',
+    doctor: {
       initial: 'S',
       name: 'Steve Hampton',
+      specialty: 'Cardiologist', 
       email: 'steve.hamp@email.com',
     },
   },
   {
     id: 'INV-1232',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
+    status: 'Completed',
+    doctor: {
       initial: 'C',
       name: 'Ciaran Murray',
+      specialty: 'Cardiologist', 
       email: 'ciaran.murray@email.com',
     },
   },
   {
     id: 'INV-1231',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
+    status: 'Completed',
+    doctor: {
       initial: 'M',
       name: 'Maria Macdonald',
+      specialty: 'Cardiologist', 
       email: 'maria.mc@email.com',
     },
   },
   {
     id: 'INV-1230',
-    date: 'Feb 3, 2023',
+    date: 'Feb 3, 2023', 
     status: 'Cancelled',
-    customer: {
-      initial: 'C',
-      name: 'Charles Fulton',
-      email: 'fulton@email.com',
+    doctor: { 
+      initial: 'C', 
+      name: 'Charles Fulton', 
+      specialty: 'Cardiologist', 
+      email: 'fulton@email.com', 
     },
   },
   {
     id: 'INV-1229',
     date: 'Feb 3, 2023',
     status: 'Cancelled',
-    customer: {
+    doctor: {
       initial: 'J',
       name: 'Jay Hooper',
+      specialty: 'Cardiologist', 
       email: 'hooper@email.com',
     },
   },
-  {
-    id: 'INV-1234',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'O',
-      name: 'Olivia Ryhe',
-      email: 'olivia@email.com',
-    },
-  },
-  {
-    id: 'INV-1233',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'S',
-      name: 'Steve Hampton',
-      email: 'steve.hamp@email.com',
-    },
-  },
-  {
-    id: 'INV-1232',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'C',
-      name: 'Ciaran Murray',
-      email: 'ciaran.murray@email.com',
-    },
-  },
-  {
-    id: 'INV-1231',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'M',
-      name: 'Maria Macdonald',
-      email: 'maria.mc@email.com',
-    },
-  },
-  {
-    id: 'INV-1230',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'C',
-      name: 'Charles Fulton',
-      email: 'fulton@email.com',
-    },
-  },
-  {
-    id: 'INV-1229',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'J',
-      name: 'Jay Hooper',
-      email: 'hooper@email.com',
-    },
-  },
+
 ];
 
 // function RowMenu() {
@@ -178,7 +125,7 @@ export default function UpcomingAppointments() {
 
 
   return (
-    <Box sx={{ display: 'block', gap: 2, width: '300px', maxWidth: '100%' }}>
+    <Box sx={{ display: 'block', gap: 2, width: '450px', height: '500px', maxWidth: '100%'}}>
       {currentItems.map((listItem) => (
         <List key={listItem.id} size="sm" sx={{ '--ListItem-paddingX': 0 }}>
           <ListItem
@@ -186,20 +133,36 @@ export default function UpcomingAppointments() {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'start',
-              width: '300px',
+              width: '100%',
             }}
           >
-            <ListItemContent sx={{ display: 'flex', gap: 2, alignItems: 'start' }}>
+            <ListItemContent 
+              sx={{ 
+                display: 'flex', 
+                gap: 2, 
+                alignItems: 'start', 
+                flex:1,
+              }}
+            >
               <ListItemDecorator>
-                <Avatar size="sm">{listItem.customer.initial}</Avatar>
+                <Avatar size="sm">{listItem.doctor.initial}</Avatar>
               </ListItemDecorator>
-              <div>
-                <Typography gutterBottom sx={{ fontWeight: 600 }}>
-                  {listItem.customer.name}
-                </Typography>
-                <Typography level="body-xs" gutterBottom sx={{display:'flex'}}>
-                  {listItem.customer.email}
-                </Typography>
+              <div style={{ flex: 1 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between', // Push date to the far left
+                    alignItems: 'center', // Align items vertically
+                    mb: 1, // Add margin below the row
+                  }}
+                >
+                  <Typography gutterBottom sx={{ fontWeight: 600 }}>
+                    {listItem.doctor.name}
+                  </Typography>
+                  <Typography level="body-xs" sx={{ color: 'text.tertiary' }}>
+                    {listItem.date}
+                  </Typography>
+                </Box>
                 <Box
                   sx={{
                     display: 'flex',
@@ -210,12 +173,22 @@ export default function UpcomingAppointments() {
                     mb: 1,
                   }}
                 >
-                  <Typography level="body-xs">{listItem.date}</Typography>
-                  <Typography level="body-xs">&bull;</Typography>
-                  <Typography level="body-xs">{listItem.id}</Typography>
+                  <Typography level="body-xs" gutterBottom sx={{display:'flex'}}>
+                  {listItem.doctor.specialty}
+                  </Typography>
+                  <Typography level="body-xs" gutterBottom sx={{display:'flex'}}>
+                    {listItem.doctor.email}
+                  </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <Link level="body-sm" component="button">
+                <Box 
+                  sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: 1, 
+                    mb: 1 
+                  }}
+                >
+                  <Link level="body-sm" component="button" sx={{ml: 'auto'}}>
                     See details
                   </Link>
                 </Box>

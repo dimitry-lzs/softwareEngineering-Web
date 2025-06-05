@@ -11,12 +11,12 @@ export default function Calendar() {
                 sx={{ 
                       display: 'flex',
                       //direction: 'row',
-                      minWidth: '100%',
-                    //   justifyContent: 'center',
-                    //   alignItems: 'center',
-
+                      //minWidth: '100%',
+                      justifyContent: 'center',
+                      alignItems: 'center',
                       minHeight: '100%',
                       flexWrap: 'wrap',
+                      marginTop: 2
                       //padding: 1,
                 }}
             >
