@@ -7,8 +7,8 @@ import Button from '@mui/joy/Button';
 import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+// import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+// import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import DoctorCard from './doctorCard';
 import Search from './search';
 

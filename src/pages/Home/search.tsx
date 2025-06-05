@@ -1,25 +1,25 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { ColorPaletteProp } from '@mui/joy/styles';
+// import { ColorPaletteProp } from '@mui/joy/styles';
 import Box from '@mui/joy/Box';
-import Avatar from '@mui/joy/Avatar';
-import Chip from '@mui/joy/Chip';
-import Link from '@mui/joy/Link';
+// import Avatar from '@mui/joy/Avatar';
+// import Chip from '@mui/joy/Chip';
+// import Link from '@mui/joy/Link';
 import Divider from '@mui/joy/Divider';
-import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
+import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
-import Menu from '@mui/joy/Menu';
-import MenuButton from '@mui/joy/MenuButton';
-import MenuItem from '@mui/joy/MenuItem';
-import Dropdown from '@mui/joy/Dropdown';
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
+// import Menu from '@mui/joy/Menu';
+// import MenuButton from '@mui/joy/MenuButton';
+// import MenuItem from '@mui/joy/MenuItem';
+// import Dropdown from '@mui/joy/Dropdown';
+// import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import BlockIcon from '@mui/icons-material/Block';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+// import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+// import BlockIcon from '@mui/icons-material/Block';
+// import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+// import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import SearchIcon from '@mui/icons-material/Search';
-import { FormControl, FormLabel, Select, Option, Sheet, Input, Modal, ModalDialog, ModalClose, Button, Table, Checkbox } from '@mui/joy';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { FormControl, FormLabel, Select, Option, Sheet, Input, Modal, ModalDialog, ModalClose, Button } from '@mui/joy';
+// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import React from 'react';
 
 
@@ -70,6 +70,7 @@ import React from 'react';
 export default function Search() {
 // const [order, setOrder] = React.useState<Order>('desc');
 // const [selected, setSelected] = React.useState<readonly string[]>([]);
+
 const [open, setOpen] = React.useState(false);
 const renderFilters = () => (
     <React.Fragment>
@@ -96,7 +97,7 @@ const renderFilters = () => (
         </Select>
     </FormControl>
     <FormControl size="sm">
-        <FormLabel>Area</FormLabel>
+        <FormLabel>Location</FormLabel>
         <Select size="sm" placeholder="All">
         <Option value="athens">Athens</Option>
         <Option value="patra">Patra</Option>
@@ -154,7 +155,7 @@ return (
         }}
     >
         <FormControl sx={{ flex: 1 }} size="sm">
-        <FormLabel>Search for appointment</FormLabel>
+        <FormLabel>Search for doctors</FormLabel>
         <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
