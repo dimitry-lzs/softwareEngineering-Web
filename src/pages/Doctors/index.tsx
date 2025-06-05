@@ -4,8 +4,17 @@ import Chip from '@mui/joy/Chip';
 import Sheet from '@mui/joy/Sheet';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
-import { OfficeLocation } from '../../types';
+import Radio from '@mui/joy/Radio';
+import RadioGroup from '@mui/joy/RadioGroup';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Select from '@mui/joy/Select';
+import Option from '@mui/joy/Option';
+import { useState, useMemo } from 'react';
+import { OfficeLocation, Speciality } from '../../types';
 import { useDoctors } from '../../hooks';
+import { dataStore } from '../../stores';
+import { observer } from 'mobx-react-lite';
 
 
 // Helper function to format speciality display name
@@ -30,8 +39,20 @@ const getLocationColor = (location: OfficeLocation) => {
     }
 };
 
-export default function Doctors() {
-    const { doctors, loading } = useDoctors(); // Assuming useDoctors is a custom hook that fetches doctors data
+export default observer(function Doctors() {
+    const { doctors, loading } = useDoctors();
+    const [selectedLocation, setSelectedLocation] = useState<string>('all');
+    const [selectedSpeciality, setSelectedSpeciality] = useState<string>('all');
+
+    // Filter doctors based on selected location and speciality
+    const filteredDoctors = useMemo(() => {
+        return doctors.filter(doctor => {
+            const locationMatch = selectedLocation === 'all' || doctor.officelocation === selectedLocation;
+            const specialityMatch = selectedSpeciality === 'all' || doctor.speciality === selectedSpeciality;
+            return locationMatch && specialityMatch;
+        });
+    }, [doctors, selectedLocation, selectedSpeciality]);
+
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
             <Box
@@ -48,6 +69,41 @@ export default function Doctors() {
                 <Typography level='body-md' sx={{ mb: 3 }}>
                     Browse available doctors and their specialties
                 </Typography>
+
+                <Box sx={{ mb: 3 }}>
+                    <FormControl>
+                        <FormLabel sx={{ mb: 1 }}>Filter by Location:</FormLabel>
+                        <RadioGroup
+                            orientation="horizontal"
+                            value={selectedLocation}
+                            onChange={(event) => setSelectedLocation(event.target.value)}
+                            sx={{ gap: 2 }}
+                        >
+                            <Radio value="all" label="All Locations" />
+                            <Radio value={OfficeLocation.Athens} label="Athens" />
+                            <Radio value={OfficeLocation.Thessaloniki} label="Thessaloniki" />
+                            <Radio value={OfficeLocation.Patras} label="Patras" />
+                        </RadioGroup>
+                    </FormControl>
+                </Box>
+
+                <Box sx={{ mb: 3 }}>
+                    <FormControl>
+                        <FormLabel sx={{ mb: 1 }}>Filter by Speciality:</FormLabel>
+                        <Select
+                            value={selectedSpeciality}
+                            onChange={(_, value) => setSelectedSpeciality(value as string)}
+                            sx={{ minWidth: 200 }}
+                        >
+                            <Option value="all">All Specialities</Option>
+                            {dataStore.specialitiesList.map((speciality: Speciality) => (
+                                <Option key={speciality} value={speciality}>
+                                    {formatSpeciality(speciality)}
+                                </Option>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
             </Box>
 
             <Sheet
@@ -60,7 +116,12 @@ export default function Doctors() {
                     minHeight: 0,
                 }}
             >
-                <Table
+                {loading ? (
+                    <Box sx={{ p: 3, textAlign: 'center' }}>
+                        <Typography level="body-md">Loading doctors...</Typography>
+                    </Box>
+                ) : (
+                    <Table
                     aria-labelledby='doctors-table'
                     stickyHeader
                     hoverRow
@@ -103,7 +164,7 @@ export default function Doctors() {
                         </tr>
                     </thead>
                     <tbody>
-                        {doctors.map((doctor) => (
+                        {filteredDoctors.map((doctor) => (
                             <tr key={doctor.id}>
                                 <td>
                                     <Box
@@ -113,7 +174,7 @@ export default function Doctors() {
                                             alignItems: 'center',
                                         }}
                                     >
-                                        <Avatar size='sm' variant='soft'>
+                                        <Avatar size='lg' variant='soft'>
                                             {doctor.avatar}
                                         </Avatar>
                                         <Typography
@@ -148,7 +209,8 @@ export default function Doctors() {
                         ))}
                     </tbody>
                 </Table>
+                )}
             </Sheet>
         </Box>
     );
-}
+});
