@@ -15,6 +15,7 @@ import { OfficeLocation, Speciality } from '../../types';
 import { useDoctors } from '../../hooks';
 import { dataStore } from '../../stores';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router';
 
 
 // Helper function to format speciality display name
@@ -40,6 +41,7 @@ const getLocationColor = (location: OfficeLocation) => {
 };
 
 export default observer(function Doctors() {
+    const navigate = useNavigate();
     const { doctors, loading } = useDoctors();
     const [selectedLocation, setSelectedLocation] = useState<string>('all');
     const [selectedSpeciality, setSelectedSpeciality] = useState<string>('all');
@@ -165,7 +167,7 @@ export default observer(function Doctors() {
                     </thead>
                     <tbody>
                         {filteredDoctors.map((doctor) => (
-                            <tr key={doctor.id}>
+                            <tr key={doctor.id} style={{ cursor: 'pointer' }} onClick={() => navigate(`/doctors/${doctor.id}`)}>
                                 <td>
                                     <Box
                                         sx={{

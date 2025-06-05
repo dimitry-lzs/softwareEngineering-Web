@@ -13,6 +13,7 @@ import ErrorPage from './pages/Error';
 import FormPage from './pages/FormPage';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
+import Doctor from './pages/Doctor';
 
 const root = document.getElementById('root');
 
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             {
                 path: '/doctors',
                 element: <Doctors />,
+            },
+            {
+                path: '/doctors/:id',
+                element: <Doctor />,
             },
             {
                 path: '/home',

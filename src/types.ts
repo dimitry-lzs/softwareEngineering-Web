@@ -42,7 +42,7 @@ export type UserData = {
 
 
 export type User = {
-    id: string;
+    id: number;
     fullName: string;
     avatar: string;
     email: string;
@@ -61,3 +61,10 @@ export type Doctor = User & {
     licenseID: string;
     bio: string;
 };
+
+export type Rating = {
+    stars: number;
+    comments: string;
+    doctorId: number;
+    patientId: number;
+}
