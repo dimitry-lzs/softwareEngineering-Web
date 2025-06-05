@@ -27,6 +27,12 @@ export enum Speciality {
     Ornithologist = 'ORNITHOLOGIST',
 }
 
+export enum AppointmentStatus {
+    Pending = 'PENDING',
+    Cancelled = 'CANCELLED',
+    Completed = 'COMPLETED',
+}
+
 export type UserData = {
     fullName: string;
     email: string;
@@ -68,3 +74,17 @@ export type Rating = {
     doctorId: number;
     patientId: number;
 }
+
+export type Appointment = {
+    id: number;
+    date: string;
+    time: string;
+    status: AppointmentStatus;
+    doctorId: number;
+};
+
+export type Availability = {
+    availabilityId: number;
+    timeFrom: string;
+    doctorId: number;
+};

@@ -8,4 +8,7 @@ export default {
     doctorRatings: async (doctorID: string) => client.get('/doctor-ratings', {
         params: { doctorID }
     }),
+    appointments: async (status?: string) => client.get('/patient-appointments', {
+        params: { status }
+    }),
 }

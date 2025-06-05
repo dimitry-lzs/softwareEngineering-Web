@@ -1,0 +1,28 @@
+import { useEffect, useState } from "react";
+import { LowercaseType } from "./lowercase";
+import { Appointment } from "../types";
+import patient from "../api/patient";
+
+export const useAppointments = (status?: string) => {
+    const [appointments, setAppointments] = useState<LowercaseType<Appointment>[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    const fetchAppointments = async (status?: string) => {
+        setLoading(true);
+        try {
+            const { data } = await patient.appointments(status);
+            setAppointments(data);
+        } catch (error) {
+            console.error("Failed to fetch appointments:", error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchAppointments(status);
+        console.log("Appointments fetched:", appointments);
+    }, []);
+
+    return { appointments, loading, fetchAppointments };
+}

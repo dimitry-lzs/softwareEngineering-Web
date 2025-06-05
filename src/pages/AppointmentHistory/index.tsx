@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { ColorPaletteProp } from '@mui/joy/styles';
-import { Box, Avatar, Chip, Link, IconButton, iconButtonClasses, Typography, FormControl, FormLabel, Select, Option, Sheet, Input, Button, Table } from '@mui/joy';
+import { Box, Chip, Link, IconButton, iconButtonClasses, Typography, FormControl, FormLabel, Select, Option, Sheet, Input, Button, Table, Avatar } from '@mui/joy';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -8,33 +8,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import SearchIcon from '@mui/icons-material/Search';
 import React from 'react';
 import SectionTitle from '../../components/SectionTitle';
-
-const rows = Array.from({ length: 10 }, (_, i) => {
-    const id = i + 1;
-    const date = new Date(2023, 9, 1 + (id % 30)); // October 2023
-    const time = `${(8 + (id % 10)) % 12 || 12}:00 ${id % 2 === 0 ? "AM" : "PM"}`;
-    const statuses = ["Completed", "Cancelled"];
-    const names = [
-        "John Doe", "Jane Smith", "Alice Brown", "Bob White", "Charlie Black",
-        "David Johnson", "Eva Green", "Frank Lee", "Grace Kim", "Harry Liu"
-    ];
-    const name = names[id % names.length];
-    const [first, last] = name.split(" ");
-    const email = `${first.toLowerCase()}.${last.toLowerCase()}@example.com`;
-
-    return {
-        serialId: id.toString(),
-        date: date.toISOString().split("T")[0],
-        time,
-        status: statuses[id % statuses.length],
-        customer: {
-            name,
-            email,
-            initial: `${first[0]}${last[0]}`,
-        },
-    };
-});
-
+import { useAppointments, useDoctors } from '../../hooks';
 
 export default function AppointmentHistory() {
     const renderFilters = () => (
@@ -60,6 +34,9 @@ export default function AppointmentHistory() {
     //     setSearch(event.target.value);
     //     console.log(event.target.value);
     // }
+
+    const { appointments, loading } = useAppointments();
+    const { doctors } = useDoctors();
 
     return (
         <React.Fragment>
@@ -119,57 +96,64 @@ export default function AppointmentHistory() {
                         </tr>
                     </thead>
                     <tbody>
-                        {[...rows].sort(
-                            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-                        ).map((row) => (
-                            <tr key={row.date}>
-                                <td>
-                                    <Typography level="body-xs">A25-{row.serialId}</Typography>
-                                </td>
-                                <td>
-                                    <Typography level="body-xs">{row.date}</Typography>
-                                </td>
-                                <td>
-                                    <Typography level="body-xs">{row.time}</Typography>
-                                </td>
-                                <td>
-                                    <Chip
-                                        variant="soft"
-                                        size="sm"
-                                        startDecorator={
-                                            {
-                                                Completed: <CheckRoundedIcon />,
-                                                Cancelled: <BlockIcon />,
-                                            }[row.status]
-                                        }
-                                        color={
-                                            {
-                                                Completed: 'success',
-                                                Cancelled: 'danger',
-                                            }[row.status] as ColorPaletteProp
-                                        }
-                                    >
-                                        {row.status}
-                                    </Chip>
-                                </td>
-                                <td>
-                                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                        <Avatar size="sm">{row.customer.initial}</Avatar>
-                                        <div>
-                                            <Typography level="body-xs">{row.customer.name}</Typography>
-                                            <Typography level="body-xs">{row.customer.email}</Typography>
-                                        </div>
-                                    </Box>
-                                </td>
-                                <td>
-                                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                        <Link level="body-xs" component="button">
-                                            View Appointment
-                                        </Link>
-                                    </Box>
-                                </td>
-                            </tr>
-                        ))}
+                        {[...appointments].sort(
+                            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+                            .map((row) => {
+                                const doctor = doctors.find(doc => doc.id === row.doctorid);
+
+                                return (
+
+                                    <tr key={row.id}>
+                                        <td>
+                                            <Typography level="body-xs">A25-{row.id}</Typography>
+                                        </td>
+                                        <td>
+                                            <Typography level="body-xs">{row.date}</Typography>
+                                        </td>
+                                        <td>
+                                            <Typography level="body-xs">{row.time}</Typography>
+                                        </td>
+                                        <td>
+                                            <Chip
+                                                variant="soft"
+                                                size="sm"
+                                                startDecorator={
+                                                    {
+                                                        COMPLETED: <CheckRoundedIcon />,
+                                                        CANCELLED: <BlockIcon />,
+                                                        PENDING: <BlockIcon />,
+                                                    }[row.status]
+                                                }
+                                                color={
+                                                    {
+                                                        COMPLETED: 'success',
+                                                        CANCELLED: 'danger',
+                                                        PENDING: 'warning',
+                                                    }[row.status] as ColorPaletteProp
+                                                }
+                                            >
+                                                {row.status}
+                                            </Chip>
+                                        </td>
+                                        <td>
+                                            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                                                <Avatar size="sm">{doctor?.avatar}</Avatar>
+                                                <div>
+                                                    <Typography level="body-xs">{doctor?.fullname}</Typography>
+                                                    <Typography level="body-xs">{doctor?.email}</Typography>
+                                                </div>
+                                            </Box>
+                                        </td>
+                                        <td>
+                                            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                                                <Link level="body-xs" component="button">
+                                                    View Appointment
+                                                </Link>
+                                            </Box>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                     </tbody>
                 </Table>
             </Sheet>
