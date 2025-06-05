@@ -49,39 +49,51 @@ export default function Home() {
           <Stack spacing={2} sx={{ overflow: 'auto' }}>
             <DoctorCard
               title="John Shcmoe"
-              category="Oncologist"
-              rareFind
+              specialty="Oncologist"
+              location="Thessaloniki"
+              rating={4.5}
               image="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=400"
             />
             <DoctorCard
-              title="Kalos Giatros"
-              category="Oncologist"
-              liked
+              title="Kakos Giatros"
+              specialty="Oncologist"
+              location="Athens"
+              rating={3.5}
               image="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=400"
             />
             <DoctorCard
-              title="Kakos Giatros"
-              category="Entire rental unit in Carlton"
+              title="Giatrara"
+              specialty="Dermatologist"
+              location="Athens"
+              rating={5}
               image="https://images.unsplash.com/photo-1537726235470-8504e3beef77?auto=format&fit=crop&w=400"
             />
             <DoctorCard
-              title="Magnificent apartment next to public transport"
-              category="Entire apartment rental in Collingwood"
+              title="Kalos Giatros"
+              specialty="Pediatrician"
+              location="Patras"
+              rating={4.2}
               image="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=400"
             />
             <DoctorCard
-              title="Next to shoppng mall and public transport"
-              category="Entire apartment rental in Collingwood"
+              title="Giatroumpini"
+              specialty="Psychiatrist"
+              location="Thessaloniki"
+              rating={4.5}
               image="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=400"
             />
             <DoctorCard
-              title="Endless ocean view"
-              category="A private room in a shared apartment in Docklands"
+              title="Giatrosn't"
+              specialty="Ornithologist"
+              location="Patras"
+              rating={2.5}
               image="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=400"
             />
             <DoctorCard
-              title="A Stylish Apt, 5 min walk to Queen Victoria Market"
-              category="one bedroom apartment in Collingwood"
+              title="Apla giatros"
+              specialty="Cardiologist"
+              location="Athens"
+              rating={3}
               image="https://images.unsplash.com/photo-1481437156560-3205f6a55735?auto=format&fit=crop&w=400"
             />
           </Stack>
