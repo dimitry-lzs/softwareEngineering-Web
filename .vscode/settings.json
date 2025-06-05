@@ -1,5 +1,5 @@
 {
-    "window.title": "${activeRepositoryName} [${activeRepositoryBranchName}] - ${activeEditorShort}",
+    "window.title": "${activeRepositoryName} [${activeRepositoryBranchName}]${separator}${activeEditorShort}",
     "workbench.colorCustomizations": {
         // Activity Bar
         "activityBar.background": "#0d1b2a",
