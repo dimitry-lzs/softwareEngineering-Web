@@ -40,7 +40,7 @@ export default function Home() {
               <Typography level="h3">Relevant results according to your search</Typography>
             </Stack>
             <Typography level="body-md" color="neutral">
-              Book your next appointment.
+              Book your next appointment with a doctor in your area
             </Typography>
           </Stack>
         </Stack>
