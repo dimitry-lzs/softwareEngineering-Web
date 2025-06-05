@@ -1,13 +1,28 @@
-import { Box, Button, Card, Sheet, Typography } from "@mui/joy";
+import { Box, Button, Card, Chip, ColorPaletteProp, Divider, Sheet, Typography } from "@mui/joy";
 import { useNavigate, useParams } from "react-router";
 import { useAppointment, useCancelAppointment } from "../../hooks";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import BlockIcon from '@mui/icons-material/Block';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 
 export default function Appointment() {
     const { id } = useParams<{ id: string }>();
 
     const { appointment, loading, fetchAppointment } = useAppointment(id);
+    const { cancelAppointment } = useCancelAppointment();
     const navigate = useNavigate();
+
+    const handleCancelAppointment = async () => {
+        if (id) {
+            try {
+                await cancelAppointment(id);
+                fetchAppointment(id); // Refresh appointment details after cancellation
+            } catch (error) {
+                console.error("Failed to cancel appointment:", error);
+            }
+        }
+    };
 
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
@@ -30,13 +45,48 @@ export default function Appointment() {
                     {loading && <Typography>Loading...</Typography>}
                     {appointment && (
                         <Box>
-                            <Typography>Doctor:{appointment.doctor.fullName}</Typography>
-                            <Typography>Date: {appointment.slot.timeFrom.getDate()}</Typography>
-                            <Typography>Time: {appointment.slot.timeFrom.getTime()}</Typography>
-                            <Typography>Doctor's Phone: {appointment.doctor.phone}</Typography>
-                            <Typography>Doctor's Email: {appointment.doctor.email}</Typography>
-                            <Typography>Status: {appointment.status}</Typography>
+                            <Typography>Doctor: {appointment.doctor_name}</Typography>
+                            <Typography>Date:
+                                {new Date(appointment.slot_timefrom).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                })}
+                            </Typography>
+                            <Typography>Time:
+                                {new Date(appointment.slot_timefrom).toLocaleTimeString('en-US', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: true,
+                                })}
+                            </Typography>
+                            <Typography>Specialty: {appointment.doctor_specialty}</Typography>
                             <Typography>Reason: {appointment.reason}</Typography>
+                            <Typography>Status:
+                                <Chip
+                                    variant="soft"
+                                    size="sm"
+                                    startDecorator={
+                                        {
+                                            COMPLETED: <CheckRoundedIcon />,
+                                            CANCELLED: <BlockIcon />,
+                                            PENDING: <HourglassEmptyIcon />,
+                                        }[appointment.status]
+                                    }
+                                    color={
+                                        {
+                                            COMPLETED: 'success',
+                                            CANCELLED: 'danger',
+                                            PENDING: 'warning',
+                                        }[appointment.status] as ColorPaletteProp
+                                    }
+                                >
+                                    {appointment.status}
+                                </Chip>
+                            </Typography>
+                            <Divider sx={{ my: 2 }} />
+                            <Typography>Doctor's Phone: {appointment.doctor_phone}</Typography>
+                            <Typography>Doctor's Email: {appointment.doctor_email}</Typography>
                         </Box>
                     )}
                     {appointment?.status !== 'COMPLETED' && appointment?.status !== 'CANCELLED' && appointment && (
@@ -44,10 +94,7 @@ export default function Appointment() {
                             variant="soft"
                             color="danger"
                             startDecorator={<RemoveCircleOutlineIcon />}
-                            onClick={() => {
-                                useCancelAppointment(appointment.appointmentid.toString())
-                                fetchAppointment(appointment.appointmentid.toString())
-                            }}
+                            onClick={handleCancelAppointment}
                         >
                             Cancel Appointment
                         </Button>

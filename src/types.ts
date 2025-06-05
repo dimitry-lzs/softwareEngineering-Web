@@ -78,9 +78,15 @@ export type Rating = {
 export type Appointment = {
     appointmentId: number;
     status: AppointmentStatus;
-    doctor: Doctor;
-    slot: Availability;
     reason: string;
+    doctor_name: string;
+    doctor_specialty: Speciality;
+    doctor_email: string;
+    doctor_phone: string;
+    doctor_officeLocation: OfficeLocation;
+    doctor_bio: string;
+    slot_id: number;
+    slot_timeFrom: string;
 };
 
 export type Availability = {
