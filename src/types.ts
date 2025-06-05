@@ -77,14 +77,13 @@ export type Rating = {
 
 export type Appointment = {
     id: number;
-    date: string;
-    time: string;
     status: AppointmentStatus;
-    doctorId: number;
+    doctor: Doctor;
+    slot: Availability;
 };
 
 export type Availability = {
     availabilityId: number;
-    timeFrom: string;
+    timeFrom: Date;
     doctorId: number;
 };

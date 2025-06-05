@@ -8,7 +8,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import SearchIcon from '@mui/icons-material/Search';
 import React from 'react';
 import SectionTitle from '../../components/SectionTitle';
-import { useAppointments, useDoctors } from '../../hooks';
+import { useAppointments } from '../../hooks';
 
 export default function AppointmentHistory() {
     const renderFilters = () => (
@@ -35,8 +35,7 @@ export default function AppointmentHistory() {
     //     console.log(event.target.value);
     // }
 
-    const { appointments, loading } = useAppointments();
-    const { doctors } = useDoctors();
+    const { appointments } = useAppointments();
 
     return (
         <React.Fragment>
@@ -96,11 +95,10 @@ export default function AppointmentHistory() {
                         </tr>
                     </thead>
                     <tbody>
-                        {[...appointments].sort(
-                            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+                        {[...appointments]
+                            // .sort(
+                            //     (a, b) => a.slot.timeFrom.getTime() - b.slot.timeFrom.getTime())
                             .map((row) => {
-                                const doctor = doctors.find(doc => doc.id === row.doctorid);
-
                                 return (
 
                                     <tr key={row.id}>
@@ -108,10 +106,10 @@ export default function AppointmentHistory() {
                                             <Typography level="body-xs">A25-{row.id}</Typography>
                                         </td>
                                         <td>
-                                            <Typography level="body-xs">{row.date}</Typography>
+                                            {/* <Typography level="body-xs">{row.slot.timeFrom.getDate()}</Typography> */}
                                         </td>
                                         <td>
-                                            <Typography level="body-xs">{row.time}</Typography>
+                                            {/* <Typography level="body-xs">{row.slot.timeFrom.getTime()}</Typography> */}
                                         </td>
                                         <td>
                                             <Chip
@@ -137,11 +135,11 @@ export default function AppointmentHistory() {
                                         </td>
                                         <td>
                                             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                                <Avatar size="sm">{doctor?.avatar}</Avatar>
+                                                {/* <Avatar size="sm">{row.doctor?.avatar}</Avatar>
                                                 <div>
-                                                    <Typography level="body-xs">{doctor?.fullname}</Typography>
-                                                    <Typography level="body-xs">{doctor?.email}</Typography>
-                                                </div>
+                                                    <Typography level="body-xs">{row.doctor?.fullName}</Typography>
+                                                    <Typography level="body-xs">{row.doctor?.email}</Typography>
+                                                </div> */}
                                             </Box>
                                         </td>
                                         <td>
