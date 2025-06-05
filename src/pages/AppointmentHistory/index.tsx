@@ -6,12 +6,20 @@ import BlockIcon from '@mui/icons-material/Block';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import SearchIcon from '@mui/icons-material/Search';
-import React from 'react';
+import React, { useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
 import { useAppointments } from '../../hooks';
+import { useNavigate } from 'react-router';
 
 export default function AppointmentHistory() {
-    const renderFilters = () => (
+
+    const { appointments } = useAppointments();
+    const [status, setStatus] = useState('');
+    const [search, setSearch] = useState('');
+
+    const navigate = useNavigate();
+
+        const renderFilters = () => (
         <React.Fragment>
             <FormControl size="sm">
                 <FormLabel>Status</FormLabel>
@@ -19,28 +27,24 @@ export default function AppointmentHistory() {
                     size="sm"
                     placeholder="Filter by status"
                     slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}
+                    onChange={(_, value) => {
+                        if (typeof value === 'string') {
+                            setStatus(value);
+                        } else {
+                            setStatus('');
+                        }
+                    }}
                 >
-                    <Option value="paid">Completed</Option>
-                    <Option value="cancelled">Cancelled</Option>
+                    <Option value="COMPLETED">Completed</Option>
+                    <Option value="CANCELLED">Cancelled</Option>
                 </Select>
             </FormControl>
         </React.Fragment>
     );
 
-    // const [search, setSearch] = useState('');
-    // const [open, setOpen] = useState(false);
-
-    // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setSearch(event.target.value);
-    //     console.log(event.target.value);
-    // }
-
-    const { appointments } = useAppointments();
-
     return (
         <React.Fragment>
             <SectionTitle title='History' subtitle='Find all your past appointments here' />
-            {/* <ViewAppointmentModal open={open} /> */}
             <Box
                 className="SearchAndFilters-tabletUp"
                 sx={{
@@ -56,7 +60,7 @@ export default function AppointmentHistory() {
             >
                 <FormControl sx={{ flex: 1 }} size="sm">
                     <FormLabel>Search for appointment</FormLabel>
-                    <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} />
+                    <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} onChange={event => setSearch(event.target.value)} />
                 </FormControl>
                 {renderFilters()}
             </Box>
@@ -98,18 +102,18 @@ export default function AppointmentHistory() {
                         {[...appointments]
                             // .sort(
                             //     (a, b) => a.slot.timeFrom.getTime() - b.slot.timeFrom.getTime())
-                            .map((row) => {
+                            .map((appointment) => {
                                 return (
 
-                                    <tr key={row.id}>
+                                    <tr key={appointment.appointmentid} onClick={() => navigate(`/history/${appointment.appointmentid}`)}>
                                         <td>
-                                            <Typography level="body-xs">A25-{row.id}</Typography>
+                                            <Typography level="body-xs">A25-{appointment.appointmentid}</Typography>
                                         </td>
                                         <td>
-                                            {/* <Typography level="body-xs">{row.slot.timeFrom.getDate()}</Typography> */}
+                                            {/* <Typography level="body-xs">{appointment.slot.timeFrom.getDate()}</Typography> */}
                                         </td>
                                         <td>
-                                            {/* <Typography level="body-xs">{row.slot.timeFrom.getTime()}</Typography> */}
+                                            {/* <Typography level="body-xs">{appointment.slot.timeFrom.getTime()}</Typography> */}
                                         </td>
                                         <td>
                                             <Chip
@@ -120,25 +124,25 @@ export default function AppointmentHistory() {
                                                         COMPLETED: <CheckRoundedIcon />,
                                                         CANCELLED: <BlockIcon />,
                                                         PENDING: <BlockIcon />,
-                                                    }[row.status]
+                                                    }[appointment.status]
                                                 }
                                                 color={
                                                     {
                                                         COMPLETED: 'success',
                                                         CANCELLED: 'danger',
                                                         PENDING: 'warning',
-                                                    }[row.status] as ColorPaletteProp
+                                                    }[appointment.status] as ColorPaletteProp
                                                 }
                                             >
-                                                {row.status}
+                                                {appointment.status}
                                             </Chip>
                                         </td>
                                         <td>
                                             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                                {/* <Avatar size="sm">{row.doctor?.avatar}</Avatar>
+                                                {/* <Avatar size="sm">{appointment.doctor?.avatar}</Avatar>
                                                 <div>
-                                                    <Typography level="body-xs">{row.doctor?.fullName}</Typography>
-                                                    <Typography level="body-xs">{row.doctor?.email}</Typography>
+                                                    <Typography level="body-xs">{appointment.doctor?.fullName}</Typography>
+                                                    <Typography level="body-xs">{appointment.doctor?.email}</Typography>
                                                 </div> */}
                                             </Box>
                                         </td>
