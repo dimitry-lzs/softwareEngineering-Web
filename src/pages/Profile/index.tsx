@@ -26,7 +26,7 @@ import {
     Speciality,
     type UserData,
     UserType,
-} from '../../stores/UserStore';
+} from '../../types';
 
 export default observer(function Profile() {
     const formRef = useRef<HTMLFormElement>(null);

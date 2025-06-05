@@ -4,53 +4,9 @@ import Chip from '@mui/joy/Chip';
 import Sheet from '@mui/joy/Sheet';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
-import { OfficeLocation, Speciality } from '../../stores/UserStore';
+import { OfficeLocation } from '../../types';
+import { useDoctors } from '../../hooks';
 
-// Sample doctors data
-const doctors = [
-    {
-        id: 1,
-        fullName: 'Dr. Sarah Johnson',
-        speciality: Speciality.Cardiologist,
-        location: OfficeLocation.Athens,
-        avatar: 'SJ',
-    },
-    {
-        id: 2,
-        fullName: 'Dr. Michael Chen',
-        speciality: Speciality.Dermatologist,
-        location: OfficeLocation.Thessaloniki,
-        avatar: 'MC',
-    },
-    {
-        id: 3,
-        fullName: 'Dr. Emily Rodriguez',
-        speciality: Speciality.Neurologist,
-        location: OfficeLocation.Patras,
-        avatar: 'ER',
-    },
-    {
-        id: 4,
-        fullName: 'Dr. David Wilson',
-        speciality: Speciality.Orthopedist,
-        location: OfficeLocation.Athens,
-        avatar: 'DW',
-    },
-    {
-        id: 5,
-        fullName: 'Dr. Lisa Anderson',
-        speciality: Speciality.Pediatrician,
-        location: OfficeLocation.Thessaloniki,
-        avatar: 'LA',
-    },
-    {
-        id: 6,
-        fullName: 'Dr. James Thompson',
-        speciality: Speciality.Psychiatrist,
-        location: OfficeLocation.Athens,
-        avatar: 'JT',
-    },
-];
 
 // Helper function to format speciality display name
 const formatSpeciality = (speciality: string) => {
@@ -75,6 +31,7 @@ const getLocationColor = (location: OfficeLocation) => {
 };
 
 export default function Doctors() {
+    const { doctors, loading } = useDoctors(); // Assuming useDoctors is a custom hook that fetches doctors data
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
             <Box
@@ -163,7 +120,7 @@ export default function Doctors() {
                                             level='body-sm'
                                             sx={{ fontWeight: 'md' }}
                                         >
-                                            {doctor.fullName}
+                                            {doctor.fullname}
                                         </Typography>
                                     </Box>
                                 </td>
@@ -177,14 +134,14 @@ export default function Doctors() {
                                         variant='soft'
                                         size='sm'
                                         color={
-                                            getLocationColor(doctor.location) as
+                                            getLocationColor(doctor.officelocation) as
                                                 | 'primary'
                                                 | 'success'
                                                 | 'warning'
                                                 | 'neutral'
                                         }
                                     >
-                                        {doctor.location}
+                                        {doctor.officelocation}
                                     </Chip>
                                 </td>
                             </tr>
