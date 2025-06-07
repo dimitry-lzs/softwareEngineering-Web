@@ -1,6 +1,8 @@
-import { Box, Button, Sheet, Typography } from "@mui/joy";
+import { Box, Button, Card, CardActions, CardOverflow, Divider, FormHelperText, Sheet, Stack, Textarea, Typography } from "@mui/joy";
 import { useParams } from "react-router";
 import { useAppointment } from "../../hooks";
+import SectionTitle from "../../components/SectionTitle";
+import Rating from "../Home/rating";
 
 export default function AppointmentFeedback() {
     const { id } = useParams<{ id: string }>();
@@ -10,46 +12,65 @@ export default function AppointmentFeedback() {
 
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
-            <Sheet
+
+            <SectionTitle title="Feedback" subtitle="Let us know of your experience with our doctors" />
+
+
+            <Stack
+                spacing={2}
                 sx={{
                     display: 'flex',
-                    flexDirection: 'column',
-                    gap: 2,
-                    p: 3,
+                    maxWidth: '800px',
+                    mx: 'auto',
+                    px: { xs: 2, md: 6 },
+                    py: { xs: 2, md: 3 },
                 }}
             >
-                <Typography level='h2'>Feedback</Typography>
-                <Typography>
-                    This page is under construction.
-                </Typography>
-                <Typography>
-                    Leave a feedback for doctor {appointment?.doctor_name} !
-                </Typography>
-                <Typography>
-                    STARS 1-5
-                </Typography>
-                <Typography>
-                    COMMENTS
-                </Typography>                    
-                {loading && <Typography>Loading...</Typography>}
-                {appointment && (
-                    <Box>
+                <Card>
+                    <Box sx={{ mb: 1 }}>
+                        <Typography level="title-md">Feedback Form</Typography>
+                        <Typography level="body-sm">
+                            Leave a rating and an optional review for Dr. {appointment?.doctor_name}
+                        </Typography>
                     </Box>
-                )}
-                <Button
-                    variant="solid"
-                    color="primary"
-                >
-                    Submit Feedback
-                </Button>
-                <Button
-                    variant="outlined"
-                    onClick={() => window.history.back()}
-                >
-                    Back
-                </Button>
+                    <Divider />
+                    <Stack spacing={2} sx={{ my: 1 }}>
+                        <Box sx={{ mt: 1, mb: 2 }}>
+                            <Rating rating={4} />
+                        </Box>
+                        <Textarea
+                            size="sm"
+                            minRows={10}
+                            sx={{ mt: 1.5 }}
+                            placeholder="Share details of your own personal experience with this doctor"
+                        />
+                        <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
+                            400 characters left
+                        </FormHelperText>
+                    </Stack>
 
-            </Sheet>
-        </Box>
+                    {loading && <Typography>Loading...</Typography>}
+                    {appointment && (
+                        <Box>
+                        </Box>
+                    )}
+                    <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
+                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+                            <Button
+                                size="sm"
+                                variant="outlined"
+                                color="neutral"
+                                onClick={() => window.history.back()}
+                            >
+                                Back
+                            </Button>
+                            <Button size="sm" variant="solid" color="primary">
+                                Submit
+                            </Button>
+                        </CardActions>
+                    </CardOverflow>
+                </Card>
+            </Stack>
+        </Box >
     );
 }
