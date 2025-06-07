@@ -93,21 +93,9 @@ export default function DoctorCard(props: DoctorCardProps) {
           <Typography level="body-xs" startDecorator={<FmdGoodRoundedIcon />}>
             Athens {/*Doctor location*/}
           </Typography>
-
-          {/* <Typography level="body-xs" startDecorator={<KingBedRoundedIcon />}>
-            //More Doctor Info (optional)
-          </Typography>
-
-          <Typography level="body-xs" startDecorator={<WifiRoundedIcon />}>
-            //More Doctor Info (optional)
-          </Typography> */}
-
         </Stack>
         <Stack direction="row" sx={{ mt: 'auto' }}>
           <Rating rating={rating}/>
-          {/* <Typography level="title-lg" sx={{ flexGrow: 1, textAlign: 'right' }}>
-            <strong>$540</strong> <Typography level="body-md">total</Typography>
-          </Typography> */}
           <Button size="sm" variant="solid" sx={{textAlign: 'right', ml: 'auto'}} color="primary">
             Check Availability
           </Button>
