@@ -1,5 +1,5 @@
 import MaterialCalendar from "../../components/MaterialCalendar";
-import { Box, Divider, Stack } from "@mui/joy";
+import { Box, Card, Divider, Stack } from "@mui/joy";
 import UpcomingAppointments from "../../components/UpcomingAppointments";
 import SectionTitle from "../../components/SectionTitle";
 import React from "react";
@@ -9,46 +9,26 @@ export default function Calendar() {
     return (
         <React.Fragment>
             <SectionTitle title='Calendar' subtitle='Check all your upcoming appointments' />
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    // minHeight: '100%',
-                    width: '100%',
-                    mb: 1,
-                }}
-            >
-                <Stack
-                    direction="row"
+            <Box sx={{ flex: 1, width: '100%'}}>
+                <Stack 
                     spacing={2}
-                    // divider={<Divider
-                    //     orientation="vertical"
-                    //     sx={{
-                    //         height: "auto",
-                    //     }}
-                    // />}
                     sx={{
-                        justifyContent: 'center',
-                        alignItems: 'stretch',
                         flexWrap: 'wrap',
                         flexDirection: { xs: 'column', md: 'row' },
                         gap: 2,
+                        alignItems: "stretch"
                     }}
                 >
-                    <MaterialCalendar />
-
+                <Card variant="outlined">    
                     <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            height: '100%',
-                        }}
-                    >
+                        sx={{flexGrow: 1, flexShrink: 0, minWidth: '300px' }}>
+                        <MaterialCalendar />
+                    </Box>
+                </Card>
+                    <Box sx={{ flexGrow: 1, flexShrink: 0, minWidth:"300px", overflowY: 'auto', overflowX: 'hidden'}}>
                         <UpcomingAppointments />
                     </Box>
-                </Stack>
+                    </Stack>
             </Box>
         </React.Fragment>
     );

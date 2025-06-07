@@ -4,7 +4,7 @@ import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import { ListItem, ListItemContent, ListItemDecorator, List, ListDivider, IconButton } from '@mui/joy';
+import { ListItem, ListItemContent, ListItemDecorator, List, ListDivider, IconButton, Stack } from '@mui/joy';
 import { useState } from 'react';
 
 
@@ -12,6 +12,7 @@ const listItems = [
   {
     id: 'INV-1234',
     date: 'Feb 3, 2023',
+    time: '2:00',
     status: 'Cancelled',
     doctor: {                    // doctor
       initial: 'O',              // his initial to show in avatar, his picture could be shown instead
@@ -23,6 +24,7 @@ const listItems = [
   {
     id: 'INV-1233',
     date: 'Feb 3, 2023',
+    time: '2:00',
     status: 'Pending',
     doctor: {
       initial: 'S',
@@ -34,6 +36,7 @@ const listItems = [
   {
     id: 'INV-1232',
     date: 'Feb 3, 2023',
+    time: '2:00',
     status: 'Completed',
     doctor: {
       initial: 'C',
@@ -45,6 +48,7 @@ const listItems = [
   {
     id: 'INV-1231',
     date: 'Feb 3, 2023',
+    time: '2:00',
     status: 'Completed',
     doctor: {
       initial: 'M',
@@ -56,6 +60,7 @@ const listItems = [
   {
     id: 'INV-1230',
     date: 'Feb 3, 2023',
+    time: '2:00',
     status: 'Cancelled',
     doctor: {
       initial: 'C',
@@ -67,6 +72,7 @@ const listItems = [
   {
     id: 'INV-1229',
     date: 'Feb 3, 2023',
+    time: '2:00',
     status: 'Cancelled',
     doctor: {
       initial: 'J',
@@ -92,14 +98,7 @@ export default function UpcomingAppointments() {
 
 
   return (
-    // <Box sx={{ display: 'block', gap: 2, width: '450px', height: '400px', maxWidth: '100%'}}>
-    <Box
-      sx={{
-        width: '100%', // Allow it to stretch within the parent
-        maxWidth: '600px', // Optional: Limit the maximum width
-        flex: 1, // Allow it to grow and shrink within the Stack
-      }}
-    >
+    <Box sx={{ width: '100%', flexGrow: 1 }}>
       {currentItems.map((listItem) => (
         <List key={listItem.id} size="sm" sx={{ '--ListItem-paddingX': 0 }}>
           <ListItem
@@ -114,54 +113,46 @@ export default function UpcomingAppointments() {
               sx={{
                 display: 'flex',
                 gap: 2,
-                alignItems: 'start',
-                flex: 1,
+                alignItems: 'flex-start',
+                justifyContent: 'space-between',
+                py: 1
               }}
             >
               <ListItemDecorator>
-                <Avatar size="sm">{listItem.doctor.initial}</Avatar>
+                <Avatar size="lg" sx={{ mr: 0.5 }}>{listItem.doctor.initial}</Avatar>
               </ListItemDecorator>
               <div style={{ flex: 1 }}>
                 <Box
                   sx={{
                     display: 'flex',
-                    justifyContent: 'space-between', // Push date to the far left
-                    alignItems: 'center', // Align items vertically
-                    mb: 1, // Add margin below the row
-                  }}
-                >
-                  <Typography gutterBottom sx={{ fontWeight: 600 }}>
-                    {listItem.doctor.name}
-                  </Typography>
-                  <Typography level="body-xs" sx={{ color: 'text.tertiary' }}>
-                    {listItem.date}
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    direction: 'row',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: 0.5,
-                    mb: 1,
-                  }}
-                >
-                  <Typography level="body-xs" gutterBottom sx={{ display: 'flex' }}>
-                    {listItem.doctor.specialty}
-                  </Typography>
-                  <Typography level="body-xs" gutterBottom sx={{ display: 'flex' }}>
-                    {listItem.doctor.email}
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
                     mb: 1
                   }}
                 >
+                  <Typography level="title-sm" sx={{ fontWeight: 600 }}>
+                    {listItem.doctor.name} -
+                    <Typography level="title-sm" sx={{ color: 'text.tertiary', ml: 0.5 }}>
+                      {listItem.doctor.specialty}
+                    </Typography>
+                  </Typography>
+
+                  <Stack spacing={2}
+                        direction="row"
+                        sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <Typography level="body-sm" sx={{ color: 'text.tertiary' }}>
+                      {listItem.time}
+                    </Typography>
+                    <Typography level="body-sm" sx={{ ml: 0.5, color: 'text.tertiary' }}>
+                      - {listItem.date}
+                    </Typography>
+                  </Stack>
+                </Box>
+
+                <Typography level="body-sm" sx={{ display: 'flex' }}>
+                  {listItem.doctor.email}
+                </Typography>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                   <Link level="body-sm" component="button" sx={{ ml: 'auto' }}>
                     See details
                   </Link>
