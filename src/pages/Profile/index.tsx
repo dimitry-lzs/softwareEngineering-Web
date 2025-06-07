@@ -27,6 +27,7 @@ import {
     type UserData,
     UserType,
 } from '../../types';
+import SectionTitle from '../../components/SectionTitle';
 
 export default observer(function Profile() {
     const formRef = useRef<HTMLFormElement>(null);
@@ -53,11 +54,7 @@ export default observer(function Profile() {
                     zIndex: 9995,
                 }}
             >
-                <Box sx={{ px: { xs: 2, md: 6 } }}>
-                    <Typography level='h3' component='h1' sx={{ mt: 1, mb: 2 }}>
-                        My profile
-                    </Typography>
-                </Box>
+                <SectionTitle title="My Profile" subtitle="View your profile details"/>
             </Box>
             <Stack
                 spacing={4}
