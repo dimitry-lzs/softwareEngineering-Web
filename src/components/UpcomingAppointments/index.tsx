@@ -101,44 +101,29 @@ export default function UpcomingAppointments() {
     <Box sx={{ width: '100%', flexGrow: 1 }}>
       {currentItems.map((listItem) => (
         <List key={listItem.id} size="sm" sx={{ '--ListItem-paddingX': 0 }}>
-          <ListItem
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'start',
-              width: '100%',
-            }}
-          >
-            <ListItemContent
-              sx={{
-                display: 'flex',
-                gap: 2,
-                alignItems: 'flex-start',
-                justifyContent: 'space-between',
-                py: 1
-              }}
-            >
-              <ListItemDecorator>
-                <Avatar size="lg" sx={{ mr: 0.5 }}>{listItem.doctor.initial}</Avatar>
-              </ListItemDecorator>
-              <div style={{ flex: 1 }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    mb: 1
-                  }}
-                >
-                  <Typography level="title-sm" sx={{ fontWeight: 600 }}>
-                    {listItem.doctor.name} -
-                    <Typography level="title-sm" sx={{ color: 'text.tertiary', ml: 0.5 }}>
+          <ListItem>
+            <ListItemContent>
+
+              <Stack direction="column" sx={{ display: 'flex' }}>
+
+                <Stack direction="row" spacing={1}>
+
+
+                  <ListItemDecorator>
+                    <Avatar size="lg" sx={{ mr: 0.5 }}>{listItem.doctor.initial}</Avatar>
+                  </ListItemDecorator>
+
+                  <Stack direction="row" alignItems="center" justifyContent="flex-start">
+                    <Typography level="title-md" sx={{ fontWeight: 600 }}>
+                      {listItem.doctor.name}
+                    </Typography>
+                    <Typography level="title-sm" variant="outlined" sx={{ color: 'text.tertiary', ml: 0.5, borderRadius: 18, px: 1 }}>
                       {listItem.doctor.specialty}
                     </Typography>
-                  </Typography>
+                  </Stack>
 
-                  <Stack spacing={2}
-                        direction="row"
-                        sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+
+                  <Stack direction="row" alignItems="center" justifyContent="flex-end">
                     <Typography level="body-sm" sx={{ color: 'text.tertiary' }}>
                       {listItem.time}
                     </Typography>
@@ -146,18 +131,14 @@ export default function UpcomingAppointments() {
                       - {listItem.date}
                     </Typography>
                   </Stack>
-                </Box>
 
-                <Typography level="body-sm" sx={{ display: 'flex' }}>
-                  {listItem.doctor.email}
-                </Typography>
+                </Stack>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <Link level="body-sm" component="button" sx={{ ml: 'auto' }}>
-                    See details
-                  </Link>
-                </Box>
-              </div>
+                <Link level="body-sm" component="button" mb={0.5} sx={{ ml: 'auto' }}>
+                  See details
+                </Link>
+
+              </Stack>
             </ListItemContent>
           </ListItem>
           <ListDivider />
