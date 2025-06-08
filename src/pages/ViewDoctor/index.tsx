@@ -12,17 +12,14 @@ import Typography from '@mui/joy/Typography';
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
-import Breadcrumbs from '@mui/joy/Breadcrumbs';
-import Link from '@mui/joy/Link';
 import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
 import CardOverflow from '@mui/joy/CardOverflow';
 
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';;
 import CheckIcon from '@mui/icons-material/Check';
 import Rating from '../Home/rating';
-import { Avatar, ListItemDecorator } from '@mui/joy';
+import { Avatar } from '@mui/joy';
+import SectionTitle from '../../components/SectionTitle';
 
 
 export default function ViewDoctor() {
@@ -30,46 +27,7 @@ export default function ViewDoctor() {
     const [selectedTab, setSelectedTab] = React.useState(2);
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
-            <Box
-                sx={{
-                    position: 'sticky',
-                    top: { sm: -100, md: -110 },
-                    bgcolor: 'background.body',
-                    zIndex: 9995,
-                }}
-            >
-                <Box sx={{ px: { xs: 2, md: 6 } }}>
-                    <Breadcrumbs
-                        size="sm"
-                        aria-label="breadcrumbs"
-                        separator={<ChevronRightRoundedIcon fontSize="small" />}
-                        sx={{ pl: 0 }}
-                    >
-                        <Link
-                            underline="none"
-                            color="neutral"
-                            href="#some-link"
-                            aria-label="Home"
-                        >
-                            <HomeRoundedIcon />
-                        </Link>
-                        <Link
-                            underline="hover"
-                            color="neutral"
-                            href="#some-link"
-                            sx={{ fontSize: 12, fontWeight: 500 }}
-                        >
-                            Users
-                        </Link>
-                        <Typography color="primary" sx={{ fontWeight: 500, fontSize: 12 }}>
-                            My profile
-                        </Typography>
-                    </Breadcrumbs>
-                    <Typography level="h2" component="h1" sx={{ mt: 1, mb: 2 }}>
-                        View Doctor Profile
-                    </Typography>
-                </Box>
-            </Box>
+            <SectionTitle title="View Doctor" subtitle="Book an appointment with Dr. (insert doctor's name)"/>
             <Stack
                 spacing={4}
                 sx={{
@@ -132,7 +90,7 @@ export default function ViewDoctor() {
                     </Stack>
                     <Tabs
                         value={selectedTab}
-                        onChange={(event, newValue) => setSelectedTab(newValue as number)} // Update selected tab
+                        onChange={(_event, newValue) => setSelectedTab(newValue as number)} // Update selected tab
                         defaultValue={2} sx={{ bgcolor: 'transparent' }}>
 
                         <TabList
