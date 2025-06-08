@@ -179,6 +179,20 @@ export default observer(function Sidebar() {
                             </ListItemContent>
                         </ListItemButton>
                     </ListItem>
+                    <ListItem>
+                        <ListItemButton
+                            to='/viewDoctor'
+                            component={Link}
+                            role='menuitem'
+                        >
+                            <AccountCircleIcon />
+                            <ListItemContent>
+                                <Typography level='title-sm'>
+                                    View Doctor
+                                </Typography>
+                            </ListItemContent>
+                        </ListItemButton>
+                    </ListItem>
                 </List>
             </Box>
             <Divider />

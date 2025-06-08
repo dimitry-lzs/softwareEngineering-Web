@@ -16,6 +16,7 @@ import Profile from './pages/Profile';
 import Doctor from './pages/Doctor';
 import Appointment from './pages/Appointment';
 import AppointmentFeedback from './pages/AppointmentFeedback';
+import ViewDoctor from './pages/ViewDoctor';
 
 const root = document.getElementById('root');
 
@@ -67,6 +68,11 @@ const router = createBrowserRouter([
                 path: '/history/:id/feedback',
                 element: <AppointmentFeedback />,
             },
+            {
+                path: '/viewDoctor',
+                element: <ViewDoctor/>,
+            },
+
         ],
         errorElement: <ErrorPage />,
     },
