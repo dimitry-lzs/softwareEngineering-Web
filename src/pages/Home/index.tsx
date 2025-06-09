@@ -28,14 +28,6 @@ export default function Home() {
     });
   }, [doctors, selectedLocation, selectedSpeciality]);
 
-
-  useEffect(() => {
-    console.log('Doctors loaded:', doctors);
-    console.log('Filtered doctors:', filteredDoctors);
-    console.log('speciality:', selectedSpeciality);
-    console.log('location:', selectedLocation);
-  }, [doctors, filteredDoctors, selectedSpeciality, selectedLocation]);
-
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
