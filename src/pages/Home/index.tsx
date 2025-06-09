@@ -7,13 +7,35 @@ import Button from '@mui/joy/Button';
 import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-// import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-// import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import DoctorCard from './doctorCard';
 import Search from './search';
 import SectionTitle from '../../components/SectionTitle';
+import { useDoctors } from '../../hooks';
+import { useEffect, useMemo, useState } from 'react';
 
 export default function Home() {
+
+  const { doctors } = useDoctors();
+  const [selectedLocation, setSelectedLocation] = useState<string>('all');
+  const [selectedSpeciality, setSelectedSpeciality] = useState<string>('all');
+
+  // Filter doctors based on selected location and speciality
+  const filteredDoctors = useMemo(() => {
+    return doctors.filter(doctor => {
+      const locationMatch = selectedLocation === 'all' || doctor.officelocation === selectedLocation;
+      const specialityMatch = selectedSpeciality === 'all' || doctor.speciality === selectedSpeciality;
+      return locationMatch && specialityMatch;
+    });
+  }, [doctors, selectedLocation, selectedSpeciality]);
+
+
+  useEffect(() => {
+    console.log('Doctors loaded:', doctors);
+    console.log('Filtered doctors:', filteredDoctors);
+    console.log('speciality:', selectedSpeciality);
+    console.log('location:', selectedLocation);
+  }, [doctors, filteredDoctors, selectedSpeciality, selectedLocation]);
+
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
@@ -22,65 +44,30 @@ export default function Home() {
         sx={{
           height: 'calc(100vh - 55px)', // 55px is the height of the NavBar
           display: 'grid',
-          // gridTemplateColumns: { xs: 'auto', md: '60% 40%' },
-          // gridTemplateRows: 'auto 1fr auto',
         }}
       >
         <SectionTitle title="Home" subtitle="Search for doctors in your area" />
 
-        <Search />
+        <Search
+          selectedLocation={selectedLocation}
+          setSelectedLocation={setSelectedLocation}
+          selectedSpeciality={selectedSpeciality}
+          setSelectedSpeciality={setSelectedSpeciality}
+        />
 
         <Stack spacing={2} sx={{ px: { xs: 2, md: 4 } }}>
           <Stack spacing={2} sx={{ overflowY: 'auto', overflowX: 'hidden', height: '450px' }}>
-            <DoctorCard
-              title="John Shcmoe"
-              specialty="Oncologist"
-              location="Thessaloniki"
-              rating={4.5}
-              image="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=400"
-            />
-            <DoctorCard
-              title="Kakos Giatros"
-              specialty="Oncologist"
-              location="Athens"
-              rating={3.5}
-              image="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=400"
-            />
-            <DoctorCard
-              title="Giatrara"
-              specialty="Dermatologist"
-              location="Athens"
-              rating={5}
-              image="https://images.unsplash.com/photo-1537726235470-8504e3beef77?auto=format&fit=crop&w=400"
-            />
-            <DoctorCard
-              title="Kalos Giatros"
-              specialty="Pediatrician"
-              location="Patras"
-              rating={4.2}
-              image="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=400"
-            />
-            <DoctorCard
-              title="Giatroumpini"
-              specialty="Psychiatrist"
-              location="Thessaloniki"
-              rating={4.5}
-              image="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=400"
-            />
-            <DoctorCard
-              title="Giatrosn't"
-              specialty="Ornithologist"
-              location="Patras"
-              rating={2.5}
-              image="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=400"
-            />
-            <DoctorCard
-              title="Apla giatros"
-              specialty="Cardiologist"
-              location="Athens"
-              rating={3}
-              image="https://images.unsplash.com/photo-1481437156560-3205f6a55735?auto=format&fit=crop&w=400"
-            />
+            {filteredDoctors.map((doctor) => (
+              <DoctorCard
+                key={doctor.id}
+                id={doctor.id}
+                title={`${doctor.fullname}`}
+                specialty={doctor.speciality}
+                location={doctor.officelocation}
+                rating={doctor.rating}
+                image={doctor.avatar}
+              />
+            ))}
           </Stack>
         </Stack>
         <div>

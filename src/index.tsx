@@ -16,7 +16,7 @@ import Profile from './pages/Profile';
 import Doctor from './pages/Doctor';
 import Appointment from './pages/Appointment';
 import AppointmentFeedback from './pages/AppointmentFeedback';
-import ViewDoctor from './pages/ViewDoctor';
+import ViewDoctor from './pages/Home/viewDoctor';
 
 const root = document.getElementById('root');
 
@@ -49,6 +49,10 @@ const router = createBrowserRouter([
                 element: <Home />,
             },
             {
+                path: '/home/:id',
+                element: <ViewDoctor />,
+            },
+            {
                 path: '/calendar',
                 element: <Calendar />,
             },
@@ -68,11 +72,6 @@ const router = createBrowserRouter([
                 path: '/history/:id/feedback',
                 element: <AppointmentFeedback />,
             },
-            {
-                path: '/viewDoctor',
-                element: <ViewDoctor/>,
-            },
-
         ],
         errorElement: <ErrorPage />,
     },

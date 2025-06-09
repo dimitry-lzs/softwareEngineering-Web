@@ -22,4 +22,7 @@ export default {
         stars,
         comments
     }),
+    doctorAvailability: async (doctorID: string) => client.get('/doctor-availabilities', {
+        params: { doctorID }
+    }),
 }

@@ -20,14 +20,23 @@ import CheckIcon from '@mui/icons-material/Check';
 import Rating from '../Home/rating';
 import { Avatar } from '@mui/joy';
 import SectionTitle from '../../components/SectionTitle';
+import { useParams } from 'react-router';
+import { useDoctor, useDoctorRatings } from '../../hooks';
+import formatString from '../../misc/formatSpeciality';
+import { useDoctorAvailability } from '../../hooks/availability';
 
 
 export default function ViewDoctor() {
-    const [selected, setSelected] = React.useState<string | null>(null);
+    const { id } = useParams<{ id: string }>();
+    const { doctor } = useDoctor(id);
+    const { ratings } = useDoctorRatings(id);
+    const { availabilities } = useDoctorAvailability(id);
+    const [selected, setSelected] = React.useState<number | null>(null);
     const [selectedTab, setSelectedTab] = React.useState(2);
+
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
-            <SectionTitle title="View Doctor" subtitle="Book an appointment with Dr. (insert doctor's name)"/>
+            <SectionTitle title="View Doctor" subtitle="Book an appointment" />
             <Stack
                 spacing={4}
                 sx={{
@@ -55,27 +64,32 @@ export default function ViewDoctor() {
                                     maxHeight={108}
                                     sx={{ flex: 1, minWidth: 108, borderRadius: '100%' }}
                                 >
-                                    <img
-                                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                                        srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                                        loading="lazy"
-                                        alt=""
-                                    />
+                                    <img alt="" src={doctor?.avatar} />
                                 </AspectRatio>
                             </Stack>
-                            <Stack direction="row" spacing={2} sx={{ flexGrow: 1 }}>
-                                <Stack gap={2} pl={2}>
+                            <Stack direction="column" spacing={0.5} sx={{ flexGrow: 1 }}>
+                                <Stack gap={0} pl={2}>
                                     <FormControl>
-                                        <FormLabel>Kalos Giatros</FormLabel>
+                                        <FormLabel>
+                                            <Typography level="h4">
+                                                {doctor?.fullname}
+                                            </Typography>
+                                        </FormLabel>
                                     </FormControl>
                                     <FormControl>
-                                        <FormLabel>Cardilogist</FormLabel>
+                                        <FormLabel>
+                                            <Typography level="title-lg">
+                                                {formatString(doctor?.speciality ?? '')}
+                                            </Typography>
+                                        </FormLabel>
+                                    </FormControl>
+                                </Stack>
+                                <Stack gap={0} pl={2}>
+                                    <FormControl>
+                                        <FormLabel>Email: {doctor?.email}</FormLabel>
                                     </FormControl>
                                     <FormControl>
-                                        <FormLabel>Email</FormLabel>
-                                    </FormControl>
-                                    <FormControl>
-                                        <FormLabel>Phone</FormLabel>
+                                        <FormLabel>Phone: {doctor?.phone}</FormLabel>
                                     </FormControl>
                                 </Stack>
                             </Stack>
@@ -84,7 +98,7 @@ export default function ViewDoctor() {
                                 justifyContent="flex-end"
                                 pr={1}
                             >
-                                <Rating rating={4.5} />
+                                <Rating rating={doctor?.rating ?? 0} />
                             </Stack>
                         </Stack>
                     </Stack>
@@ -136,21 +150,7 @@ export default function ViewDoctor() {
                             <div>
                                 <Typography sx={{ mb: 1 }} level="title-sm">Education and Experience</Typography>
                                 <Typography level="body-sm">
-                                    Write a short introduction to be displayed on your profile
-                                    Bleep bloop Bleep bloop Bleep bloop Bleep bloopBleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Iatriki Bleep bloop Bleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Bleep bloop Bleep bloopBleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Iatriki Bleep bloop Bleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Iatriki Bleep bloop Bleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Bleep bloop Bleep bloopBleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Iatriki Bleep bloop Bleep bloop Bleep bloop
-                                    Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop Bleep bloop
+                                    {doctor?.bio || 'No additional information available.'}
                                 </Typography>
                             </div>
                         )}
@@ -161,26 +161,16 @@ export default function ViewDoctor() {
                                         direction="column"
                                         divider={<Divider orientation="horizontal" />}
                                         spacing={2}
-
                                     >
-                                        <Stack direction="row" mx={1} gap={1}>
-                                            <Avatar size="lg" sx={{ mr: 0.5 }}>U</Avatar>
-                                            <Stack direction="column" gap={1} ml={1}>
-                                                <Typography level="body-sm">Review 1: Excellent doctor!</Typography> {/*if any review exists show it, else show only rating*/}
-                                                <Rating rating={4} />
+                                        {ratings.map((rating) => (
+                                            <Stack direction="row" mx={1} gap={1}>
+                                                <Avatar size="lg" sx={{ mr: 0.5 }}>A</Avatar>
+                                                <Stack direction="column" gap={1} ml={1}>
+                                                    <Typography level="body-sm">{rating.comments}</Typography>
+                                                    <Rating rating={rating.stars} />
+                                                </Stack>
                                             </Stack>
-                                        </Stack>
-
-                                        {/* For demonstration, each review will be structured like the one above*/}
-
-                                        <Typography level="body-sm">Review 2: Very professional.</Typography>
-                                        <Typography level="body-sm">Review 3: Highly recommended!</Typography>
-                                        <Typography level="body-sm">Review 1: Excellent doctor!</Typography>
-                                        <Typography level="body-sm">Review 2: Very professional.</Typography>
-                                        <Typography level="body-sm">Review 3: Highly recommended!</Typography>
-                                        <Typography level="body-sm">Review 1: Excellent doctor!</Typography>
-                                        <Typography level="body-sm">Review 2: Very professional.</Typography>
-                                        <Typography level="body-sm">Review 3: Highly recommended!</Typography>
+                                        ))}
                                     </Stack>
                                 </Stack>
                             </div>
@@ -197,15 +187,15 @@ export default function ViewDoctor() {
                     <Divider />
 
                     <Box sx={{
-                            display: 'flex',
-                            gap: 1,
-                            alignItems: 'center',
-                            mb: 1,
-                            ml: 0.5,
-                            height: '250px',
-                            overflowX: 'hidden', // Enable horizontal scrolling
-                            overflowY: 'auto', // Prevent tabs from wrapping
-                        }}
+                        display: 'flex',
+                        gap: 1,
+                        alignItems: 'center',
+                        mb: 1,
+                        ml: 0.5,
+                        height: '250px',
+                        overflowX: 'hidden', // Enable horizontal scrolling
+                        overflowY: 'auto', // Prevent tabs from wrapping
+                    }}
                     >
                         <div>
                             <Box
@@ -213,31 +203,15 @@ export default function ViewDoctor() {
                                 aria-labelledby="available-time-slot"
                                 sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}
                             >
-                                {[
-                                    '2:00 - 02/06/2025',
-                                    '3:00 - 02/06/2025',
-                                    '4:00 - 02/06/2025',
-                                    '5:00 - 02/06/2025',
-                                    '6:00 - 02/06/2025',
-                                    '7:00 - 02/06/2025',
-                                    '8:00 - 02/06/2025',
-                                    '9:00 - 02/06/2025',
-                                    '10:00 - 02/06/2025',
-                                    '11:00 - 02/06/2025',
-                                    '12:00 - 02/06/2025',
-                                    '13:00 - 02/06/2025',
-                                    '7:00 - 02/06/2025',
-                                    '8:00 - 02/06/2025',
-                                    '9:00 - 02/06/2025',
-                                    '10:00 - 02/06/2025',
-                                    '11:00 - 02/06/2025',
-                                    '12:00 - 02/06/2025',
-                                    '13:00 - 02/06/2025'
-                                ].map((name) => {
-                                    const checked = selected === name;
+                                {availabilities?.map((availability) => {
+                                    const dateObj = new Date(availability.timefrom);
+                                    const formattedDate = dateObj.toLocaleDateString('en-CA'); // e.g. 2024-06-10
+                                    const formattedTime = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }); // e.g. 14:30
+
+                                    const checked = selected === availability.availabilityid ? true : false;
                                     return (
                                         <Chip
-                                            key={name}
+                                            key={availability.availabilityid}
                                             variant="plain"
                                             color={checked ? 'primary' : 'neutral'}
                                             startDecorator={
@@ -249,10 +223,10 @@ export default function ViewDoctor() {
                                                 color={checked ? 'primary' : 'neutral'}
                                                 disableIcon
                                                 overlay
-                                                label={name}
+                                                label={`${formattedDate} ${formattedTime}`}
                                                 checked={checked}
                                                 onChange={() => {
-                                                    setSelected(checked ? null : name);
+                                                    setSelected(checked ? null : availability.availabilityid);
                                                 }}
                                             />
                                         </Chip>
@@ -270,6 +244,6 @@ export default function ViewDoctor() {
                     </CardOverflow>
                 </Card>
             </Stack>
-        </Box>
+        </Box >
     );
 }

@@ -66,6 +66,7 @@ export type Doctor = User & {
     officeLocation: OfficeLocation;
     licenseID: string;
     bio: string;
+    rating: number;
 };
 
 export type Rating = {
