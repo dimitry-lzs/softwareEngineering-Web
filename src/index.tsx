@@ -16,7 +16,7 @@ import Profile from './pages/Profile';
 import Doctor from './pages/Doctor';
 import Appointment from './pages/Appointment';
 import AppointmentFeedback from './pages/AppointmentFeedback';
-import ViewDoctor from './pages/Home/viewDoctor';
+import BookAppointment from './pages/Home/bookAppointment';
 
 const root = document.getElementById('root');
 
@@ -50,7 +50,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/home/:id',
-                element: <ViewDoctor />,
+                element: <BookAppointment />,
             },
             {
                 path: '/calendar',

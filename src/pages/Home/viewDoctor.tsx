@@ -2,8 +2,6 @@ import * as React from 'react';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
-import Chip from '@mui/joy/Chip';
-import Checkbox from '@mui/joy/Checkbox';
 import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
@@ -16,27 +14,28 @@ import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
 import CardOverflow from '@mui/joy/CardOverflow';
 
-import CheckIcon from '@mui/icons-material/Check';
-import Rating from '../Home/rating';
+import Rating from './rating';
 import { Avatar } from '@mui/joy';
 import SectionTitle from '../../components/SectionTitle';
-import { useParams } from 'react-router';
 import { useDoctor, useDoctorRatings } from '../../hooks';
 import formatString from '../../misc/formatSpeciality';
-import { useDoctorAvailability } from '../../hooks/availability';
 
+export default function ViewDoctor({
+    id,
+    setPage,
+}: {
+    id: string;
+    setPage: (page: number) => void;
+}) {
 
-export default function ViewDoctor() {
-    const { id } = useParams<{ id: string }>();
     const { doctor } = useDoctor(id);
     const { ratings } = useDoctorRatings(id);
-    const { availabilities } = useDoctorAvailability(id);
-    const [selected, setSelected] = React.useState<number | null>(null);
     const [selectedTab, setSelectedTab] = React.useState(2);
+
 
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
-            <SectionTitle title="View Doctor" subtitle="Book an appointment" />
+            <SectionTitle title="Book Appointment" subtitle="Book your appointment!" />
             <Stack
                 spacing={4}
                 sx={{
@@ -176,68 +175,12 @@ export default function ViewDoctor() {
                             </div>
                         )}
                     </Box>
-                </Card>
-                <Card>
-                    <Box sx={{ mb: 1 }}>
-                        <Typography level="title-md">Available Appointments</Typography>
-                        <Typography level="body-sm">
-                            Book an appointment by selecting on of the available times and dates
-                        </Typography>
-                    </Box>
-                    <Divider />
-
-                    <Box sx={{
-                        display: 'flex',
-                        gap: 1,
-                        alignItems: 'center',
-                        mb: 1,
-                        ml: 0.5,
-                        height: '250px',
-                        overflowX: 'hidden', // Enable horizontal scrolling
-                        overflowY: 'auto', // Prevent tabs from wrapping
-                    }}
-                    >
-                        <div>
-                            <Box
-                                role="group"
-                                aria-labelledby="available-time-slot"
-                                sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}
-                            >
-                                {availabilities?.map((availability) => {
-                                    const dateObj = new Date(availability.timefrom);
-                                    const formattedDate = dateObj.toLocaleDateString('en-CA'); // e.g. 2024-06-10
-                                    const formattedTime = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }); // e.g. 14:30
-
-                                    const checked = selected === availability.availabilityid ? true : false;
-                                    return (
-                                        <Chip
-                                            key={availability.availabilityid}
-                                            variant="plain"
-                                            color={checked ? 'primary' : 'neutral'}
-                                            startDecorator={
-                                                checked && <CheckIcon sx={{ zIndex: 1, pointerEvents: 'none' }} />
-                                            }
-                                        >
-                                            <Checkbox
-                                                variant="outlined"
-                                                color={checked ? 'primary' : 'neutral'}
-                                                disableIcon
-                                                overlay
-                                                label={`${formattedDate} ${formattedTime}`}
-                                                checked={checked}
-                                                onChange={() => {
-                                                    setSelected(checked ? null : availability.availabilityid);
-                                                }}
-                                            />
-                                        </Chip>
-                                    );
-                                })}
-                            </Box>
-                        </div>
-                    </Box>
                     <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
                         <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button size="sm" variant="solid">
+                            <Button
+                                size="sm"
+                                variant="solid"
+                                onClick={() => {setPage(2);}}>
                                 Continue
                             </Button>
                         </CardActions>
