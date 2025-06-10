@@ -10,82 +10,6 @@ import { useNavigate } from 'react-router';
 import { useAppointments } from '../../hooks';
 
 
-const listItems = [
-  {
-    id: 'INV-1234',
-    date: 'Feb 3, 2023',
-    time: '2:00',
-    status: 'Cancelled',
-    doctor: {                    // doctor
-      initial: 'O',              // his initial to show in avatar, his picture could be shown instead
-      name: 'Olivia Ryhe',       // doctor name
-      specialty: 'Cardiologist', // doctor specialty
-      email: 'olivia@email.com', // doctor email
-    },
-  },
-  {
-    id: 'INV-1233',
-    date: 'Feb 3, 2023',
-    time: '2:00',
-    status: 'Pending',
-    doctor: {
-      initial: 'S',
-      name: 'Steve Hampton',
-      specialty: 'Cardiologist',
-      email: 'steve.hamp@email.com',
-    },
-  },
-  {
-    id: 'INV-1232',
-    date: 'Feb 3, 2023',
-    time: '2:00',
-    status: 'Completed',
-    doctor: {
-      initial: 'C',
-      name: 'Ciaran Murray',
-      specialty: 'Cardiologist',
-      email: 'ciaran.murray@email.com',
-    },
-  },
-  {
-    id: 'INV-1231',
-    date: 'Feb 3, 2023',
-    time: '2:00',
-    status: 'Completed',
-    doctor: {
-      initial: 'M',
-      name: 'Maria Macdonald',
-      specialty: 'Cardiologist',
-      email: 'maria.mc@email.com',
-    },
-  },
-  {
-    id: 'INV-1230',
-    date: 'Feb 3, 2023',
-    time: '2:00',
-    status: 'Cancelled',
-    doctor: {
-      initial: 'C',
-      name: 'Charles Fulton',
-      specialty: 'Cardiologist',
-      email: 'fulton@email.com',
-    },
-  },
-  {
-    id: 'INV-1229',
-    date: 'Feb 3, 2023',
-    time: '2:00',
-    status: 'Cancelled',
-    doctor: {
-      initial: 'J',
-      name: 'Jay Hooper',
-      specialty: 'Cardiologist',
-      email: 'hooper@email.com',
-    },
-  },
-
-];
-
 export default function UpcomingAppointments() {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1); // current page
@@ -104,7 +28,7 @@ export default function UpcomingAppointments() {
     );
   }, [appointments]);
 
-  const totalPages = Math.ceil(listItems.length / listItemsPerPage);
+  const totalPages = Math.ceil(appointments.length / listItemsPerPage);
 
 
   return (
@@ -120,7 +44,7 @@ export default function UpcomingAppointments() {
 
 
                   <ListItemDecorator>
-                    <Avatar size="lg" sx={{ mr: 0.5 }}>{appointment.doctor_name.slice(0,1)}</Avatar>
+                    <Avatar size="lg" sx={{ mr: 0.5 }}>{appointment.doctor_name.slice(0, 1)}</Avatar>
                   </ListItemDecorator>
 
                   <Stack direction="row" alignItems="center" justifyContent="flex-start">
@@ -135,10 +59,18 @@ export default function UpcomingAppointments() {
 
                   <Stack direction="row" alignItems="center" justifyContent="flex-end">
                     <Typography level="body-sm" sx={{ color: 'text.tertiary' }}>
-                      {appointment.slot_timefrom}
+                      {new Date(appointment.slot_timeFrom).toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric',
+                      })
+                      }
                     </Typography>
                     <Typography level="body-sm" sx={{ ml: 0.5, color: 'text.tertiary' }}>
-                      - {appointment.slot_timefrom}
+                      - {new Date(appointment.slot_timeFrom).toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
                     </Typography>
                   </Stack>
 

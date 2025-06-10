@@ -4,7 +4,7 @@ import { Appointment, NewAppointment } from "../types";
 import patient from "../api/patient";
 
 export const useAppointments = (status?: string) => {
-    const [appointments, setAppointments] = useState<LowercaseType<Appointment>[]>([]);
+    const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [loading, setLoading] = useState(false);
 
     const fetchAppointments = async (status?: string) => {

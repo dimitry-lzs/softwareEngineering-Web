@@ -84,7 +84,7 @@ export type NewAppointment = {
 }
 
 export type Appointment = {
-    appointmentId: number;
+    appointmentid: number;
     status: AppointmentStatus;
     reason: string;
     doctor_id: number;

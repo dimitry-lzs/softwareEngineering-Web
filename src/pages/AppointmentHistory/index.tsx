@@ -8,7 +8,7 @@ import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import SearchIcon from '@mui/icons-material/Search';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
 import { useAppointments } from '../../hooks';
 import { useNavigate } from 'react-router';
@@ -19,6 +19,10 @@ export default function AppointmentHistory() {
     const [status, setStatus] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log('Appointments:', appointments);
+    }, [appointments]);
 
     const renderFilters = () => (
         <React.Fragment>
@@ -47,6 +51,7 @@ export default function AppointmentHistory() {
     const filteredAppointments = useMemo(() => {
         return appointments.filter(appointment => {
             if (status === '') {
+                console.log(appointment.slot_timeFrom);
                 return appointment.status === 'COMPLETED' || appointment.status === 'CANCELLED';
             }
             return appointment.status === status;
@@ -113,9 +118,9 @@ export default function AppointmentHistory() {
                     <tbody>
                         {[...filteredAppointments]
                             .sort(
-                                (a, b) => new Date(b.slot_timefrom).getTime() - new Date(a.slot_timefrom).getTime())
+                                (a, b) => new Date(b.slot_timeFrom).getTime() - new Date(a.slot_timeFrom).getTime())
                             .map((appointment) => {
-                                const date = new Date(appointment.slot_timefrom);
+                                const date = new Date(appointment.slot_timeFrom);
                                 const appointmentDate = date.toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: '2-digit',
