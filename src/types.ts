@@ -88,6 +88,8 @@ export type Appointment = {
     doctor_bio: string;
     slot_id: number;
     slot_timeFrom: string;
+    diagnosis_decease?: string;
+    diagnosis_details?: string;
 };
 
 export type Availability = {

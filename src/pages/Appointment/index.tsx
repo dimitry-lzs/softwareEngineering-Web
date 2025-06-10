@@ -205,18 +205,21 @@ export default function Appointment() {
                 {appointment?.status == 'COMPLETED' && appointment && (
                     <Card>
                         <Box sx={{ mb: 1 }}>
-                            <Typography level="title-md">Diagnosis</Typography>
-                            <Typography level="body-sm">
-                                I'm afraid its terminal
-                            </Typography>
+                            <Stack direction="row" spacing={1} alignItems="center">
+                                <Typography level="title-md">Diagnosis: </Typography>
+                                <Typography level="title-md" sx={{ fontWeight: 'bolder' }}>
+                                    {appointment.diagnosis_decease ?? 'No diagnosis provided.'}
+                                </Typography>
+                            </Stack>
                         </Box>
                         <Divider />
-                        <Stack spacing={2} sx={{ my: 1 }}>
+                        <Stack sx={{ my: 1 }}>
+                            <Typography level="title-sm">Diagnosis Details:</Typography>
                             <Textarea
                                 size="sm"
                                 minRows={4}
                                 sx={{ mt: 1.5 }}
-                                defaultValue="You have 1 week left to live."
+                                defaultValue={appointment.diagnosis_details ?? ''}
                             />
                         </Stack>
                     </Card>
