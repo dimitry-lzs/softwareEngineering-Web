@@ -1,5 +1,5 @@
 import { client } from '.';
-import { Speciality } from '../types';
+import { Appointment, NewAppointment, Speciality } from '../types';
 
 export default {
     doctors: async () => client.get('/doctors'),
@@ -13,6 +13,9 @@ export default {
     }),
     appointment: async (id: string) => client.get(`/view-appointment-details`, {
         params: { appointmentID: id }
+    }),
+    setAppointment: async (appointment: NewAppointment) => client.post('/set-appointment', {
+        ...appointment
     }),
     cancelAppointment: async (id: string) => client.patch(`/cancel-appointment`, {
         appointmentID: id

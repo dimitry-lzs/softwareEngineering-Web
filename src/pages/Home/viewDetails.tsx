@@ -4,6 +4,8 @@ import { useDoctorAvailability } from "../../hooks/availability";
 import { useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import { useNavigate } from "react-router";
+import { useCreateAppointment } from "../../hooks";
+import { AppointmentStatus } from "../../types";
 
 export default function ViewDetails({
     id,
@@ -14,12 +16,26 @@ export default function ViewDetails({
 }) {
 
     const { availabilities } = useDoctorAvailability(id);
+    const { createAppointment } = useCreateAppointment();
     const [selected, setSelected] = useState<number | null>(null);
     const [reason, setReason] = useState<string>('');
     const navigate = useNavigate();
 
     const submitHandler = async () => {
-        console.log('Submitting appointment with reason:', reason, 'and selected availability:', selected);
+        if (!selected) {
+            return;
+        }
+        try {
+            await createAppointment({
+                doctorID: id,
+                slotID: selected,
+                reason: reason,
+                status: AppointmentStatus.Pending,
+            });
+            navigate('/home');
+        } catch (error) {
+            console.error("Failed to book appointment:", error);
+        }
     }
 
     return (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { LowercaseType } from "./lowercase";
-import { Appointment } from "../types";
+import { Appointment, NewAppointment } from "../types";
 import patient from "../api/patient";
 
 export const useAppointments = (status?: string) => {
@@ -51,6 +51,23 @@ export const useAppointment = (id?: string) => {
     }, [id]);
 
     return { appointment, loading, fetchAppointment };
+}
+
+export const useCreateAppointment = () => {
+    const [loading, setLoading] = useState(false);
+
+    const createAppointment = async (appointment: NewAppointment) => {
+        setLoading(true);
+        try {
+            await patient.setAppointment(appointment);
+        } catch (error) {
+            console.error("Failed to create Appointment:", error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return { createAppointment, loading };
 }
 
 export const useCancelAppointment = () => {

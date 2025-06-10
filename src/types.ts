@@ -76,6 +76,13 @@ export type Rating = {
     patientId?: number;
 }
 
+export type NewAppointment = {
+    doctorID: string;
+    status: AppointmentStatus;
+    slotID: number;
+    reason: string;
+}
+
 export type Appointment = {
     appointmentId: number;
     status: AppointmentStatus;

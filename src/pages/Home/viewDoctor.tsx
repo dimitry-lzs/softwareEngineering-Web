@@ -19,6 +19,7 @@ import { Avatar } from '@mui/joy';
 import SectionTitle from '../../components/SectionTitle';
 import { useDoctor, useDoctorRatings } from '../../hooks';
 import formatString from '../../misc/formatSpeciality';
+import { useNavigate } from 'react-router';
 
 export default function ViewDoctor({
     id,
@@ -31,7 +32,7 @@ export default function ViewDoctor({
     const { doctor } = useDoctor(id);
     const { ratings } = useDoctorRatings(id);
     const [selectedTab, setSelectedTab] = React.useState(2);
-
+    const navigate = useNavigate();
 
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
@@ -177,6 +178,12 @@ export default function ViewDoctor({
                     </Box>
                     <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
                         <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+                            <Button
+                                size="sm"
+                                variant="outlined"
+                                onClick={() => {navigate('/home');}}>
+                                Return to search
+                            </Button>
                             <Button
                                 size="sm"
                                 variant="solid"
