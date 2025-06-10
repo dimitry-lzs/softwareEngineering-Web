@@ -72,14 +72,15 @@ export type Doctor = User & {
 export type Rating = {
     stars: number;
     comments: string;
-    doctorId: number;
-    patientId: number;
+    doctorId?: number;
+    patientId?: number;
 }
 
 export type Appointment = {
     appointmentId: number;
     status: AppointmentStatus;
     reason: string;
+    doctor_id: number;
     doctor_name: string;
     doctor_specialty: Speciality;
     doctor_email: string;

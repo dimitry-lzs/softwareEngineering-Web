@@ -80,12 +80,15 @@ export const useDoctorRatings = (doctorId?: string) => {
     return { ratings, loading, fetchRatings };
 }
 
-export const useCreateDoctorRating = async () => {
+export const useCreateDoctorRating = () => {
     const [loading, setLoading] = useState(false);
 
     const createRating = async (rating: Rating) => {
         setLoading(true);
         try {
+            if (!rating.doctorId) {
+                throw new Error("Doctor ID is required to create a rating.");
+            }
             await patient.setRating(rating.doctorId.toString(), rating.stars, rating.comments);
         } catch (error) {
             console.error("Failed to set doctor rating:", error);
