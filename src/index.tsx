@@ -37,14 +37,6 @@ const router = createBrowserRouter([
                 loader: () => redirect('home'),
             },
             {
-                path: '/doctors',
-                element: <Doctors />,
-            },
-            {
-                path: '/doctors/:id',
-                element: <Doctor />,
-            },
-            {
                 path: '/home',
                 element: <Home />,
             },

@@ -3,7 +3,6 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import HistoryIcon from '@mui/icons-material/History';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Divider from '@mui/joy/Divider';
@@ -120,20 +119,6 @@ export default observer(function Sidebar() {
                             <HomeRoundedIcon />
                             <ListItemContent>
                                 <Typography level='title-sm'>Home</Typography>
-                            </ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton
-                            to='/doctors'
-                            component={Link}
-                            role='menuitem'
-                        >
-                            <MedicalServicesIcon />
-                            <ListItemContent>
-                                <Typography level='title-sm'>
-                                    Doctors
-                                </Typography>
                             </ListItemContent>
                         </ListItemButton>
                     </ListItem>
