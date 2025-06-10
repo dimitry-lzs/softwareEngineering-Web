@@ -8,7 +8,7 @@ import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import SearchIcon from '@mui/icons-material/Search';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
 import { useAppointments } from '../../hooks';
 import { useNavigate } from 'react-router';
@@ -17,7 +17,6 @@ export default function AppointmentHistory() {
 
     const { appointments } = useAppointments();
     const [status, setStatus] = useState('');
-    const [search, setSearch] = useState('');
 
     const navigate = useNavigate();
 
@@ -37,12 +36,23 @@ export default function AppointmentHistory() {
                         }
                     }}
                 >
+                    <Option value="">All</Option>
                     <Option value="COMPLETED">Completed</Option>
                     <Option value="CANCELLED">Cancelled</Option>
                 </Select>
             </FormControl>
         </React.Fragment>
     );
+
+    const filteredAppointments = useMemo(() => {
+        return appointments.filter(appointment => {
+            if (status === '') {
+                return appointment.status === 'COMPLETED' || appointment.status === 'CANCELLED';
+            }
+            return appointment.status === status;
+
+        });
+    }, [appointments, status]);
 
     return (
         <React.Fragment>
@@ -101,7 +111,7 @@ export default function AppointmentHistory() {
                         </tr>
                     </thead>
                     <tbody>
-                        {[...appointments]
+                        {[...filteredAppointments]
                             .sort(
                                 (a, b) => new Date(b.slot_timefrom).getTime() - new Date(a.slot_timefrom).getTime())
                             .map((appointment) => {

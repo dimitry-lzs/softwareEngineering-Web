@@ -57,6 +57,10 @@ const router = createBrowserRouter([
                 element: <Calendar />,
             },
             {
+                path: '/calendar/:id',
+                element: <Appointment />,
+            },
+            {
                 path: '/profile',
                 element: <Profile />,
             },

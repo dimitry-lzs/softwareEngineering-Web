@@ -5,7 +5,6 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import React from "react";
 import SectionTitle from "../../components/SectionTitle";
 
 export default function Appointment() {
@@ -195,7 +194,7 @@ export default function Appointment() {
                                 size="sm"
                                 variant="outlined"
                                 color="neutral"
-                                onClick={() => navigate(`/history`)}
+                                onClick={() => window.history.back()}
                             >
                                 Back
                             </Button>
