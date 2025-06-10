@@ -121,7 +121,8 @@ export default function ViewDetails({
                             <Button
                                 size="sm"
                                 variant="solid"
-                            onClick={submitHandler}
+                                onClick={submitHandler}
+                                disabled={!selected}
                             >
                                 Book Appointment
                             </Button>
