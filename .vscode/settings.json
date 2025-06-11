@@ -74,6 +74,46 @@
         "menu.foreground": "#cbd5e1",
         "menu.selectionBackground": "#3b82f6",
         "menu.selectionForeground": "#f8fafc",
-        "menu.separatorBackground": "#334155"
+        "menu.separatorBackground": "#334155",
+        "menu.border": "#334155",
+        // Inline Chat
+        "inlineChat.foreground": "#cbd5e1",
+        "inlineChat.background": "#1e293b",
+        "inlineChat.border": "#334155",
+        "inlineChat.shadow": "#00000060",
+        "inlineChatInput.border": "#334155",
+        "inlineChatInput.focusBorder": "#3b82f6",
+        "inlineChatInput.background": "#0a0f1a",
+        "inlineChatInput.foreground": "#cbd5e1",
+        "inlineChatInput.placeholderForeground": "#64748b",
+        "inlineChatDiff.inserted": "#10b98120",
+        "inlineChatDiff.removed": "#ef444420",
+        // Quick Chat
+        "quickInput.background": "#1e293b",
+        "quickInput.foreground": "#94a3b8",
+        "quickInputTitle.background": "#334155",
+        "quickInputList.focusBackground": "#3b82f640",
+        "quickInputList.focusForeground": "#e2e8f0",
+        // Chat
+        "chat.requestBackground": "#0f172a",
+        "chat.requestForeground": "#94a3b8",
+        "chat.requestBorder": "#334155",
+        "chat.responseBackground": "#0a0f1a",
+        "chat.responseForeground": "#cbd5e1",
+        "chat.slashCommandBackground": "#3b82f620",
+        "chat.slashCommandForeground": "#3b82f6",
+        "chat.avatarBackground": "#334155",
+        "chat.avatarForeground": "#e2e8f0",
+        // Copilot Chat specific
+        "copilotChat.background": "#0a0f1a",
+        "copilotChat.foreground": "#cbd5e1",
+        "copilotChat.border": "#334155",
+        "copilotChat.requestBackground": "#0f172a",
+        "copilotChat.requestForeground": "#94a3b8",
+        "copilotChat.responseBackground": "#0a0f1a",
+        "copilotChat.responseForeground": "#cbd5e1",
+        "copilotChat.welcomeBackground": "#1e293b",
+        "copilotChat.welcomeForeground": "#94a3b8",
+        "copilotChat.iconForeground": "#3b82f6"
     }
 }
