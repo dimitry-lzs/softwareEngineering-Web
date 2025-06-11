@@ -1,48 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { notificationStore } from '.';
 import { type APIError, user } from '../api';
-
-export enum UserType {
-    Doctor = 'DOCTOR',
-    Patient = 'PATIENT',
-}
-
-export enum OfficeLocation {
-    Athens = 'ATHENS',
-    Thessaloniki = 'THESSALONIKI',
-    Patras = 'PATRAS',
-}
-
-export enum Speciality {
-    Cardiologist = 'CARDIOLOGIST',
-    Dermatologist = 'DERMATOLOGIST',
-
-    Endocrinologist = 'ENDOCRINOLOGIST',
-    Gastroenterologist = 'GASTROENTEROLOGIST',
-    Gynecologist = 'GYNECOLOGY',
-    Neurologist = 'NEUROLOGIST',
-    Oncologist = 'ONCOLOGIST',
-    Orthopedist = 'ORTHOPEDIST',
-    Otorhinolaryngologist = 'OTORHINOLARYNGOLOGIST',
-    Pediatrician = 'PEDIATRICIAN',
-    Psychiatrist = 'PSYCHIATRIST',
-    Radiologist = 'RADIOLOGIST',
-    Urologist = 'UROLOGIST',
-    Ornithologist = 'ORNITHOLOGIST',
-}
-
-export type UserData = {
-    fullName: string;
-    email: string;
-    password: string;
-    userType: UserType;
-    phone?: string;
-    speciality?: string;
-    licenceID?: string;
-    officeLocation?: OfficeLocation;
-    amka?: string;
-    bio?: string;
-};
+import { UserData } from '../types';
 
 class UserStore {
     private loading = false;

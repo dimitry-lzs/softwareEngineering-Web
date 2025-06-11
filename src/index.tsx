@@ -13,6 +13,10 @@ import ErrorPage from './pages/Error';
 import FormPage from './pages/FormPage';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
+import Doctor from './pages/Doctor';
+import Appointment from './pages/Appointment';
+import AppointmentFeedback from './pages/AppointmentFeedback';
+import BookAppointment from './pages/Home/bookAppointment';
 
 const root = document.getElementById('root');
 
@@ -33,16 +37,20 @@ const router = createBrowserRouter([
                 loader: () => redirect('home'),
             },
             {
-                path: '/doctors',
-                element: <Doctors />,
-            },
-            {
                 path: '/home',
                 element: <Home />,
             },
             {
+                path: '/home/:id',
+                element: <BookAppointment />,
+            },
+            {
                 path: '/calendar',
                 element: <Calendar />,
+            },
+            {
+                path: '/calendar/:id',
+                element: <Appointment />,
             },
             {
                 path: '/profile',
@@ -51,6 +59,14 @@ const router = createBrowserRouter([
             {
                 path: '/history',
                 element: <AppointmentHistory />,
+            },
+            {
+                path: '/history/:id',
+                element: <Appointment />,
+            },
+            {
+                path: '/history/:id/feedback',
+                element: <AppointmentFeedback />,
             },
         ],
         errorElement: <ErrorPage />,

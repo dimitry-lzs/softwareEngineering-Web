@@ -31,6 +31,7 @@ export default function App() {
                         minWidth: 0,
                         height: '100dvh',
                         gap: 1,
+                        overflow: 'auto'
                     }}
                 >
                     <Header />

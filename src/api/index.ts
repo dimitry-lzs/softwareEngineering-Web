@@ -1,5 +1,5 @@
 import axios, { type AxiosError } from 'axios';
-import type { UserData } from '../stores/UserStore';
+import type { OfficeLocation, Speciality, UserData } from '../types';
 
 export type APIError = AxiosError & { response: { data: { error: string } } };
 
@@ -13,9 +13,9 @@ const user = {
         email: string;
         password: string;
         userType: string;
-        speciality?: string;
+        speciality?: Speciality;
         licenceID?: string;
-        officeLocation?: string;
+        officeLocation?: OfficeLocation;
         amka?: string;
     }) => client.post('/register', userData),
     login: async (userData: {

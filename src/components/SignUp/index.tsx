@@ -17,7 +17,7 @@ import {
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { notificationStore, userStore } from '../../stores';
-import { OfficeLocation, Speciality, UserType } from '../../stores/UserStore';
+import { OfficeLocation, Speciality, UserType } from '../../types';
 import type { SignInFormElement } from '../types';
 
 const userTypes = [

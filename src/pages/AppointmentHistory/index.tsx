@@ -1,360 +1,69 @@
-import Avatar from '@mui/joy/Avatar';
-import Box from '@mui/joy/Box';
-import Chip from '@mui/joy/Chip';
-import Divider from '@mui/joy/Divider';
-import Dropdown from '@mui/joy/Dropdown';
-import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
-import Link from '@mui/joy/Link';
-import Menu from '@mui/joy/Menu';
-import MenuButton from '@mui/joy/MenuButton';
-import MenuItem from '@mui/joy/MenuItem';
-import Typography from '@mui/joy/Typography';
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import type { ColorPaletteProp } from '@mui/joy/styles';
-
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import BlockIcon from '@mui/icons-material/Block';
+import { ColorPaletteProp } from '@mui/joy/styles';
+import { Box, Chip, Link, IconButton, iconButtonClasses, Typography, FormControl, FormLabel, Select, Option, Sheet, Input, Button, Table, Avatar } from '@mui/joy';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import BlockIcon from '@mui/icons-material/Block';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import SearchIcon from '@mui/icons-material/Search';
-import {
-    Button,
-    Checkbox,
-    FormControl,
-    FormLabel,
-    Input,
-    Modal,
-    ModalClose,
-    ModalDialog,
-    Option,
-    Select,
-    Sheet,
-    Table,
-} from '@mui/joy';
-import React from 'react';
-
-const rows = [
-    {
-        time: 'INV-1234',
-        date: 'Feb 3, 2023',
-        status: 'Completed',
-        customer: {
-            initial: 'O',
-            name: 'Olivia Ryhe',
-            email: 'olivia@email.com',
-        },
-    },
-    {
-        time: 'INV-1233',
-        date: 'Feb 3, 2023',
-        status: 'Completed',
-        customer: {
-            initial: 'S',
-            name: 'Steve Hampton',
-            email: 'steve.hamp@email.com',
-        },
-    },
-    {
-        time: 'INV-1232',
-        date: 'Feb 3, 2023',
-        status: 'Cancelled',
-        customer: {
-            initial: 'C',
-            name: 'Ciaran Murray',
-            email: 'ciaran.murray@email.com',
-        },
-    },
-    {
-        time: 'INV-1231',
-        date: 'Feb 3, 2023',
-        status: 'Completed',
-        customer: {
-            initial: 'M',
-            name: 'Maria Macdonald',
-            email: 'maria.mc@email.com',
-        },
-    },
-    {
-        time: 'INV-1230',
-        date: 'Feb 3, 2023',
-        status: 'Cancelled',
-        customer: {
-            initial: 'C',
-            name: 'Charles Fulton',
-            email: 'fulton@email.com',
-        },
-    },
-    {
-        time: 'INV-1229',
-        date: 'Feb 3, 2023',
-        status: 'Cancelled',
-        customer: {
-            initial: 'J',
-            name: 'Jay Hooper',
-            email: 'hooper@email.com',
-        },
-    },
-    {
-        time: 'INV-1228',
-        date: 'Feb 3, 2023',
-        status: 'Cancelled',
-        customer: {
-            initial: 'K',
-            name: 'Krystal Stevens',
-            email: 'k.stevens@email.com',
-        },
-    },
-    {
-        time: 'INV-1227',
-        date: 'Feb 3, 2023',
-        status: 'Completed',
-        customer: {
-            initial: 'S',
-            name: 'Sachin Flynn',
-            email: 's.flyn@email.com',
-        },
-    },
-    {
-        time: 'INV-1226',
-        date: 'Feb 3, 2023',
-        status: 'Completed',
-        customer: {
-            initial: 'B',
-            name: 'Bradley Rosales',
-            email: 'brad123@email.com',
-        },
-    },
-    {
-        time: 'INV-1225',
-        date: 'Feb 3, 2023',
-        status: 'Completed',
-        customer: {
-            initial: 'O',
-            name: 'Olivia Ryhe',
-            email: 'olivia@email.com',
-        },
-    },
-    {
-        time: 'INV-1224',
-        date: 'Feb 3, 2023',
-        status: 'Cancelled',
-        customer: {
-            initial: 'S',
-            name: 'Steve Hampton',
-            email: 'steve.hamp@email.com',
-        },
-    },
-    {
-        time: 'INV-1223',
-        date: 'Feb 3, 2023',
-        status: 'Completed',
-        customer: {
-            initial: 'C',
-            name: 'Ciaran Murray',
-            email: 'ciaran.murray@email.com',
-        },
-    },
-    {
-        time: 'INV-1221',
-        date: 'Feb 3, 2023',
-        status: 'Cancelled',
-        customer: {
-            initial: 'M',
-            name: 'Maria Macdonald',
-            email: 'maria.mc@email.com',
-        },
-    },
-    {
-        time: 'INV-1220',
-        date: 'Feb 3, 2023',
-        status: 'Completed',
-        customer: {
-            initial: 'C',
-            name: 'Charles Fulton',
-            email: 'fulton@email.com',
-        },
-    },
-    {
-        time: 'INV-1219',
-        date: 'Feb 3, 2023',
-        status: 'Cancelled',
-        customer: {
-            initial: 'J',
-            name: 'Jay Hooper',
-            email: 'hooper@email.com',
-        },
-    },
-    {
-        time: 'INV-1218',
-        date: 'Feb 3, 2023',
-        status: 'Cancelled',
-        customer: {
-            initial: 'K',
-            name: 'Krystal Stevens',
-            email: 'k.stevens@email.com',
-        },
-    },
-    {
-        time: 'INV-1217',
-        date: 'Feb 3, 2023',
-        status: 'Completed',
-        customer: {
-            initial: 'S',
-            name: 'Sachin Flynn',
-            email: 's.flyn@email.com',
-        },
-    },
-    {
-        time: 'INV-1216',
-        date: 'Feb 3, 2023',
-        status: 'Cancelled',
-        customer: {
-            initial: 'B',
-            name: 'Bradley Rosales',
-            email: 'brad123@email.com',
-        },
-    },
-];
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
-}
-
-type Order = 'asc' | 'desc';
-
-function getComparator<Key extends keyof any>(
-    order: Order,
-    orderBy: Key,
-): (
-    a: { [key in Key]: number | string },
-    b: { [key in Key]: number | string },
-) => number {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function RowMenu() {
-    return (
-        <Dropdown>
-            <MenuButton
-                slots={{ root: IconButton }}
-                slotProps={{
-                    root: { variant: 'plain', color: 'neutral', size: 'sm' },
-                }}
-            >
-                <MoreHorizRoundedIcon />
-            </MenuButton>
-            <Menu size='sm' sx={{ minWidth: 140 }}>
-                <MenuItem>Edit</MenuItem>
-                <MenuItem>Rename</MenuItem>
-                <MenuItem>Move</MenuItem>
-                <Divider />
-                <MenuItem color='danger'>Delete</MenuItem>
-            </Menu>
-        </Dropdown>
-    );
-}
+import React, { useEffect, useMemo, useState } from 'react';
+import SectionTitle from '../../components/SectionTitle';
+import { useAppointments } from '../../hooks';
+import { useNavigate } from 'react-router';
 
 export default function AppointmentHistory() {
-    const [order, setOrder] = React.useState<Order>('desc');
-    const [selected, setSelected] = React.useState<readonly string[]>([]);
-    const [open, setOpen] = React.useState(false);
+
+    const { appointments } = useAppointments();
+    const [status, setStatus] = useState('');
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log('Appointments:', appointments);
+    }, [appointments]);
+
     const renderFilters = () => (
         <React.Fragment>
-            <FormControl size='sm'>
+            <FormControl size="sm">
                 <FormLabel>Status</FormLabel>
                 <Select
-                    size='sm'
-                    placeholder='Filter by status'
+                    size="sm"
+                    placeholder="Filter by status"
                     slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}
+                    onChange={(_, value) => {
+                        if (typeof value === 'string') {
+                            setStatus(value);
+                        } else {
+                            setStatus('');
+                        }
+                    }}
                 >
-                    <Option value='paid'>Completed</Option>
-                    <Option value='cancelled'>Cancelled</Option>
-                </Select>
-            </FormControl>
-            <FormControl size='sm'>
-                <FormLabel>Specialty</FormLabel>
-                <Select size='sm' placeholder='All'>
-                    <Option value='all'>All</Option>
-                    <Option value='refund'>peepee</Option>
-                    <Option value='purchase'>poopoo</Option>
-                    <Option value='debit'>kaka</Option>
-                </Select>
-            </FormControl>
-            <FormControl size='sm'>
-                <FormLabel>Doctor</FormLabel>
-                <Select size='sm' placeholder='All'>
-                    <Option value='all'>All</Option>
-                    <Option value='olivia'>Olivia Rhye</Option>
-                    <Option value='steve'>Steve Hampton</Option>
-                    <Option value='ciaran'>Ciaran Murray</Option>
-                    <Option value='marina'>Marina Macdonald</Option>
-                    <Option value='charles'>Charles Fulton</Option>
-                    <Option value='jay'>Jay Hoper</Option>
+                    <Option value="">All</Option>
+                    <Option value="COMPLETED">Completed</Option>
+                    <Option value="CANCELLED">Cancelled</Option>
                 </Select>
             </FormControl>
         </React.Fragment>
     );
+
+    const filteredAppointments = useMemo(() => {
+        return appointments.filter(appointment => {
+            if (status === '') {
+                console.log(appointment.slot_timeFrom);
+                return appointment.status === 'COMPLETED' || appointment.status === 'CANCELLED';
+            }
+            return appointment.status === status;
+
+        });
+    }, [appointments, status]);
+
     return (
         <React.Fragment>
-            <Sheet
-                className='SearchAndFilters-mobile'
-                sx={{ display: { xs: 'flex', sm: 'none' }, my: 1, gap: 1 }}
-            >
-                <Input
-                    size='sm'
-                    placeholder='Search'
-                    startDecorator={<SearchIcon />}
-                    sx={{ flexGrow: 1 }}
-                />
-                <IconButton
-                    size='sm'
-                    variant='outlined'
-                    color='neutral'
-                    onClick={() => setOpen(true)}
-                >
-                    <FilterAltIcon />
-                </IconButton>
-                <Modal open={open} onClose={() => setOpen(false)}>
-                    <ModalDialog
-                        aria-labelledby='filter-modal'
-                        layout='fullscreen'
-                    >
-                        <ModalClose />
-                        <Typography id='filter-modal' level='h2'>
-                            Filters
-                        </Typography>
-                        <Divider sx={{ my: 2 }} />
-                        <Sheet
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: 2,
-                            }}
-                        >
-                            {renderFilters()}
-                            <Button
-                                color='primary'
-                                onClick={() => setOpen(false)}
-                            >
-                                Submit
-                            </Button>
-                        </Sheet>
-                    </ModalDialog>
-                </Modal>
-            </Sheet>
+            <SectionTitle title='History' subtitle='Find all your past appointments here' />
             <Box
-                className='SearchAndFilters-tabletUp'
+                className="SearchAndFilters-tabletUp"
                 sx={{
                     borderRadius: 'sm',
                     py: 2,
@@ -366,19 +75,15 @@ export default function AppointmentHistory() {
                     },
                 }}
             >
-                <FormControl sx={{ flex: 1 }} size='sm'>
+                <FormControl sx={{ flex: 1 }} size="sm">
                     <FormLabel>Search for appointment</FormLabel>
-                    <Input
-                        size='sm'
-                        placeholder='Search'
-                        startDecorator={<SearchIcon />}
-                    />
+                    <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} />
                 </FormControl>
                 {renderFilters()}
             </Box>
             <Sheet
-                className='OrderTableContainer'
-                variant='outlined'
+                className="OrderTableContainer"
+                variant="outlined"
                 sx={{
                     display: { xs: 'none', sm: 'initial' },
                     width: '100%',
@@ -389,225 +94,101 @@ export default function AppointmentHistory() {
                 }}
             >
                 <Table
-                    aria-labelledby='tableTitle'
+                    aria-labelledby="tableTitle"
                     stickyHeader
                     hoverRow
                     sx={{
-                        '--TableCell-headBackground':
-                            'var(--joy-palette-background-level1)',
+                        '--TableCell-headBackground': 'var(--joy-palette-background-level1)',
                         '--Table-headerUnderlineThickness': '1px',
-                        '--TableRow-hoverBackground':
-                            'var(--joy-palette-background-level1)',
+                        '--TableRow-hoverBackground': 'var(--joy-palette-background-level1)',
                         '--TableCell-paddingY': '4px',
                         '--TableCell-paddingX': '8px',
                     }}
                 >
                     <thead>
                         <tr>
-                            <th
-                                style={{
-                                    width: 48,
-                                    textAlign: 'center',
-                                    padding: '12px 6px',
-                                }}
-                            >
-                                <Checkbox
-                                    size='sm'
-                                    indeterminate={
-                                        selected.length > 0 &&
-                                        selected.length !== rows.length
-                                    }
-                                    checked={selected.length === rows.length}
-                                    onChange={(event) => {
-                                        setSelected(
-                                            event.target.checked
-                                                ? rows.map((row) => row.time)
-                                                : [],
-                                        );
-                                    }}
-                                    color={
-                                        selected.length > 0 ||
-                                        selected.length === rows.length
-                                            ? 'primary'
-                                            : undefined
-                                    }
-                                    sx={{ verticalAlign: 'text-bottom' }}
-                                />
-                            </th>
-                            <th style={{ width: 120, padding: '12px 6px' }}>
-                                <Link
-                                    underline='none'
-                                    color='primary'
-                                    component='button'
-                                    onClick={() =>
-                                        setOrder(
-                                            order === 'asc' ? 'desc' : 'asc',
-                                        )
-                                    }
-                                    endDecorator={<ArrowDropDownIcon />}
-                                    sx={[
-                                        {
-                                            fontWeight: 'lg',
-                                            '& svg': {
-                                                transition: '0.2s',
-                                                transform:
-                                                    order === 'desc'
-                                                        ? 'rotate(0deg)'
-                                                        : 'rotate(180deg)',
-                                            },
-                                        },
-                                        order === 'desc'
-                                            ? {
-                                                  '& svg': {
-                                                      transform: 'rotate(0deg)',
-                                                  },
-                                              }
-                                            : {
-                                                  '& svg': {
-                                                      transform:
-                                                          'rotate(180deg)',
-                                                  },
-                                              },
-                                    ]}
-                                >
-                                    Date
-                                </Link>
-                            </th>
-                            <th style={{ width: 140, padding: '12px 6px' }}>
-                                Time
-                            </th>
-                            <th style={{ width: 140, padding: '12px 6px' }}>
-                                Status
-                            </th>
-                            <th style={{ width: 240, padding: '12px 6px' }}>
-                                Doctor
-                            </th>
-                            <th style={{ width: 140, padding: '12px 6px' }}>
-                                {' '}
-                            </th>
+                            <th style={{ width: 70, padding: '12px 6px' }}></th>
+                            <th style={{ width: 120, padding: '12px 6px' }}>Date</th>
+                            <th style={{ width: 140, padding: '12px 6px' }}>Time</th>
+                            <th style={{ width: 140, padding: '12px 6px' }}>Status</th>
+                            <th style={{ width: 240, padding: '12px 6px' }}>Doctor</th>
+                            <th style={{ width: 140, padding: '12px 6px' }}> </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {[...rows]
-                            .sort(getComparator(order, 'date'))
-                            .map((row) => (
-                                <tr key={row.date}>
-                                    <td
-                                        style={{
-                                            textAlign: 'center',
-                                            width: 120,
-                                        }}
-                                    >
-                                        <Checkbox
-                                            size='sm'
-                                            checked={selected.includes(
-                                                row.date,
-                                            )}
-                                            color={
-                                                selected.includes(row.date)
-                                                    ? 'primary'
-                                                    : undefined
-                                            }
-                                            onChange={(event) => {
-                                                setSelected((dates) =>
-                                                    event.target.checked
-                                                        ? dates.concat(row.date)
-                                                        : dates.filter(
-                                                              (itemDate) =>
-                                                                  itemDate !==
-                                                                  row.date,
-                                                          ),
-                                                );
-                                            }}
-                                            slotProps={{
-                                                checkbox: {
-                                                    sx: { textAlign: 'left' },
-                                                },
-                                            }}
-                                            sx={{
-                                                verticalAlign: 'text-bottom',
-                                            }}
-                                        />
-                                    </td>
-                                    <td>
-                                        <Typography level='body-xs'>
-                                            {row.date}
-                                        </Typography>
-                                    </td>
-                                    <td>
-                                        <Typography level='body-xs'>
-                                            {row.time}
-                                        </Typography>
-                                    </td>
-                                    <td>
-                                        <Chip
-                                            variant='soft'
-                                            size='sm'
-                                            startDecorator={
-                                                {
-                                                    Completed: (
-                                                        <CheckRoundedIcon />
-                                                    ),
-                                                    Cancelled: <BlockIcon />,
-                                                }[row.status]
-                                            }
-                                            color={
-                                                {
-                                                    Completed: 'success',
-                                                    Cancelled: 'danger',
-                                                }[
-                                                    row.status
-                                                ] as ColorPaletteProp
-                                            }
-                                        >
-                                            {row.status}
-                                        </Chip>
-                                    </td>
-                                    <td>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                gap: 2,
-                                                alignItems: 'center',
-                                            }}
-                                        >
-                                            <Avatar size='sm'>
-                                                {row.customer.initial}
-                                            </Avatar>
-                                            <div>
-                                                <Typography level='body-xs'>
-                                                    {row.customer.name}
-                                                </Typography>
-                                                <Typography level='body-xs'>
-                                                    {row.customer.email}
-                                                </Typography>
-                                            </div>
-                                        </Box>
-                                    </td>
-                                    <td>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                gap: 2,
-                                                alignItems: 'center',
-                                            }}
-                                        >
-                                            <Link
-                                                level='body-xs'
-                                                component='button'
+                        {[...filteredAppointments]
+                            .sort(
+                                (a, b) => new Date(b.slot_timeFrom).getTime() - new Date(a.slot_timeFrom).getTime())
+                            .map((appointment) => {
+                                const date = new Date(appointment.slot_timeFrom);
+                                const appointmentDate = date.toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                });
+                                const appointmentTime = date.toLocaleTimeString('en-US', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: true,
+                                });
+                                return (
+
+                                    <tr key={appointment.appointmentid} onClick={() => navigate(`/history/${appointment.appointmentid}`)}>
+                                        <td>
+                                            <Typography level="body-xs">A25-{appointment.appointmentid}</Typography>
+                                        </td>
+                                        <td>
+                                            <Typography level="body-xs">{appointmentDate}</Typography>
+                                        </td>
+                                        <td>
+                                            <Typography level="body-xs">{appointmentTime}</Typography>
+                                        </td>
+                                        <td>
+                                            <Chip
+                                                variant="soft"
+                                                size="sm"
+                                                startDecorator={
+                                                    {
+                                                        COMPLETED: <CheckRoundedIcon />,
+                                                        CANCELLED: <BlockIcon />,
+                                                        PENDING: <HourglassEmptyIcon />,
+                                                    }[appointment.status]
+                                                }
+                                                color={
+                                                    {
+                                                        COMPLETED: 'success',
+                                                        CANCELLED: 'danger',
+                                                        PENDING: 'warning',
+                                                    }[appointment.status] as ColorPaletteProp
+                                                }
                                             >
-                                                Download
-                                            </Link>
-                                            <RowMenu />
-                                        </Box>
-                                    </td>
-                                </tr>
-                            ))}
+                                                {appointment.status}
+                                            </Chip>
+                                        </td>
+                                        <td>
+                                            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                                                <Avatar size="sm"></Avatar>
+                                                <div>
+                                                    <Typography level="body-xs">{appointment.doctor_name}</Typography>
+                                                    <Typography level="body-xs">({appointment.doctor_specialty.toLowerCase()})</Typography>
+                                                </div>
+                                            </Box>
+                                        </td>
+                                        <td>
+                                            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                                                <Link level="body-xs" component="button">
+                                                    View Appointment
+                                                </Link>
+                                            </Box>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                     </tbody>
                 </Table>
             </Sheet>
             <Box
-                className='Pagination-laptopUp'
+                className="Pagination-laptopUp"
                 sx={{
                     pt: 2,
                     gap: 1,
@@ -619,9 +200,9 @@ export default function AppointmentHistory() {
                 }}
             >
                 <Button
-                    size='sm'
-                    variant='outlined'
-                    color='neutral'
+                    size="sm"
+                    variant="outlined"
+                    color="neutral"
                     startDecorator={<KeyboardArrowLeftIcon />}
                 >
                     Previous
@@ -631,18 +212,18 @@ export default function AppointmentHistory() {
                 {['1', '2', '3', '…', '8', '9', '10'].map((page) => (
                     <IconButton
                         key={page}
-                        size='sm'
+                        size="sm"
                         variant={Number(page) ? 'outlined' : 'plain'}
-                        color='neutral'
+                        color="neutral"
                     >
                         {page}
                     </IconButton>
                 ))}
                 <Box sx={{ flex: 1 }} />
                 <Button
-                    size='sm'
-                    variant='outlined'
-                    color='neutral'
+                    size="sm"
+                    variant="outlined"
+                    color="neutral"
                     endDecorator={<KeyboardArrowRightIcon />}
                 >
                     Next
