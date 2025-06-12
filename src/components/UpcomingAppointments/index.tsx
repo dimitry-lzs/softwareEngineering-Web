@@ -33,91 +33,89 @@ export default function UpcomingAppointments() {
 
   return (
     <Box sx={{ width: '100%', flexGrow: 1 }}>
-      {filteredAppointments.map((appointment) => (
-        <List key={appointment.appointmentid} size="sm" sx={{ '--ListItem-paddingX': 0 }}>
-          <ListItem>
-            <ListItemContent>
+      {filteredAppointments.length < 1
+        ? (
+            <Stack direction="column" 
+                   spacing={1}
+                   alignItems="center"
+                   justifyContent="center"
+                   sx={{
+                      pt: 16,
+                      px: 4
+                   }}
+            >
+              <Typography level="h3">
+                No Upcoming Appointments
+              </Typography>
+              <Typography color="neutral" level="body-md">
+                Once you have appointments they will be shown here
+              </Typography>
+            </Stack>
+        ) : (
+          <>
+            {
+              filteredAppointments.map((appointment) => (
+                <List key={appointment.appointmentid} size="sm" sx={{ '--ListItem-paddingX': 0 }}>
+                  <ListItem>
+                    <ListItemContent>
 
-              <Stack direction="column" sx={{ display: 'flex' }}>
+                      <Stack direction="column" sx={{ display: 'flex' }}>
 
-                <Stack direction="row" spacing={1}>
-
-
-                  <ListItemDecorator>
-                    <Avatar size="lg" sx={{ mr: 0.5 }}>{appointment.doctor_name.slice(0, 1)}</Avatar>
-                  </ListItemDecorator>
-
-                  <Stack direction="row" alignItems="center" justifyContent="flex-start">
-                    <Typography level="title-md" sx={{ fontWeight: 600 }}>
-                      {appointment.doctor_name}
-                    </Typography>
-                    <Typography level="title-sm" variant="outlined" sx={{ color: 'text.tertiary', ml: 0.5, borderRadius: 18, px: 1 }}>
-                      {appointment.doctor_specialty}
-                    </Typography>
-                  </Stack>
+                        <Stack direction="row" spacing={1}>
 
 
-                  <Stack direction="row" alignItems="center" justifyContent="flex-end">
-                    <Typography level="body-sm" sx={{ color: 'text.tertiary' }}>
-                      {new Date(appointment.slot_timeFrom).toLocaleDateString('en-US', {
-                        weekday: 'short',
-                        month: 'short',
-                        day: 'numeric',
-                      })
-                      }
-                    </Typography>
-                    <Typography level="body-sm" sx={{ ml: 0.5, color: 'text.tertiary' }}>
-                      - {new Date(appointment.slot_timeFrom).toLocaleTimeString('en-US', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </Typography>
-                  </Stack>
+                          <ListItemDecorator>
+                            <Avatar size="lg" sx={{ mr: 0.5 }}>{appointment.doctor_name.slice(0, 1)}</Avatar>
+                          </ListItemDecorator>
 
-                </Stack>
+                          <Stack direction="row" alignItems="center" justifyContent="flex-start">
+                            <Typography level="title-md" sx={{ fontWeight: 600 }}>
+                              {appointment.doctor_name}
+                            </Typography>
+                            <Typography level="title-sm" variant="outlined" sx={{ color: 'text.tertiary', ml: 0.5, borderRadius: 18, px: 1 }}>
+                              {appointment.doctor_specialty}
+                            </Typography>
+                          </Stack>
 
-                <Link
-                  level="body-sm"
-                  component="button"
-                  mb={0.5}
-                  sx={{ ml: 'auto' }}
-                  onClick={() => navigate(`/calendar/${appointment.appointmentid}`)}               >
-                  See details
-                </Link>
-              </Stack>
-            </ListItemContent>
-          </ListItem>
-          <ListDivider />
-        </List>
-      ))}
-      <Box
-        className="Pagination-mobile"
-        sx={{ display: 'flex', alignItems: 'center', py: 2 }}
-      >
-        <IconButton
-          aria-label="previous page"
-          variant="outlined"
-          color="neutral"
-          size="sm"
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-        >
-          <KeyboardArrowLeftIcon />
-        </IconButton>
-        <Typography level="body-sm" sx={{ mx: 'auto' }}>
-          Page {currentPage} of {totalPages > 0 ? totalPages : 1}
-        </Typography>
-        <IconButton
-          aria-label="next page"
-          variant="outlined"
-          color="neutral"
-          size="sm"
-          disabled={currentPage === totalPages || totalPages === 0}
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-        >
-          <KeyboardArrowRightIcon />
-        </IconButton>
-      </Box>
+
+                          <Stack direction="row" alignItems="center" justifyContent="flex-end">
+                            <Typography level="body-sm" sx={{ color: 'text.tertiary' }}>
+                              {new Date(appointment.slot_timeFrom).toLocaleDateString('en-US', {
+                                weekday: 'short',
+                                month: 'short',
+                                day: 'numeric',
+                              })
+                              }
+                            </Typography>
+                            <Typography level="body-sm" sx={{ ml: 0.5, color: 'text.tertiary' }}>
+                              - {new Date(appointment.slot_timeFrom).toLocaleTimeString('en-US', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                              })}
+                            </Typography>
+                          </Stack>
+
+                        </Stack>
+
+                        <Link
+                          level="body-sm"
+                          component="button"
+                          mb={0.5}
+                          sx={{ ml: 'auto' }}
+                          onClick={() => navigate(`/calendar/${appointment.appointmentid}`)}               >
+                          See details
+                        </Link>
+                      </Stack>
+                    </ListItemContent>
+                  </ListItem>
+                  <ListDivider />
+                </List>
+              ))
+            }
+          </>
+        )}
+
+
     </Box>
   );
 }
