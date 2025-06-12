@@ -106,10 +106,6 @@ export default function Search({
                     },
                 }}
             >
-                <FormControl sx={{ flex: 1 }} size="sm">
-                    <FormLabel>Search for doctors</FormLabel>
-                    <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} />
-                </FormControl>
                 {renderFilters()}
             </Box>
         </React.Fragment>
