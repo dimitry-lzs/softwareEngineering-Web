@@ -1,4 +1,5 @@
 import { Box, CssBaseline, CssVarsProvider } from '@mui/joy';
+import { observer } from 'mobx-react-lite';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Outlet } from 'react-router';
@@ -7,7 +8,7 @@ import Notification from '../components/Notification';
 import Sidebar from '../components/Sidebar';
 import 'dayjs/locale/en';
 
-export default function App() {
+export default observer(function App() {
     return (
         <CssVarsProvider disableTransitionOnChange>
             <Notification />
@@ -45,4 +46,4 @@ export default function App() {
             </Box>
         </CssVarsProvider>
     );
-}
+});
