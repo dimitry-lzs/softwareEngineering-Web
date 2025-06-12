@@ -9,8 +9,8 @@ export default function Calendar() {
     return (
         <React.Fragment>
             <SectionTitle title='Calendar' subtitle='Check all your upcoming appointments' />
-            <Box sx={{ flex: 1, width: '100%'}}>
-                <Stack 
+            <Box sx={{ flex: 1, width: '100%' }}>
+                <Stack
                     spacing={2}
                     sx={{
                         flexWrap: 'wrap',
@@ -19,16 +19,16 @@ export default function Calendar() {
                         alignItems: "stretch"
                     }}
                 >
-                <Card variant="outlined">    
-                    <Box
-                        sx={{flexGrow: 1, flexShrink: 0, minWidth: '300px' }}>
-                        <MaterialCalendar />
-                    </Box>
-                </Card>
-                    <Box sx={{ flexGrow: 1, flexShrink: 0, minWidth:"300px", overflowY: 'auto', overflowX: 'hidden'}}>
+                    <Card variant="outlined">
+                        <Box
+                            sx={{ flexGrow: 1, flexShrink: 0, minWidth: '300px' }}>
+                            <MaterialCalendar />
+                        </Box>
+                    </Card>
+                    <Box sx={{ flexGrow: 1, flexShrink: 0, minWidth: "300px", overflowY: 'auto', overflowX: 'hidden' }}>
                         <UpcomingAppointments />
                     </Box>
-                    </Stack>
+                </Stack>
             </Box>
         </React.Fragment>
     );
