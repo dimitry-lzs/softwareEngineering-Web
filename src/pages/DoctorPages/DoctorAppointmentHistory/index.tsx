@@ -90,10 +90,10 @@ export default function DoctorAppointmentHistory() {
                         }}
                     >
                         <Typography level="h3">
-                            No Upcoming Appointments
+                            No Past Appointments
                         </Typography>
                         <Typography color="neutral" level="body-md">
-                            Once you have appointments they will be shown here
+                            Once you have past appointments they will be shown here
                         </Typography>
                     </Stack>
                 )
