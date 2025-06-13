@@ -12,127 +12,117 @@ export default function SetAvailabilities() {
                 title="Set Availabilities"
                 subtitle="Choose your open time slots to make scheduling easy for your patients"
             />
-            <Box sx={{ flex: 1, width: '100%' }}>
-                <Stack
-                    direction="column"
-                    spacing={1}
-                // sx={{
-                //     flexWrap: 'wrap',
-                //     flexDirection: { xs: 'column', md: 'row' },
-                //     gap: 2,
-                //     alignItems: "stretch"
-                // }}
-                >
-                    <Stack direction="row" spacing={2}>
+            <Box sx={{ px: 4, flex: 1, width: '100%' }}>
+                <Stack direction="column" spacing={2} alignItems='center' justifyContent='center'>
+
+                    <Stack direction="row" alignItems='center' justifyContent='center' spacing={2} >
+
                         <Card variant="outlined">
                             <MaterialCalendar />
                         </Card>
 
-                        <Card>
+                        <Card >
                             <Box sx={{ mb: 1 }}>
-                                <Typography level="title-md">Add Availabilities</Typography>
+                                <Typography level="title-md">Today's Time Slots - Today's Date </Typography>
                                 <Typography level="body-sm">
-                                    Consult your calendar, select a date and add open time slots
+                                    Availability time slots you have set for this day
                                 </Typography>
                             </Box>
                             <Divider />
+
                             <Stack
                                 direction="column"
+                                divider={<Divider orientation="horizontal" />}
                                 spacing={2}
-                                sx={{ display: 'flex', my: 1 }}
+                                sx={{
+                                    height: '306px',
+                                    display: 'flex',
+                                    my: 1,
+                                    overflowY: 'auto',
+                                    overflowX: 'hidden'
+                                }}
                             >
-                                <div>
-                                    <Box sx={{ mb: 1 }}>
-                                        <Stack spacing={2}>
-                                            <FormControl>
-                                                <FormLabel>Date</FormLabel>
-                                                <Typography level="body-sm">
-                                                    12 - 06 - 2025
-                                                </Typography>
-                                            </FormControl>
-                                            <FormControl>
-                                                <FormLabel>Time</FormLabel>
-                                                <Select
-                                                    size="sm"
-                                                    startDecorator={<AccessTimeFilledRoundedIcon />}
-                                                    defaultValue="1"
-                                                >
-                                                    <Option value="1">
-                                                        <Typography textColor="text.tertiary" sx={{ ml: 0.5 }}>
-                                                            — 07:00
-                                                        </Typography>
-                                                    </Option>
-                                                    <Option value="2">
-                                                        <Typography textColor="text.tertiary" sx={{ ml: 0.5 }}>
-                                                            — 08:00
-                                                        </Typography>
-                                                    </Option>
-                                                </Select>
-                                            </FormControl>
-                                        </Stack>
-                                    </Box>
-                                </div>
+                                <Typography>
+                                    bleep
+                                </Typography>
+                                <Typography>
+                                    bleep
+                                </Typography>
+                                <Typography>
+                                    bleep
+                                </Typography>
+                                <Typography>
+                                    bleep
+                                </Typography>
+                                <Typography>
+                                    bleep
+                                </Typography>
+                                <Typography>
+                                    bleep
+                                </Typography>
+                                <Typography>
+                                    bleep
+                                </Typography>
+                                <Typography>
+                                    bleep
+                                </Typography>
                             </Stack>
-                            <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
-                                <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                                    <Button size="sm" variant="solid">
-                                        Add New
-                                    </Button>
-                                </CardActions>
-                            </CardOverflow>
                         </Card>
                     </Stack>
-
+                    <Stack direction='column' alignItems='stretch'>
                     <Card>
-                        <Box sx={{ mb: 1 }}>
-                            <Typography level="title-md">Today's Availabilities</Typography>
+                        <Stack direction='column' sx={{ mb: 1 }}>
+                            <Typography level="title-md">Add Availabilities</Typography>
                             <Typography level="body-sm">
-                                Available time slots you have set for this day
+                                Consult your calendar, select a date and add open time slots to allow patients book an appointment with you
                             </Typography>
-                        </Box>
+                        </Stack>
                         <Divider />
-
                         <Stack
                             direction="column"
-                            divider={<Divider orientation="horizontal"/>}
+                            display='flex'
                             spacing={2}
-                            sx={{ 
-                                display: 'flex', 
-                                my: 1,
-                                height: '150px',
-                                overflowY: 'auto', 
-                                overflowX: 'hidden'
-                            }}
+                            sx={{ my: 1 }}
                         >
-                            
-                                <Typography>
-                                    bleep
-                                </Typography>
-                                <Typography>
-                                    bleep
-                                </Typography>
-                                <Typography>
-                                    bleep
-                                </Typography>
-                                <Typography>
-                                    bleep
-                                </Typography>
-                                <Typography>
-                                    bleep
-                                </Typography>
-                                <Typography>
-                                    bleep
-                                </Typography>
-                                <Typography>
-                                    bleep
-                                </Typography>
-                                <Typography>
-                                    bleep
-                                </Typography>
-                            
-                            
+                            <Box sx={{ mb: 1 }}>
+                                <Stack spacing={2}>
+                                    <FormControl>
+                                        <FormLabel>Date</FormLabel>
+                                        <Typography level="body-sm">
+                                            12 - 06 - 2025
+                                        </Typography>
+                                    </FormControl>
+                                    <FormControl>
+                                        <FormLabel>Time</FormLabel>
+                                        <Select
+                                            size="sm"
+                                            startDecorator={<AccessTimeFilledRoundedIcon />}
+                                            defaultValue="1"
+                                        >
+                                            <Option value="1">
+                                                <Typography textColor="text.tertiary" sx={{ ml: 0.5 }}>
+                                                    — 07:00
+                                                </Typography>
+                                            </Option>
+                                            <Option value="2">
+                                                <Typography textColor="text.tertiary" sx={{ ml: 0.5 }}>
+                                                    — 08:00
+                                                </Typography>
+                                            </Option>
+                                        </Select>
+                                    </FormControl>
+                                </Stack>
+                            </Box>
                         </Stack>
+                        <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
+                            <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+                                <Button size="sm" variant="solid">
+                                    Add New
+                                </Button>
+                            </CardActions>
+                        </CardOverflow>
                     </Card>
+                    </Stack>
                 </Stack>
             </Box>
         </React.Fragment>
