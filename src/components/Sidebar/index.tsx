@@ -132,6 +132,20 @@ const DoctorList = () => <>
             </ListItemContent>
         </ListItemButton>
     </ListItem>
+    <ListItem>
+        <ListItemButton
+            to='/doctor-appointment'
+            component={Link}
+            role='menuitem'
+        >
+            <AccountCircleIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>
+                    Appointment Details
+                </Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
 </>
 
 export default observer(function Sidebar() {
@@ -226,7 +240,7 @@ export default observer(function Sidebar() {
                         '--ListItem-radius': (theme) => theme.vars.radius.sm,
                     }}
                 >
-                    {userStore.userType === UserType.Patient ? <PatientList /> : <DoctorList /> }
+                    {userStore.userType === UserType.Patient ? <PatientList /> : <DoctorList />}
                 </List>
             </Box>
             <Divider />

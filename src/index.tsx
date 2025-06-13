@@ -21,6 +21,7 @@ import DoctorHome from './pages/DoctorPages/DoctorHome';
 import SetAvailabilities from './pages/DoctorPages/SetAvailabilities';
 import DoctorAppointmentHistory from './pages/DoctorPages/DoctorAppointmentHistory';
 import DoctorProfile from './pages/DoctorPages/DoctorProfile';
+import DoctorAppointment from './pages/DoctorPages/DoctorAppointment';
 
 const root = document.getElementById('root');
 
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
             {
                 path: '/doctor-profile',
                 element: <DoctorProfile />,
+            },
+            {
+                path: '/doctor-appointment',
+                element: <DoctorAppointment />,
             }
 
         ],
