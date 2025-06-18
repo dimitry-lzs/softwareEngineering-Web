@@ -88,6 +88,7 @@ export type Appointment = {
     status: AppointmentStatus;
     reason: string;
     doctor_id: number;
+    doctor_avatar: string;
     doctor_name: string;
     doctor_specialty: Speciality;
     doctor_email: string;

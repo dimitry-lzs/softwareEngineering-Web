@@ -27,7 +27,7 @@ export const useAppointments = (status?: string) => {
 }
 
 export const useAppointment = (id?: string) => {
-    const [appointment, setAppointment] = useState<LowercaseType<Appointment> | null>(null);
+    const [appointment, setAppointment] = useState<Appointment | null>(null);
     const [loading, setLoading] = useState(false);
 
     const fetchAppointment = async (id: string) => {

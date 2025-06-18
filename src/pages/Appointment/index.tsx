@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Button, Card, CardActions, CardOverflow, Chip, ColorPaletteProp, Divider, FormControl, FormLabel, Sheet, Stack, Textarea, Typography } from "@mui/joy";
+import { AspectRatio, Avatar, Box, Button, Card, CardActions, CardOverflow, Chip, ColorPaletteProp, Divider, FormControl, FormLabel, Sheet, Stack, Textarea, Typography } from "@mui/joy";
 import { useNavigate, useParams } from "react-router";
 import { useAppointment, useCancelAppointment } from "../../hooks";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -77,7 +77,7 @@ export default function Appointment() {
                                     <FormControl>
                                         <FormLabel>Date</FormLabel>
                                         <Typography level="body-sm">
-                                            {new Date(appointment.slot_timefrom).toLocaleDateString('en-US', {
+                                            {new Date(appointment.slot_timeFrom).toLocaleDateString('en-US', {
                                                 year: 'numeric',
                                                 month: '2-digit',
                                                 day: '2-digit',
@@ -87,7 +87,7 @@ export default function Appointment() {
                                     <FormControl>
                                         <FormLabel>Time</FormLabel>
                                         <Typography level="body-sm">
-                                            {new Date(appointment.slot_timefrom).toLocaleTimeString('en-US', {
+                                            {new Date(appointment.slot_timeFrom).toLocaleTimeString('en-US', {
                                                 hour: '2-digit',
                                                 minute: '2-digit',
                                                 hour12: true,
@@ -144,12 +144,15 @@ export default function Appointment() {
                                                 maxHeight={200}
                                                 sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
                                             >
-                                                <img
-                                                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                                                    srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                                                    loading="lazy"
-                                                    alt=""
-                                                />
+                                                <Avatar size="lg" sx={{ width: '100%', height: '100%' }}>
+                                                    {
+                                                        appointment?.doctor_avatar ? (
+                                                            <img alt="" src={appointment.doctor_avatar} />
+                                                        ) : (
+                                                            appointment.doctor_name ? appointment.doctor_name.slice(0, 1) : '?'
+                                                        )
+                                                    }
+                                                </Avatar>
                                             </AspectRatio>
                                         </Stack>
 

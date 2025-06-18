@@ -1,13 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { ColorPaletteProp } from '@mui/joy/styles';
-import { Box, Chip, Link, IconButton, iconButtonClasses, Typography, FormControl, FormLabel, Select, Option, Sheet, Input, Button, Table, Avatar, Stack } from '@mui/joy';
+import { Box, Chip, Link, Typography, FormControl, FormLabel, Select, Option, Sheet, Input, Button, Table, Avatar, Stack } from '@mui/joy';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useMemo, useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
 import { useAppointments } from '../../hooks';
@@ -185,7 +182,15 @@ export default function AppointmentHistory() {
                                                 </td>
                                                 <td>
                                                     <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                                        <Avatar size="sm"></Avatar>
+                                                        <Avatar size="sm">
+                                                            {
+                                                                appointment?.doctor_avatar ? (
+                                                                    <img alt="" src={appointment.doctor_avatar} />
+                                                                ) : (
+                                                                    appointment.doctor_name ? appointment.doctor_name.slice(0, 1) : '?'
+                                                                )
+                                                            }
+                                                        </Avatar>
                                                         <div>
                                                             <Typography level="body-xs">{appointment.doctor_name}</Typography>
                                                             <Typography level="body-xs">({appointment.doctor_specialty.toLowerCase()})</Typography>

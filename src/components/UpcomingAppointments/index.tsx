@@ -35,22 +35,22 @@ export default function UpcomingAppointments() {
     <Box sx={{ width: '100%', flexGrow: 1 }}>
       {filteredAppointments.length < 1
         ? (
-            <Stack direction="column" 
-                   spacing={1}
-                   alignItems="center"
-                   justifyContent="center"
-                   sx={{
-                      pt: 16,
-                      px: 4
-                   }}
-            >
-              <Typography level="h3">
-                No Upcoming Appointments
-              </Typography>
-              <Typography color="neutral" level="body-md">
-                Once you have appointments they will be shown here
-              </Typography>
-            </Stack>
+          <Stack direction="column"
+            spacing={1}
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              pt: 16,
+              px: 4
+            }}
+          >
+            <Typography level="h3">
+              No Upcoming Appointments
+            </Typography>
+            <Typography color="neutral" level="body-md">
+              Once you have appointments they will be shown here
+            </Typography>
+          </Stack>
         ) : (
           <>
             {
@@ -62,10 +62,16 @@ export default function UpcomingAppointments() {
                       <Stack direction="column" sx={{ display: 'flex' }}>
 
                         <Stack direction="row" spacing={1}>
-
-
                           <ListItemDecorator>
-                            <Avatar size="lg" sx={{ mr: 0.5 }}>{appointment.doctor_name.slice(0, 1)}</Avatar>
+                            <Avatar size="lg" sx={{ mr: 0.5 }}>
+                              {
+                                appointment?.doctor_avatar ? (
+                                  <img alt="" src={appointment.doctor_avatar} />
+                                ) : (
+                                  appointment.doctor_name ? appointment.doctor_name.slice(0, 1) : '?'
+                                )
+                              }
+                            </Avatar>
                           </ListItemDecorator>
 
                           <Stack direction="row" alignItems="center" justifyContent="flex-start">
