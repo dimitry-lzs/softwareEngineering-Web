@@ -1,8 +1,19 @@
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useColorScheme } from '@mui/joy/styles';
+import { PaletteMode, ThemeProvider, createTheme } from '@mui/material/styles';
 import { DateCalendar } from '@mui/x-date-pickers';
 
 export default function MaterialCalendar() {
-    const materialTheme = createTheme();
+    const { mode } = useColorScheme();
+    // There is a difference between the mode used by Joy UI and Material UI.
+    // Joy UI: 'light', 'dark', 'system'
+    // Material UI: 'light', 'dark'
+    const resolvedMode: PaletteMode = mode === 'dark' ? 'dark' : 'light';
+
+    const materialTheme = createTheme({
+        palette: {
+            mode: resolvedMode,
+        },
+    });
 
     return (
 
