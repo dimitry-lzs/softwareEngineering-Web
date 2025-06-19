@@ -5,6 +5,7 @@ import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import SectionTitle from "../../../components/SectionTitle";
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useAppointment, useSaveDiagnosis } from '../../../hooks';
+import { usePatient } from '../../../hooks/patient';
 import { useState, useEffect } from 'react';
 import { ColorPaletteProp } from '@mui/joy/styles';
 
@@ -13,6 +14,7 @@ export default function DoctorAppointment() {
     const navigate = useNavigate();
     const location = useLocation();
     const { appointment, loading } = useAppointment(id, true); // true for doctor context
+    const { patient } = usePatient(appointment?.patientid?.toString());
     const { saveDiagnosis, loading: savingDiagnosis } = useSaveDiagnosis();
 
     const [diagnosis, setDiagnosis] = useState('');
@@ -22,6 +24,27 @@ export default function DoctorAppointment() {
     const isFromHome = location.pathname.startsWith('/doctor-home/');
     const backPath = isFromHome ? '/doctor-home' : '/doctor-appointments';
     const backText = isFromHome ? 'Back to Home' : 'Back to Appointments';
+
+    // Helper function to get patient display name
+    const getPatientDisplayName = () => {
+        if (patient?.fullname && patient.fullname.trim()) {
+            return patient.fullname;
+        }
+        return `Patient #${appointment?.patientid || 'Unknown'}`;
+    };
+
+    // Helper function to get patient initials
+    const getPatientInitials = () => {
+        if (patient?.fullname && patient.fullname.trim()) {
+            return patient.fullname
+                .split(' ')
+                .map((name: string) => name[0])
+                .join('')
+                .toUpperCase()
+                .slice(0, 2);
+        }
+        return 'P';
+    };
 
     // Load existing diagnosis if available
     useEffect(() => {
@@ -122,7 +145,20 @@ export default function DoctorAppointment() {
                         <Stack direction="column" spacing={2} sx={{ flex: 1 }}>
                             <FormControl>
                                 <FormLabel>Patient</FormLabel>
-                                <Typography level="body-sm">{appointment.patient_name || 'Unknown Patient'}</Typography>
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <Avatar
+                                        size="sm"
+                                        src={patient?.avatar}
+                                        sx={{
+                                            bgcolor: 'primary.softBg',
+                                            color: 'primary.solidColor',
+                                            fontWeight: 'bold'
+                                        }}
+                                    >
+                                        {getPatientInitials()}
+                                    </Avatar>
+                                    <Typography level="body-sm">{getPatientDisplayName()}</Typography>
+                                </Stack>
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Date</FormLabel>
@@ -156,17 +192,55 @@ export default function DoctorAppointment() {
                             <Typography level="title-sm">Patient Information</Typography>
 
                             <Stack alignItems="center" spacing={1}>
-                                <Avatar size="lg">
-                                    {appointment.patient_name?.charAt(0)?.toUpperCase() || 'P'}
+                                <Avatar
+                                    size="lg"
+                                    src={patient?.avatar}
+                                    sx={{
+                                        bgcolor: 'primary.softBg',
+                                        color: 'primary.solidColor',
+                                        fontWeight: 'bold',
+                                        fontSize: '1.2rem'
+                                    }}
+                                >
+                                    {getPatientInitials()}
                                 </Avatar>
-                                <Typography level="body-sm" sx={{ fontWeight: 'bold' }}>
-                                    {appointment.patient_name || 'Unknown Patient'}
+                                <Typography level="body-sm" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                                    {getPatientDisplayName()}
                                 </Typography>
+                                {patient?.email && (
+                                    <Typography level="body-xs" sx={{ color: 'text.tertiary', textAlign: 'center' }}>
+                                        {patient.email}
+                                    </Typography>
+                                )}
                             </Stack>
 
                             <FormControl>
-                                <FormLabel>Phone</FormLabel>
-                                <Typography level="body-sm">{appointment.patient_phone || 'No phone provided'}</Typography>
+                                <FormLabel>Contact Information</FormLabel>
+                                <Stack spacing={1}>
+                                    {patient?.phone ? (
+                                        <Typography level="body-sm">
+                                            📞 {patient.phone}
+                                        </Typography>
+                                    ) : (
+                                        <Typography level="body-sm" sx={{ color: 'text.tertiary' }}>
+                                            📞 No phone provided
+                                        </Typography>
+                                    )}
+                                    {patient?.email ? (
+                                        <Typography level="body-sm">
+                                            ✉️ {patient.email}
+                                        </Typography>
+                                    ) : (
+                                        <Typography level="body-sm" sx={{ color: 'text.tertiary' }}>
+                                            ✉️ No email provided
+                                        </Typography>
+                                    )}
+                                    {patient?.amka && (
+                                        <Typography level="body-sm">
+                                            🆔 AMKA: {patient.amka}
+                                        </Typography>
+                                    )}
+                                </Stack>
                             </FormControl>
                         </Stack>
                     </Stack>

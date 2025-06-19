@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Appointment, NewAppointment } from "../types";
+import { Appointment, NewAppointment, AppointmentWithPatientInfo } from "../types";
 import patient from "../api/patient";
 import { notificationStore } from "../stores";
 import { APIError } from "../api";
 import doctor from "../api/doctor";
 
 export const useAppointments = (isPatient?: boolean) => {
-    const [appointments, setAppointments] = useState<Appointment[]>([]);
+    const [appointments, setAppointments] = useState<AppointmentWithPatientInfo[]>([]);
     const [loading, setLoading] = useState(false);
 
     const fetchAppointments = async () => {

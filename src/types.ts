@@ -88,24 +88,43 @@ export type Appointment = {
     doctorid: number;
     patientid: number;
     slotid: number;
-    status: string; // Changed from AppointmentStatus to string to match API
+    status: string;
+    reason: string;
+    slot_timeFrom: string;
+    slot_id: number;
+    diagnosis_decease?: string;
+    diagnosis_details?: string;
+    // Doctor information (populated by backend when needed)
+    doctor_id: number;
+    doctor_avatar?: string;
+    doctor_name: string;
+    doctor_specialty: string;
+    doctor_email: string;
+    doctor_phone?: string;
+    doctor_officeLocation: string;
+    doctor_bio: string;
+    doctor_licenceID: string;
+};
+
+// Type for upcoming appointments which have a simplified structure
+export type UpcomingAppointment = {
+    appointmentid: number;
+    doctorid: number;
+    patientid: number;
+    slotid: number;
+    status: string;
     reason: string;
     slot_timeFrom: string;
     patient_name: string;
     patient_phone: string;
-    // Optional fields for different contexts
-    doctor_id?: number;
-    doctor_avatar?: string;
+    // Doctor info might also be included in upcoming appointments
     doctor_name?: string;
-    doctor_specialty?: Speciality;
-    doctor_email?: string;
-    doctor_phone?: string;
-    doctor_officeLocation?: OfficeLocation;
-    doctor_bio?: string;
-    slot_id?: number;
-    diagnosis_decease?: string;
-    diagnosis_details?: string;
+    doctor_specialty?: string;
+    doctor_avatar?: string;
 };
+
+// Union type for appointments that can be either detailed or upcoming
+export type AppointmentWithPatientInfo = Appointment | UpcomingAppointment;
 
 export type Availability = {
     availabilityid: number;

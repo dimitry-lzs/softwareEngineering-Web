@@ -16,6 +16,38 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
 
     const { appointments } = useAppointments(!isDoctor); // Pass true for patient, false for doctor
 
+    // Type guard to check if appointment has patient info
+    const hasPatientInfo = (appointment: any): appointment is { patient_name: string; patient_phone: string } => {
+        return 'patient_name' in appointment && 'patient_phone' in appointment;
+    };
+
+    // Type guard to check if appointment has doctor info
+    const hasDoctorInfo = (appointment: any): appointment is { doctor_name?: string; doctor_specialty?: string; doctor_avatar?: string } => {
+        return 'doctor_name' in appointment || 'doctor_specialty' in appointment;
+    };
+
+    // Helper functions for patient display
+    const getPatientDisplayName = (appointment: any) => {
+        // Use patient_name from the upcoming appointments API
+        if (hasPatientInfo(appointment) && appointment.patient_name.trim()) {
+            return appointment.patient_name;
+        }
+        return `Patient #${appointment?.patientid || 'Unknown'}`;
+    };
+
+    const getPatientInitials = (appointment: any) => {
+        // Use patient_name from the upcoming appointments API to generate initials
+        if (hasPatientInfo(appointment) && appointment.patient_name.trim()) {
+            return appointment.patient_name
+                .split(' ')
+                .map((name: string) => name[0])
+                .join('')
+                .toUpperCase()
+                .slice(0, 2);
+        }
+        return 'P';
+    };
+
     const filteredAppointments = useMemo(() => {
         return appointments.filter(appointment =>
             appointment.status === 'PENDING'
@@ -54,16 +86,21 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
 
                                                 <Stack direction="row" spacing={1}>
                                                     <ListItemDecorator>
-                                                        <Avatar size="lg" sx={{ mr: 0.5 }}>
+                                                        <Avatar size="lg" sx={{
+                                                            mr: 0.5,
+                                                            bgcolor: isDoctor ? 'primary.softBg' : 'success.softBg',
+                                                            color: isDoctor ? 'primary.solidColor' : 'success.solidColor',
+                                                            fontWeight: 'bold'
+                                                        }}>
                                                             {isDoctor ? (
-                                                                // For doctors, show patient avatar/initial
-                                                                appointment.patient_name?.charAt(0)?.toUpperCase() || 'P'
+                                                                // For doctors, show patient initial
+                                                                getPatientInitials(appointment)
                                                             ) : (
                                                                 // For patients, show doctor avatar/initial
-                                                                appointment?.doctor_avatar ? (
+                                                                hasDoctorInfo(appointment) && appointment.doctor_avatar ? (
                                                                     <img alt="" src={appointment.doctor_avatar} />
                                                                 ) : (
-                                                                    appointment.doctor_name ? appointment.doctor_name.slice(0, 1) : '?'
+                                                                    hasDoctorInfo(appointment) && appointment.doctor_name ? appointment.doctor_name.slice(0, 1) : '?'
                                                                 )
                                                             )}
                                                         </Avatar>
@@ -72,18 +109,18 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
                                                     <Stack direction="row" alignItems="center" justifyContent="flex-start">
                                                         <Typography level="title-md" sx={{ fontWeight: 600 }}>
                                                             {isDoctor ?
-                                                                (appointment.patient_name || 'Unknown Patient') :
-                                                                appointment.doctor_name
+                                                                getPatientDisplayName(appointment) :
+                                                                (hasDoctorInfo(appointment) ? appointment.doctor_name : 'Unknown Doctor')
                                                             }
                                                         </Typography>
-                                                        {!isDoctor && (
+                                                        {!isDoctor && hasDoctorInfo(appointment) && (
                                                             <Typography level="title-sm" variant="outlined" sx={{ color: 'text.tertiary', ml: 0.5, borderRadius: 18, px: 1 }}>
                                                                 {appointment.doctor_specialty}
                                                             </Typography>
                                                         )}
-                                                        {isDoctor && appointment.patient_phone && (
+                                                        {isDoctor && hasPatientInfo(appointment) && appointment.patient_phone && (
                                                             <Typography level="title-sm" variant="outlined" sx={{ color: 'text.tertiary', ml: 0.5, borderRadius: 18, px: 1 }}>
-                                                                {appointment.patient_phone}
+                                                                📞 {appointment.patient_phone}
                                                             </Typography>
                                                         )}
                                                     </Stack>

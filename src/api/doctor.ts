@@ -13,4 +13,5 @@ export default {
             diagnosis,
             diagnosisDetails
         }),
+    getPatient: async (id?: string) => client.get(`/patients/${id}`),
 }

@@ -17,8 +17,19 @@ export default function DoctorAppointmentHistory() {
 
     const navigate = useNavigate();
 
+    // Helper functions for patient display
+    const getPatientDisplayName = (appointment: any) => {
+        // Since we don't have patient data in the list view, show patient ID
+        return `Patient #${appointment?.patientid || 'Unknown'}`;
+    };
+
+    const getPatientInitials = (_appointment: any) => {
+        // Since we don't have patient name in appointment, use generic initial
+        return 'P';
+    };
+
     useEffect(() => {
-        console.log('Appointments:', appointments);
+        // Component mounted - appointments will be loaded by the hook
     }, [appointments]);
 
     const renderFilters = () => (
@@ -189,10 +200,23 @@ export default function DoctorAppointmentHistory() {
                                                 </td>
                                                 <td>
                                                     <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                                        <Avatar size="sm">{appointment.patient_name?.charAt(0)?.toUpperCase() || 'P'}</Avatar>
+                                                        <Avatar
+                                                            size="sm"
+                                                            sx={{
+                                                                bgcolor: 'primary.softBg',
+                                                                color: 'primary.solidColor',
+                                                                fontWeight: 'bold'
+                                                            }}
+                                                        >
+                                                            {getPatientInitials(appointment)}
+                                                        </Avatar>
                                                         <div>
-                                                            <Typography level="body-xs">{appointment.patient_name || 'Unknown Patient'}</Typography>
-                                                            <Typography level="body-xs">({appointment.patient_phone || 'No phone'})</Typography>
+                                                            <Typography level="body-xs" sx={{ fontWeight: 'md' }}>
+                                                                {getPatientDisplayName(appointment)}
+                                                            </Typography>
+                                                            <Typography level="body-xs" sx={{ color: 'text.tertiary' }}>
+                                                                Click to view details
+                                                            </Typography>
                                                         </div>
                                                     </Box>
                                                 </td>
