@@ -107,6 +107,11 @@ export const useCreateDoctorRating = () => {
                 throw new Error("Doctor ID is required to create a rating.");
             }
             await patient.setRating(rating.doctorId.toString(), rating.stars, rating.comments);
+            notificationStore.setNotification(
+                true,
+                'Rating submitted successfully!',
+                'success',
+            );
         } catch (error) {
             const axiosError = error as APIError;
             notificationStore.setNotification(

@@ -74,6 +74,11 @@ export const useCreateAppointment = () => {
         setLoading(true);
         try {
             await patient.setAppointment(appointment);
+            notificationStore.setNotification(
+                true,
+                'Appointment booked successfully!',
+                'success',
+            );
         } catch (error) {
             const axiosError = error as APIError;
             notificationStore.setNotification(
@@ -81,6 +86,7 @@ export const useCreateAppointment = () => {
                 `Failed to create appointment: ${axiosError.response?.data?.error || 'Unknown error'}`,
                 'danger',
             );
+            throw error; // Re-throw so the calling component can handle it
         } finally {
             setLoading(false);
         }
