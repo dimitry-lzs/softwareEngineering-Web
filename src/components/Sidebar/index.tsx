@@ -208,16 +208,19 @@ export default observer(function Sidebar() {
                     justifyContent: 'center',
                 }}
             >
-                <Box
-                    sx={{
-                        backgroundImage: 'url(/src/assets/mediq.png)',
-                        backgroundSize: 'contain',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
-                        width: 128,
-                        height: 60,
-                    }}
-                />
+                <Link to="/home" style={{ textDecoration: 'none' }}>
+                    <Box
+                        sx={{
+                            backgroundImage: 'url(/src/assets/mediq.png)',
+                            backgroundSize: 'contain',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            width: 128,
+                            height: 60,
+                            cursor: 'pointer',
+                        }}
+                    />
+                </Link>
             </Box>
             <Divider />
             <Box
