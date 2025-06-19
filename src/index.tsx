@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { Fragment } from 'react/jsx-runtime';
 import App from './app/App';
 import CheckAuth from './components/CheckAuth';
+import HomeRedirect from './components/HomeRedirect';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import AppointmentHistory from './pages/AppointmentHistory';
@@ -36,8 +37,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Fragment />,
-                loader: () => redirect('home'),
+                element: <HomeRedirect />,
             },
             {
                 path: '/home',

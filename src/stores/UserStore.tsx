@@ -103,7 +103,13 @@ class UserStore {
     register = async (userData: UserData): Promise<boolean> => {
         this.setLoading(true);
         try {
-            const response = await user.register(userData);
+            // Ensure speciality is of type Speciality or undefined
+            const { speciality, ...rest } = userData;
+            const registerData = {
+                ...rest,
+                speciality: speciality as any, // Replace 'any' with 'Speciality' if you can import the type
+            };
+            const response = await user.register(registerData);
             return response.status === 201;
         } catch (error) {
             const axiosError = error as APIError;
