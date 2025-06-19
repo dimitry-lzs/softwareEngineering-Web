@@ -1,13 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { ColorPaletteProp } from '@mui/joy/styles';
-import { Box, Chip, Link, IconButton, iconButtonClasses, Typography, FormControl, FormLabel, Select, Option, Sheet, Input, Button, Table, Avatar, Stack } from '@mui/joy';
+import { Box, Chip, Link, Typography, FormControl, FormLabel, Select, Option, Sheet, Table, Avatar, Stack } from '@mui/joy';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useMemo, useState } from 'react';
 import SectionTitle from '../../../components/SectionTitle';
 import { useAppointments } from '../../../hooks';
@@ -15,7 +12,7 @@ import { useNavigate } from 'react-router';
 
 export default function DoctorAppointmentHistory() {
 
-    const { appointments } = useAppointments();
+    const { appointments } = useAppointments(false); // false = not patient, so use doctor endpoint
     const [status, setStatus] = useState('');
 
     const navigate = useNavigate();
@@ -49,19 +46,23 @@ export default function DoctorAppointmentHistory() {
     );
 
     const filteredAppointments = useMemo(() => {
-        return appointments.filter(appointment => {
-            if (status === '') {
-                console.log(appointment.slot_timeFrom);
-                return appointment.status === 'COMPLETED' || appointment.status === 'CANCELLED';
-            }
-            return appointment.status === status;
+        // First filter out PENDING appointments, then apply status filter
+        const nonPendingAppointments = appointments.filter(appointment =>
+            appointment.status !== 'PENDING'
+        );
 
-        });
+        if (status === '') {
+            return nonPendingAppointments;
+        }
+
+        return nonPendingAppointments.filter(appointment =>
+            appointment.status === status
+        );
     }, [appointments, status]);
 
     return (
         <React.Fragment>
-            <SectionTitle title='History' subtitle='Find all your past appointments here' />
+            <SectionTitle title='Appointments' subtitle='View and manage your appointment history' />
             <Box
                 className="SearchAndFilters-tabletUp"
                 sx={{
@@ -154,7 +155,7 @@ export default function DoctorAppointmentHistory() {
                                         });
                                         return (
 
-                                            <tr style={{ cursor: 'pointer' }} key={appointment.appointmentid} onClick={() => navigate(`/history/${appointment.appointmentid}`)}>
+                                            <tr style={{ cursor: 'pointer' }} key={appointment.appointmentid} onClick={() => navigate(`/doctor-appointments/${appointment.appointmentid}`)}>
                                                 <td>
                                                     <Typography level="body-xs">A25-{appointment.appointmentid}</Typography>
                                                 </td>
@@ -188,10 +189,10 @@ export default function DoctorAppointmentHistory() {
                                                 </td>
                                                 <td>
                                                     <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                                        <Avatar size="sm"></Avatar>
+                                                        <Avatar size="sm">{appointment.patient_name?.charAt(0)?.toUpperCase() || 'P'}</Avatar>
                                                         <div>
-                                                            <Typography level="body-xs">{appointment.doctor_name}</Typography>
-                                                            <Typography level="body-xs">({appointment.doctor_specialty.toLowerCase()})</Typography>
+                                                            <Typography level="body-xs">{appointment.patient_name || 'Unknown Patient'}</Typography>
+                                                            <Typography level="body-xs">({appointment.patient_phone || 'No phone'})</Typography>
                                                         </div>
                                                     </Box>
                                                 </td>

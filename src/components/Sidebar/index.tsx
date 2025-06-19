@@ -106,7 +106,7 @@ const DoctorList = () => <>
     </ListItem>
     <ListItem>
         <ListItemButton
-            to='/doctor-history'
+            to='/doctor-appointments'
             component={Link}
             role='menuitem'
         >
@@ -132,23 +132,11 @@ const DoctorList = () => <>
             </ListItemContent>
         </ListItemButton>
     </ListItem>
-    <ListItem>
-        <ListItemButton
-            to='/doctor-appointment'
-            component={Link}
-            role='menuitem'
-        >
-            <AccountCircleIcon />
-            <ListItemContent>
-                <Typography level='title-sm'>
-                    Appointment Details
-                </Typography>
-            </ListItemContent>
-        </ListItemButton>
-    </ListItem>
 </>
 
 export default observer(function Sidebar() {
+    const home = userStore.userType === UserType.Patient ? '/home' : '/doctor-home';
+    
     return (
         <Sheet
             className='Sidebar'
@@ -208,7 +196,7 @@ export default observer(function Sidebar() {
                     justifyContent: 'center',
                 }}
             >
-                <Link to="/home" style={{ textDecoration: 'none' }}>
+                <Link to={home} style={{ textDecoration: 'none' }}>
                     <Box
                         sx={{
                             backgroundImage: 'url(/src/assets/mediq.png)',

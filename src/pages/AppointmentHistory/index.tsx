@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router';
 
 export default function AppointmentHistory() {
 
-    const { appointments } = useAppointments();
+    const { appointments } = useAppointments(true);
     const [status, setStatus] = useState('');
 
     const navigate = useNavigate();

@@ -76,11 +76,15 @@ const router = createBrowserRouter([
                 element: <DoctorHome />,
             },
             {
+                path: '/doctor-home/:id',
+                element: <DoctorAppointment />,
+            },
+            {
                 path: '/availabilities',
                 element: <SetAvailabilities />,
             },
             {
-                path: '/doctor-history',
+                path: '/doctor-appointments',
                 element: <DoctorAppointmentHistory />,
             },
             {
@@ -88,7 +92,7 @@ const router = createBrowserRouter([
                 element: <DoctorProfile />,
             },
             {
-                path: '/doctor-appointment',
+                path: '/doctor-appointments/:id',
                 element: <DoctorAppointment />,
             }
 

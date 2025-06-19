@@ -85,18 +85,24 @@ export type NewAppointment = {
 
 export type Appointment = {
     appointmentid: number;
-    status: AppointmentStatus;
+    doctorid: number;
+    patientid: number;
+    slotid: number;
+    status: string; // Changed from AppointmentStatus to string to match API
     reason: string;
-    doctor_id: number;
-    doctor_avatar: string;
-    doctor_name: string;
-    doctor_specialty: Speciality;
-    doctor_email: string;
-    doctor_phone: string;
-    doctor_officeLocation: OfficeLocation;
-    doctor_bio: string;
-    slot_id: number;
     slot_timeFrom: string;
+    patient_name: string;
+    patient_phone: string;
+    // Optional fields for different contexts
+    doctor_id?: number;
+    doctor_avatar?: string;
+    doctor_name?: string;
+    doctor_specialty?: Speciality;
+    doctor_email?: string;
+    doctor_phone?: string;
+    doctor_officeLocation?: OfficeLocation;
+    doctor_bio?: string;
+    slot_id?: number;
     diagnosis_decease?: string;
     diagnosis_details?: string;
 };

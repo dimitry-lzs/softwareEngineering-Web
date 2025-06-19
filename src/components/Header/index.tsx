@@ -1,8 +1,12 @@
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import { Box, Breadcrumbs, Link, Typography } from '@mui/joy';
+import { observer } from 'mobx-react-lite';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { userStore } from '../../stores';
+import { UserType } from '../../types';
 
-export default function Header() {
+export default observer(function Header() {
+    const home = userStore.userType === UserType.Patient ? '/home' : '/doctor-home';
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter((x) => x);
 
@@ -11,14 +15,13 @@ export default function Header() {
             <Breadcrumbs
                 size='sm'
                 aria-label='breadcrumbs'
-                // separator={<ChevronRightRoundedIcon fontSize="sm" />}
                 sx={{ pl: 0 }}
             >
                 <Link
                     underline='none'
                     color='neutral'
                     component={RouterLink}
-                    to='/'
+                    to={home}
                     aria-label='Home'
                 >
                     <HomeRoundedIcon />
@@ -50,4 +53,4 @@ export default function Header() {
             </Breadcrumbs>
         </Box>
     );
-}
+});

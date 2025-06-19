@@ -7,11 +7,14 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useAppointments } from '../../hooks';
 
+interface UpcomingAppointmentsProps {
+    isDoctor?: boolean;
+}
 
-export default function UpcomingAppointments() {
+export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppointmentsProps) {
     const navigate = useNavigate();
 
-    const { appointments } = useAppointments();
+    const { appointments } = useAppointments(!isDoctor); // Pass true for patient, false for doctor
 
     const filteredAppointments = useMemo(() => {
         return appointments.filter(appointment =>
@@ -52,23 +55,37 @@ export default function UpcomingAppointments() {
                                                 <Stack direction="row" spacing={1}>
                                                     <ListItemDecorator>
                                                         <Avatar size="lg" sx={{ mr: 0.5 }}>
-                                                            {
+                                                            {isDoctor ? (
+                                                                // For doctors, show patient avatar/initial
+                                                                appointment.patient_name?.charAt(0)?.toUpperCase() || 'P'
+                                                            ) : (
+                                                                // For patients, show doctor avatar/initial
                                                                 appointment?.doctor_avatar ? (
                                                                     <img alt="" src={appointment.doctor_avatar} />
                                                                 ) : (
                                                                     appointment.doctor_name ? appointment.doctor_name.slice(0, 1) : '?'
                                                                 )
-                                                            }
+                                                            )}
                                                         </Avatar>
                                                     </ListItemDecorator>
 
                                                     <Stack direction="row" alignItems="center" justifyContent="flex-start">
                                                         <Typography level="title-md" sx={{ fontWeight: 600 }}>
-                                                            {appointment.doctor_name}
+                                                            {isDoctor ?
+                                                                (appointment.patient_name || 'Unknown Patient') :
+                                                                appointment.doctor_name
+                                                            }
                                                         </Typography>
-                                                        <Typography level="title-sm" variant="outlined" sx={{ color: 'text.tertiary', ml: 0.5, borderRadius: 18, px: 1 }}>
-                                                            {appointment.doctor_specialty}
-                                                        </Typography>
+                                                        {!isDoctor && (
+                                                            <Typography level="title-sm" variant="outlined" sx={{ color: 'text.tertiary', ml: 0.5, borderRadius: 18, px: 1 }}>
+                                                                {appointment.doctor_specialty}
+                                                            </Typography>
+                                                        )}
+                                                        {isDoctor && appointment.patient_phone && (
+                                                            <Typography level="title-sm" variant="outlined" sx={{ color: 'text.tertiary', ml: 0.5, borderRadius: 18, px: 1 }}>
+                                                                {appointment.patient_phone}
+                                                            </Typography>
+                                                        )}
                                                     </Stack>
 
 
@@ -96,7 +113,12 @@ export default function UpcomingAppointments() {
                                                     component="button"
                                                     mb={0.5}
                                                     sx={{ ml: 'auto' }}
-                                                    onClick={() => navigate(`/calendar/${appointment.appointmentid}`)}               >
+                                                    onClick={() => navigate(
+                                                        isDoctor ?
+                                                            `/doctor-home/${appointment.appointmentid}` :
+                                                            `/calendar/${appointment.appointmentid}`
+                                                    )}
+                                                >
                                                     See details
                                                 </Link>
                                             </Stack>
