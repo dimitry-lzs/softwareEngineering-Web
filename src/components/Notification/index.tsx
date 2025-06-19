@@ -10,6 +10,7 @@ export default observer(function Notification() {
             variant={'outlined'}
             color={type}
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            sx={{ zIndex: 99999 }}
         >
             {message}
         </Snackbar>

@@ -1,8 +1,9 @@
 import { useColorScheme } from '@mui/joy/styles';
 import { PaletteMode, ThemeProvider, createTheme } from '@mui/material/styles';
 import { DateCalendar } from '@mui/x-date-pickers';
+import { PickerValue } from '@mui/x-date-pickers/internals';
 
-export default function MaterialCalendar() {
+export default function MaterialCalendar({ setDate }: { setDate?: (date: PickerValue | null) => void }) {
     const { mode } = useColorScheme();
     // There is a difference between the mode used by Joy UI and Material UI.
     // Joy UI: 'light', 'dark', 'system'
@@ -19,6 +20,11 @@ export default function MaterialCalendar() {
 
         <ThemeProvider theme={materialTheme}>
             <DateCalendar
+                onChange={(newValue: PickerValue | null) => {
+                    if (setDate) {
+                        setDate(newValue);
+                    }
+                }}
                 sx={{
                     width: '500px',
                     minHeight: '400px',

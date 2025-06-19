@@ -1,5 +1,5 @@
 import { client } from '.';
-import { Appointment, NewAppointment, Speciality } from '../types';
+import { NewAppointment, Speciality } from '../types';
 
 export default {
     doctors: async () => client.get('/doctors'),

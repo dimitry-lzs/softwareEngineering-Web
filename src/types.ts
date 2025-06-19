@@ -102,7 +102,8 @@ export type Appointment = {
 };
 
 export type Availability = {
-    availabilityId: number;
-    timeFrom: Date;
-    doctorId: number;
+    availabilityid: number;
+    doctorid: number;
+    free: number; // 1 for free, 0 for taken
+    timefrom: string; // ISO string format
 };

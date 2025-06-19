@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { LowercaseType } from "./lowercase";
 import { Appointment, NewAppointment } from "../types";
 import patient from "../api/patient";
+import { notificationStore } from "../stores";
+import { APIError } from "../api";
 
 export const useAppointments = (status?: string) => {
     const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -13,7 +14,12 @@ export const useAppointments = (status?: string) => {
             const { data } = await patient.appointments(status);
             setAppointments(data);
         } catch (error) {
-            console.error("Failed to fetch appointments:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to fetch appointments: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
         } finally {
             setLoading(false);
         }
@@ -36,7 +42,12 @@ export const useAppointment = (id?: string) => {
             const { data } = await patient.appointment(id);
             setAppointment(data);
         } catch (error) {
-            console.error("Failed to fetch appointment:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to fetch appointment: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
         } finally {
             setLoading(false);
         }
@@ -61,7 +72,12 @@ export const useCreateAppointment = () => {
         try {
             await patient.setAppointment(appointment);
         } catch (error) {
-            console.error("Failed to create Appointment:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to create appointment: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
         } finally {
             setLoading(false);
         }
@@ -78,11 +94,16 @@ export const useCancelAppointment = () => {
         try {
             await patient.cancelAppointment(id);
         } catch (error) {
-            console.error("Failed to cancel appointment:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to cancel appointment: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
         } finally {
             setLoading(false);
         }
     }
-    
+
     return { cancelAppointment, loading };
 }

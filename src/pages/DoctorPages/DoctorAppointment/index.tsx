@@ -1,7 +1,5 @@
-import { AspectRatio, Box, Button, Card, CardActions, CardOverflow, Chip, ColorPaletteProp, Divider, FormControl, FormLabel, Stack, Textarea, Typography } from "@mui/joy";
+import { AspectRatio, Box, Button, Card, CardActions, CardOverflow, Chip, Divider, FormControl, FormLabel, Stack, Textarea, Typography } from "@mui/joy";
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import BlockIcon from '@mui/icons-material/Block';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 
