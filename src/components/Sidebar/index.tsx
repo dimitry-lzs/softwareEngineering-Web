@@ -34,14 +34,14 @@ const PatientList = () => <>
     </ListItem>
     <ListItem>
         <ListItemButton
-            to='/calendar'
+            to='/my-appointments'
             component={Link}
             role='menuitem'
         >
             <CalendarMonthIcon />
             <ListItemContent>
                 <Typography level='title-sm'>
-                    Calendar
+                    My Appointments
                 </Typography>
             </ListItemContent>
         </ListItemButton>

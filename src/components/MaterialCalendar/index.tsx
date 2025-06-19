@@ -45,7 +45,7 @@ export default function MaterialCalendar() {
                         gap: '18px', // Add spacing between day cells
                     },
                     '& .MuiDayCalendar-header': {
-                        gap: '32px', // Add spacing between day cells 
+                        gap: '32px', // Add spacing between day cells
                     },
                 }}
             />

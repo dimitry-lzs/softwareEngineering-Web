@@ -7,13 +7,11 @@ import CheckAuth from './components/CheckAuth';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import AppointmentHistory from './pages/AppointmentHistory';
-import Calendar from './pages/Calendar';
-// import Doctors from './pages/Doctors';
+import MyAppointments from './pages/MyAppointments';
 import ErrorPage from './pages/Error';
 import FormPage from './pages/FormPage';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-// import Doctor from './pages/Doctor';
 import Appointment from './pages/Appointment';
 import AppointmentFeedback from './pages/AppointmentFeedback';
 import BookAppointment from './pages/Home/bookAppointment';
@@ -50,8 +48,8 @@ const router = createBrowserRouter([
                 element: <BookAppointment />,
             },
             {
-                path: '/calendar',
-                element: <Calendar />,
+                path: '/my-appointments',
+                element: <MyAppointments />,
             },
             {
                 path: '/calendar/:id',
