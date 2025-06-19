@@ -293,26 +293,24 @@ export default observer(function DoctorProfile() {
                                         </FormControl>
                                     </Stack>
                                 )}
+                                {userStore.userType === UserType.Doctor && (
+                                    <Stack spacing={1}>
+                                        <FormLabel>Bio</FormLabel>
+                                        <Textarea
+                                            defaultValue={userStore.bio}
+                                            size="sm"
+                                            name='bio'
+                                            minRows={5}
+                                            sx={{
+                                                overflowY: 'auto',
+                                                overflowX: 'hidden'
+                                            }}
+                                            placeholder='Bio' />
+                                    </Stack>
+                                )}
                             </form>
                         </Stack>
                     </Stack>
-                    {userStore.userType === UserType.Doctor ? (
-                        <Stack direction='column' display='flex'>
-                            <Stack spacing={1} sx={{ my: 1 }}>
-                                <Typography level='title-sm'>Bio</Typography>
-                                <Textarea
-                                    defaultValue={userStore.bio}
-                                    size="sm"
-                                    name='bio'
-                                    minRows={5}
-                                    sx ={{
-                                        overflowY: 'auto',
-                                        overflowX: 'hidden'
-                                    }}
-                                    placeholder='Bio' />
-                            </Stack>
-                        </Stack>
-                    ) : null}
                     <CardOverflow
                         sx={{ borderTop: '1px solid', borderColor: 'divider' }}
                     >
