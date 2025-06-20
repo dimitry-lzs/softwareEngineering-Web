@@ -145,3 +145,32 @@ export const useSaveDiagnosis = () => {
 
     return { saveDiagnosis, loading };
 }
+
+export const useCompleteAppointment = () => {
+    const [loading, setLoading] = useState(false);
+
+    const completeAppointment = async (id: string) => {
+        setLoading(true);
+        try {
+            await doctor.completeAppointment(id);
+            notificationStore.setNotification(
+                true,
+                'Appointment completed successfully!',
+                'success',
+            );
+            return true;
+        } catch (error) {
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to complete appointment: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return { completeAppointment, loading };
+}

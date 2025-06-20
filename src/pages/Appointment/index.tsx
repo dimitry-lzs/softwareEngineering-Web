@@ -204,13 +204,13 @@ export default function Appointment() {
                         </CardActions>
                     </CardOverflow>
                 </Card>
-                {appointment?.status == 'COMPLETED' && appointment && (
+                {appointment?.status == 'COMPLETED' && appointment?.diagnoses?.map(diagnosis =>
                     <Card>
                         <Box sx={{ mb: 1 }}>
                             <Stack direction="row" spacing={1} alignItems="center">
                                 <Typography level="title-md">Diagnosis: </Typography>
                                 <Typography level="title-md" sx={{ fontWeight: 'bolder' }}>
-                                    {appointment.diagnosis_decease ?? 'No diagnosis provided.'}
+                                    {diagnosis.decease ?? 'No diagnosis provided.'}
                                 </Typography>
                             </Stack>
                         </Box>
@@ -221,7 +221,7 @@ export default function Appointment() {
                                 size="sm"
                                 minRows={4}
                                 sx={{ mt: 1.5 }}
-                                defaultValue={appointment.diagnosis_details ?? ''}
+                                defaultValue={diagnosis.details ?? ''}
                             />
                         </Stack>
                     </Card>

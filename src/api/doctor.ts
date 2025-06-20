@@ -13,5 +13,14 @@ export default {
             diagnosis,
             diagnosisDetails
         }),
+    setDiagnosis: async (appointmentID: string, decease: string, details: string) =>
+        client.post('/set-diagnosis', {
+            appointmentID,
+            decease,
+            details
+        }),
+    completeAppointment: async (id: string) => client.patch('/complete-appointment', {
+        appointmentID: id
+    }),
     getPatient: async (id?: string) => client.get(`/patients/${id}`),
 }

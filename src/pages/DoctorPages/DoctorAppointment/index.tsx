@@ -2,9 +2,11 @@ import { Box, Button, Card, CardActions, CardOverflow, Chip, Divider, FormContro
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
+import AddIcon from '@mui/icons-material/Add';
 import SectionTitle from "../../../components/SectionTitle";
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useAppointment, useSaveDiagnosis } from '../../../hooks';
+import { useAppointment, useAddDiagnosis, useCompleteAppointment } from '../../../hooks';
 import { usePatient } from '../../../hooks/patient';
 import { useState, useEffect } from 'react';
 import { ColorPaletteProp } from '@mui/joy/styles';
@@ -13,9 +15,10 @@ export default function DoctorAppointment() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const location = useLocation();
-    const { appointment, loading } = useAppointment(id, true); // true for doctor context
-    const { patient } = usePatient(appointment?.patientid?.toString());
-    const { saveDiagnosis, loading: savingDiagnosis } = useSaveDiagnosis();
+    const { appointment, loading, fetchAppointment } = useAppointment(id, true); // true for doctor context
+    const { patient } = usePatient((appointment?.patientID || appointment?.patientid)?.toString());
+    const { addDiagnosis, loading: addingDiagnosis } = useAddDiagnosis();
+    const { completeAppointment, loading: completingAppointment } = useCompleteAppointment();
 
     const [diagnosis, setDiagnosis] = useState('');
     const [diagnosisDetails, setDiagnosisDetails] = useState('');
@@ -30,7 +33,7 @@ export default function DoctorAppointment() {
         if (patient?.fullname && patient.fullname.trim()) {
             return patient.fullname;
         }
-        return `Patient #${appointment?.patientid || 'Unknown'}`;
+        return `Patient #${appointment?.patientID || appointment?.patientid || 'Unknown'}`;
     };
 
     // Helper function to get patient initials
@@ -49,8 +52,9 @@ export default function DoctorAppointment() {
     // Load existing diagnosis if available
     useEffect(() => {
         if (appointment) {
-            setDiagnosis(appointment.diagnosis_decease || '');
-            setDiagnosisDetails(appointment.diagnosis_details || '');
+            // Clear form when appointment changes
+            setDiagnosis('');
+            setDiagnosisDetails('');
         }
     }, [appointment]);
 
@@ -62,19 +66,48 @@ export default function DoctorAppointment() {
         return <Box>Appointment not found</Box>;
     }
 
-    const handleSaveDiagnosis = async () => {
+    const handleAddDiagnosis = async () => {
         if (!appointment || !diagnosis.trim()) return;
 
-        const success = await saveDiagnosis(
-            appointment.appointmentid.toString(),
+        const appointmentId = appointment.appointmentID || appointment.appointmentid;
+        if (!appointmentId) return;
+
+        const success = await addDiagnosis(
+            appointmentId.toString(),
             diagnosis,
             diagnosisDetails
         );
 
         if (success) {
-            // Optionally refresh the appointment data or navigate back
-            // fetchAppointment could be called here if needed
+            // Clear the form
+            setDiagnosis('');
+            setDiagnosisDetails('');
+            // Refresh appointment data
+            if (fetchAppointment) {
+                fetchAppointment(appointmentId.toString());
+            }
         }
+    };
+
+    const handleCompleteAppointment = async () => {
+        if (!appointment) return;
+
+        const appointmentId = appointment.appointmentID || appointment.appointmentid;
+        if (!appointmentId) return;
+
+        const success = await completeAppointment(appointmentId.toString());
+
+        if (success) {
+            // Refresh appointment data to show updated status
+            if (fetchAppointment) {
+                fetchAppointment(appointmentId.toString());
+            }
+        }
+    };
+
+    // Check if there are existing diagnoses
+    const hasExistingDiagnosis = () => {
+        return appointment?.diagnoses && appointment.diagnoses.length > 0;
     };
 
     const formatDate = (dateString: string) => {
@@ -134,7 +167,7 @@ export default function DoctorAppointment() {
                 <Card>
                     <Box sx={{ mb: 1 }}>
                         <Typography level="title-md">
-                            Appointment A25-{appointment.appointmentid}
+                            Appointment A25-{appointment.appointmentID || appointment.appointmentid}
                         </Typography>
                     </Box>
 
@@ -259,101 +292,153 @@ export default function DoctorAppointment() {
                     </CardOverflow>
                 </Card>
 
-                {/* Diagnosis Card - Show for COMPLETED appointments */}
-                {appointment.status === 'COMPLETED' && (
+                {/* Diagnosis Card - Show for PENDING and COMPLETED appointments */}
+                {(appointment.status === 'PENDING' || appointment.status === 'COMPLETED') && (
                     <Card>
                         <Box sx={{ mb: 1 }}>
-                            <Typography level="title-md">Diagnosis</Typography>
+                            <Typography level="title-md">
+                                {appointment.status === 'PENDING' ? 'Add Diagnosis' : 'Diagnoses'}
+                            </Typography>
                             <Typography level="body-sm">
-                                {appointment.diagnosis_decease || appointment.diagnosis_details
-                                    ? "View or update diagnosis information for this appointment"
-                                    : "Add diagnosis information for this appointment"
+                                {appointment.status === 'PENDING'
+                                    ? "Add diagnosis information for this appointment"
+                                    : appointment.diagnoses && appointment.diagnoses.length > 0
+                                        ? "View existing diagnoses and add new ones"
+                                        : "Add diagnosis information for this appointment"
                                 }
                             </Typography>
                         </Box>
                         <Divider />
 
-                        {/* Show existing diagnosis if available */}
-                        {(appointment.diagnosis_decease || appointment.diagnosis_details) && (
+                        {/* Show existing diagnoses if available */}
+                        {appointment.diagnoses && appointment.diagnoses.length > 0 && (
                             <>
                                 <Stack spacing={2} sx={{ my: 2 }}>
-                                    <Typography level="title-sm">Current Diagnosis</Typography>
+                                    <Typography level="title-sm">Existing Diagnoses ({appointment.diagnoses.length})</Typography>
 
-                                    {appointment.diagnosis_decease && (
-                                        <FormControl>
-                                            <FormLabel>Diagnosis</FormLabel>
-                                            <Typography level="body-sm" sx={{
-                                                p: 1.5,
-                                                bgcolor: 'background.level1',
-                                                borderRadius: 'sm',
-                                                border: '1px solid',
-                                                borderColor: 'divider'
-                                            }}>
-                                                {appointment.diagnosis_decease}
-                                            </Typography>
-                                        </FormControl>
-                                    )}
+                                    {appointment.diagnoses.map((diagnosis, index) => (
+                                        <Card key={index} variant="outlined" sx={{ bgcolor: 'background.level1' }}>
+                                            <Stack spacing={1} sx={{ p: 2 }}>
+                                                <FormControl>
+                                                    <FormLabel sx={{ fontSize: 'sm', fontWeight: 'bold' }}>
+                                                        Diagnosis #{index + 1}
+                                                    </FormLabel>
+                                                    <Typography level="body-sm" sx={{
+                                                        p: 1,
+                                                        bgcolor: 'background.surface',
+                                                        borderRadius: 'sm',
+                                                        border: '1px solid',
+                                                        borderColor: 'divider'
+                                                    }}>
+                                                        {diagnosis.decease}
+                                                    </Typography>
+                                                </FormControl>
 
-                                    {appointment.diagnosis_details && (
-                                        <FormControl>
-                                            <FormLabel>Diagnosis Details</FormLabel>
-                                            <Typography level="body-sm" sx={{
-                                                p: 1.5,
-                                                bgcolor: 'background.level1',
-                                                borderRadius: 'sm',
-                                                border: '1px solid',
-                                                borderColor: 'divider',
-                                                whiteSpace: 'pre-wrap'
-                                            }}>
-                                                {appointment.diagnosis_details}
-                                            </Typography>
-                                        </FormControl>
-                                    )}
+                                                {diagnosis.details && (
+                                                    <FormControl>
+                                                        <FormLabel sx={{ fontSize: 'sm', fontWeight: 'bold' }}>
+                                                            Details
+                                                        </FormLabel>
+                                                        <Typography level="body-sm" sx={{
+                                                            p: 1,
+                                                            bgcolor: 'background.surface',
+                                                            borderRadius: 'sm',
+                                                            border: '1px solid',
+                                                            borderColor: 'divider',
+                                                            whiteSpace: 'pre-wrap'
+                                                        }}>
+                                                            {diagnosis.details}
+                                                        </Typography>
+                                                    </FormControl>
+                                                )}
+                                            </Stack>
+                                        </Card>
+                                    ))}
                                 </Stack>
-                                <Divider />
                             </>
                         )}
 
-                        <Stack spacing={2} sx={{ my: 2 }}>
-                            <Typography level="title-sm">
-                                {appointment.diagnosis_decease || appointment.diagnosis_details
-                                    ? "Update Diagnosis"
-                                    : "Add Diagnosis"
-                                }
+                        {appointment.status === 'PENDING' && <>
+                            <Divider />
+                            <Stack spacing={2} sx={{ my: 2 }}>
+                                <Typography level="title-sm">
+                                    {(appointment?.diagnoses?.length || 0) > 1
+                                        ? "Add New Diagnosis"
+                                        : "Add Additional Diagnosis"
+                                    }
+                                </Typography>
+
+                                <FormControl>
+                                    <FormLabel>Diagnosis</FormLabel>
+                                    <Textarea
+                                        placeholder="Enter diagnosis..."
+                                        minRows={2}
+                                        value={diagnosis}
+                                        onChange={(e) => setDiagnosis(e.target.value)}
+                                    />
+                                </FormControl>
+
+                                <FormControl>
+                                    <FormLabel>Diagnosis Details</FormLabel>
+                                    <Textarea
+                                        placeholder="Enter detailed diagnosis information..."
+                                        minRows={4}
+                                        value={diagnosisDetails}
+                                        onChange={(e) => setDiagnosisDetails(e.target.value)}
+                                    />
+                                </FormControl>
+                            </Stack>
+
+                            <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
+                                <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+                                    {appointment.status === 'PENDING' ? (
+                                        <Button
+                                            size="sm"
+                                            variant="solid"
+                                            startDecorator={<AddIcon />}
+                                            onClick={handleAddDiagnosis}
+                                            disabled={!diagnosis.trim()}
+                                            loading={addingDiagnosis}
+                                        >
+                                            Add Diagnosis
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            size="sm"
+                                            variant="solid"
+                                            startDecorator={<AddIcon />}
+                                            onClick={handleAddDiagnosis}
+                                            disabled={!diagnosis.trim()}
+                                            loading={addingDiagnosis}
+                                        >
+                                            Add Additional Diagnosis
+                                        </Button>
+                                    )}
+                                </CardActions>
+                            </CardOverflow></>}
+                    </Card>
+                )}
+
+                {/* Complete Appointment Card - Show for PENDING appointments that have at least one diagnosis */}
+                {appointment.status === 'PENDING' && hasExistingDiagnosis() && (
+                    <Card variant="soft" color="success">
+                        <Box sx={{ mb: 1 }}>
+                            <Typography level="title-md">Complete Appointment</Typography>
+                            <Typography level="body-sm">
+                                Mark this appointment as completed. This action cannot be undone.
                             </Typography>
-
-                            <FormControl>
-                                <FormLabel>Diagnosis</FormLabel>
-                                <Textarea
-                                    placeholder="Enter diagnosis..."
-                                    minRows={2}
-                                    value={diagnosis}
-                                    onChange={(e) => setDiagnosis(e.target.value)}
-                                />
-                            </FormControl>
-
-                            <FormControl>
-                                <FormLabel>Diagnosis Details</FormLabel>
-                                <Textarea
-                                    placeholder="Enter detailed diagnosis information..."
-                                    minRows={4}
-                                    value={diagnosisDetails}
-                                    onChange={(e) => setDiagnosisDetails(e.target.value)}
-                                />
-                            </FormControl>
-                        </Stack>
-
+                        </Box>
                         <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
                             <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
                                 <Button
                                     size="sm"
                                     variant="solid"
-                                    startDecorator={<CheckRoundedIcon />}
-                                    onClick={handleSaveDiagnosis}
-                                    disabled={!diagnosis.trim()}
-                                    loading={savingDiagnosis}
+                                    color="success"
+                                    startDecorator={<MedicalServicesIcon />}
+                                    onClick={handleCompleteAppointment}
+                                    loading={completingAppointment}
                                 >
-                                    Save Diagnosis
+                                    Complete Appointment
                                 </Button>
                             </CardActions>
                         </CardOverflow>

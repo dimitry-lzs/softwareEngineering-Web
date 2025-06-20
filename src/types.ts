@@ -83,17 +83,18 @@ export type NewAppointment = {
     reason: string;
 }
 
+export type Diagnosis = {
+    decease: string;
+    details: string;
+}
+
 export type Appointment = {
-    appointmentid: number;
-    doctorid: number;
-    patientid: number;
-    slotid: number;
+    appointmentID: number;
+    patientID: number;
+    doctorID: number;
+    slotID: number;
     status: string;
     reason: string;
-    slot_timeFrom: string;
-    slot_id: number;
-    diagnosis_decease?: string;
-    diagnosis_details?: string;
     // Doctor information (populated by backend when needed)
     doctor_id: number;
     doctor_avatar?: string;
@@ -104,6 +105,18 @@ export type Appointment = {
     doctor_officeLocation: string;
     doctor_bio: string;
     doctor_licenceID: string;
+    // Slot information
+    slot_id: number;
+    slot_timeFrom: string;
+    // Multiple diagnoses (NEW STRUCTURE)
+    diagnoses?: Diagnosis[];
+    // Legacy fields (for backward compatibility)
+    appointmentid?: number;
+    doctorid?: number;
+    patientid?: number;
+    slotid?: number;
+    diagnosis_decease?: string;
+    diagnosis_details?: string;
 };
 
 // Type for upcoming appointments which have a simplified structure
