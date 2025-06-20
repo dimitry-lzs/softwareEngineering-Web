@@ -18,6 +18,7 @@ import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 import { userStore } from '../../stores';
 import { UserType } from '../../types';
+import DarkModeToggle from '../DarkModeToggle';
 
 const PatientList = () => <>
     <ListItem>
@@ -245,6 +246,10 @@ export default observer(function Sidebar() {
                     <Typography level='title-sm'>{`${userStore.fullName}`}</Typography>
                     <Typography level='body-xs'>{`${userStore.email}`}</Typography>
                 </Box>
+                <DarkModeToggle 
+                    size='sm'
+                    sx={{ mr: 0.5 }}
+                />
                 <IconButton
                     size='sm'
                     variant='plain'
