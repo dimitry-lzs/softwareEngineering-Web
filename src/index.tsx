@@ -4,19 +4,23 @@ import { createBrowserRouter } from 'react-router-dom';
 import { Fragment } from 'react/jsx-runtime';
 import App from './app/App';
 import CheckAuth from './components/CheckAuth';
+import HomeRedirect from './components/HomeRedirect';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import AppointmentHistory from './pages/AppointmentHistory';
-import Calendar from './pages/Calendar';
-import Doctors from './pages/Doctors';
+import MyAppointments from './pages/MyAppointments';
 import ErrorPage from './pages/Error';
 import FormPage from './pages/FormPage';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-import Doctor from './pages/Doctor';
 import Appointment from './pages/Appointment';
 import AppointmentFeedback from './pages/AppointmentFeedback';
 import BookAppointment from './pages/Home/bookAppointment';
+import DoctorHome from './pages/DoctorPages/DoctorHome';
+import SetAvailabilities from './pages/DoctorPages/SetAvailabilities';
+import DoctorAppointmentHistory from './pages/DoctorPages/DoctorAppointmentHistory';
+import DoctorProfile from './pages/DoctorPages/DoctorProfile';
+import DoctorAppointment from './pages/DoctorPages/DoctorAppointment';
 
 const root = document.getElementById('root');
 
@@ -33,8 +37,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Fragment />,
-                loader: () => redirect('home'),
+                element: <HomeRedirect />,
             },
             {
                 path: '/home',
@@ -45,8 +48,8 @@ const router = createBrowserRouter([
                 element: <BookAppointment />,
             },
             {
-                path: '/calendar',
-                element: <Calendar />,
+                path: '/my-appointments',
+                element: <MyAppointments />,
             },
             {
                 path: '/calendar/:id',
@@ -68,6 +71,31 @@ const router = createBrowserRouter([
                 path: '/history/:id/feedback',
                 element: <AppointmentFeedback />,
             },
+            {
+                path: '/doctor-home',
+                element: <DoctorHome />,
+            },
+            {
+                path: '/doctor-home/:id',
+                element: <DoctorAppointment />,
+            },
+            {
+                path: '/availabilities',
+                element: <SetAvailabilities />,
+            },
+            {
+                path: '/doctor-appointments',
+                element: <DoctorAppointmentHistory />,
+            },
+            {
+                path: '/doctor-profile',
+                element: <DoctorProfile />,
+            },
+            {
+                path: '/doctor-appointments/:id',
+                element: <DoctorAppointment />,
+            }
+
         ],
         errorElement: <ErrorPage />,
     },

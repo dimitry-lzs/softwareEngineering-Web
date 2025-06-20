@@ -14,4 +14,17 @@ export default defineConfig({
             },
         },
     },
+    build: {
+        rollupOptions: {
+            output: {
+                // Ensure favicon and manifest files are copied correctly
+                assetFileNames: (assetInfo) => {
+                    if (assetInfo.name?.endsWith('.webmanifest')) {
+                        return '[name][extname]';
+                    }
+                    return 'assets/[name]-[hash][extname]';
+                },
+            },
+        },
+    },
 });

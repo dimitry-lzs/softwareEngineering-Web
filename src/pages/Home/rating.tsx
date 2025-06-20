@@ -4,15 +4,17 @@ import Star from '@mui/icons-material/Star';
 
 
 type RatingProps = {
-  rating: number;
+  rating: number | null | undefined;
 };
 
 
 export default function Rating({ rating }: RatingProps) {
-  const fullStars = Math.floor(rating);
-  const halfStar = rating % 1 !== 0 ;
-  const emptyStars = 5 - Math.ceil(rating);
+  // Handle null, undefined, or NaN ratings by defaulting to 0
+  const safeRating = (rating != null && !isNaN(rating)) ? rating : 0;
 
+  const fullStars = Math.floor(safeRating);
+  const halfStar = safeRating % 1 !== 0;
+  const emptyStars = 5 - Math.ceil(safeRating);
 
   return (
     <Typography
@@ -32,7 +34,7 @@ export default function Rating({ rating }: RatingProps) {
         </React.Fragment>
       }
     >
-      {rating.toFixed(1)}
+      {safeRating === 0 ? 'No reviews' : safeRating.toFixed(1)}
     </Typography>
   );
 }

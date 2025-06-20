@@ -83,25 +83,65 @@ export type NewAppointment = {
     reason: string;
 }
 
+export type Diagnosis = {
+    decease: string;
+    details: string;
+}
+
 export type Appointment = {
-    appointmentid: number;
-    status: AppointmentStatus;
+    appointmentID: number;
+    patientID: number;
+    doctorID: number;
+    slotID: number;
+    status: string;
     reason: string;
+    // Doctor information (populated by backend when needed)
     doctor_id: number;
+    doctor_avatar?: string;
     doctor_name: string;
-    doctor_specialty: Speciality;
+    doctor_specialty: string;
     doctor_email: string;
-    doctor_phone: string;
-    doctor_officeLocation: OfficeLocation;
+    doctor_phone?: string;
+    doctor_officeLocation: string;
     doctor_bio: string;
+    doctor_licenceID: string;
+    // Slot information
     slot_id: number;
     slot_timeFrom: string;
+    // Multiple diagnoses (NEW STRUCTURE)
+    diagnoses?: Diagnosis[];
+    // Legacy fields (for backward compatibility)
+    appointmentid?: number;
+    doctorid?: number;
+    patientid?: number;
+    slotid?: number;
     diagnosis_decease?: string;
     diagnosis_details?: string;
 };
 
+// Type for upcoming appointments which have a simplified structure
+export type UpcomingAppointment = {
+    appointmentid: number;
+    doctorid: number;
+    patientid: number;
+    slotid: number;
+    status: string;
+    reason: string;
+    slot_timeFrom: string;
+    patient_name: string;
+    patient_phone: string;
+    // Doctor info might also be included in upcoming appointments
+    doctor_name?: string;
+    doctor_specialty?: string;
+    doctor_avatar?: string;
+};
+
+// Union type for appointments that can be either detailed or upcoming
+export type AppointmentWithPatientInfo = Appointment | UpcomingAppointment;
+
 export type Availability = {
-    availabilityId: number;
-    timeFrom: Date;
-    doctorId: number;
+    availabilityid: number;
+    doctorid: number;
+    free: number; // 1 for free, 0 for taken
+    timefrom: string; // ISO string format
 };

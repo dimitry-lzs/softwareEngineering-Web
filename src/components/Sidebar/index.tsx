@@ -17,8 +17,126 @@ import Typography from '@mui/joy/Typography';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 import { userStore } from '../../stores';
+import { UserType } from '../../types';
+
+const PatientList = () => <>
+    <ListItem>
+        <ListItemButton
+            to='/home'
+            component={Link}
+            role='menuitem'
+        >
+            <HomeRoundedIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>Home</Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
+    <ListItem>
+        <ListItemButton
+            to='/my-appointments'
+            component={Link}
+            role='menuitem'
+        >
+            <CalendarMonthIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>
+                    My Appointments
+                </Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
+    <ListItem>
+        <ListItemButton
+            to='/history'
+            component={Link}
+            role='menuitem'
+        >
+            <HistoryIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>
+                    History
+                </Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
+    <ListItem>
+        <ListItemButton
+            to='/profile'
+            component={Link}
+            role='menuitem'
+        >
+            <AccountCircleIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>
+                    Profile
+                </Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
+</>
+
+
+const DoctorList = () => <>
+    <ListItem>
+        <ListItemButton
+            to='/doctor-home'
+            component={Link}
+            role='menuitem'
+        >
+            <HomeRoundedIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>Home</Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
+    <ListItem>
+        <ListItemButton
+            to='/availabilities'
+            component={Link}
+            role='menuitem'
+        >
+            <CalendarMonthIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>
+                    Set Availabilities
+                </Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
+    <ListItem>
+        <ListItemButton
+            to='/doctor-appointments'
+            component={Link}
+            role='menuitem'
+        >
+            <HistoryIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>
+                    History
+                </Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
+    <ListItem>
+        <ListItemButton
+            to='/doctor-profile'
+            component={Link}
+            role='menuitem'
+        >
+            <AccountCircleIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>
+                    Profile
+                </Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
+</>
 
 export default observer(function Sidebar() {
+    const home = userStore.userType === UserType.Patient ? '/home' : '/doctor-home';
+    
     return (
         <Sheet
             className='Sidebar'
@@ -78,16 +196,19 @@ export default observer(function Sidebar() {
                     justifyContent: 'center',
                 }}
             >
-                <Box
-                    sx={{
-                        backgroundImage: 'url(/src/assets/mediq.png)',
-                        backgroundSize: 'contain',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
-                        width: 128,
-                        height: 60,
-                    }}
-                />
+                <Link to={home} style={{ textDecoration: 'none' }}>
+                    <Box
+                        sx={{
+                            backgroundImage: 'url(/src/assets/mediq.png)',
+                            backgroundSize: 'contain',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            width: 128,
+                            height: 60,
+                            cursor: 'pointer',
+                        }}
+                    />
+                </Link>
             </Box>
             <Divider />
             <Box
@@ -110,60 +231,7 @@ export default observer(function Sidebar() {
                         '--ListItem-radius': (theme) => theme.vars.radius.sm,
                     }}
                 >
-                    <ListItem>
-                        <ListItemButton
-                            to='/home'
-                            component={Link}
-                            role='menuitem'
-                        >
-                            <HomeRoundedIcon />
-                            <ListItemContent>
-                                <Typography level='title-sm'>Home</Typography>
-                            </ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton
-                            to='/calendar'
-                            component={Link}
-                            role='menuitem'
-                        >
-                            <CalendarMonthIcon />
-                            <ListItemContent>
-                                <Typography level='title-sm'>
-                                    Calendar
-                                </Typography>
-                            </ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton
-                            to='/history'
-                            component={Link}
-                            role='menuitem'
-                        >
-                            <HistoryIcon />
-                            <ListItemContent>
-                                <Typography level='title-sm'>
-                                    History
-                                </Typography>
-                            </ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton
-                            to='/profile'
-                            component={Link}
-                            role='menuitem'
-                        >
-                            <AccountCircleIcon />
-                            <ListItemContent>
-                                <Typography level='title-sm'>
-                                    Profile
-                                </Typography>
-                            </ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
+                    {userStore.userType === UserType.Patient ? <PatientList /> : <DoctorList />}
                 </List>
             </Box>
             <Divider />

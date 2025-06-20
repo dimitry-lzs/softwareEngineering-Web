@@ -1,16 +1,16 @@
-import MaterialCalendar from "../../components/MaterialCalendar";
-import { Box, Card, Divider, Stack } from "@mui/joy";
-import UpcomingAppointments from "../../components/UpcomingAppointments";
-import SectionTitle from "../../components/SectionTitle";
+import MaterialCalendar from "../../../components/MaterialCalendar";
+import { Box, Card, Stack } from "@mui/joy";
+import UpcomingAppointments from "../../../components/UpcomingAppointments";
+import SectionTitle from "../../../components/SectionTitle";
 import React from "react";
 
-export default function Calendar() {
+export default function DoctorHome() {
 
     return (
         <React.Fragment>
-            <SectionTitle title='Calendar' subtitle='Check all your upcoming appointments' />
+            <SectionTitle title='Home' subtitle='Welcome! Check all your upcoming appointments' />
             <Box sx={{ flex: 1, width: '100%'}}>
-                <Stack 
+                <Stack
                     spacing={2}
                     sx={{
                         flexWrap: 'wrap',
@@ -19,14 +19,14 @@ export default function Calendar() {
                         alignItems: "stretch"
                     }}
                 >
-                <Card variant="outlined">    
+                <Card variant="outlined">
                     <Box
                         sx={{flexGrow: 1, flexShrink: 0, minWidth: '300px' }}>
                         <MaterialCalendar />
                     </Box>
                 </Card>
                     <Box sx={{ flexGrow: 1, flexShrink: 0, minWidth:"300px", overflowY: 'auto', overflowX: 'hidden'}}>
-                        <UpcomingAppointments />
+                        <UpcomingAppointments isDoctor={true} />
                     </Box>
                     </Stack>
             </Box>

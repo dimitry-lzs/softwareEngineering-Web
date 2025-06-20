@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Doctor, Rating } from "../types";
 import { LowercaseType } from "./lowercase";
 import patient from "../api/patient";
+import { notificationStore } from "../stores";
+import { APIError } from "../api";
 
 export const useDoctors = () => {
     const [doctors, setDoctors] = useState<LowercaseType<Doctor>[]>([]);
@@ -13,7 +15,12 @@ export const useDoctors = () => {
             const { data } = await patient.doctors();
             setDoctors(data);
         } catch (error) {
-            console.error("Failed to fetch doctors:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to fetch doctors: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
         } finally {
             setLoading(false);
         }
@@ -36,7 +43,12 @@ export const useDoctor = (id?: string) => {
             const { data } = await patient.doctor(id);
             setDoctor(data);
         } catch (error) {
-            console.error("Failed to fetch doctor:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to fetch doctor: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
         } finally {
             setLoading(false);
         }
@@ -63,7 +75,12 @@ export const useDoctorRatings = (doctorId?: string) => {
             const { data } = await patient.doctorRatings(id);
             setRatings(data);
         } catch (error) {
-            console.error("Failed to fetch doctor ratings:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to fetch doctor ratings: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
         } finally {
             setLoading(false);
         }
@@ -90,8 +107,18 @@ export const useCreateDoctorRating = () => {
                 throw new Error("Doctor ID is required to create a rating.");
             }
             await patient.setRating(rating.doctorId.toString(), rating.stars, rating.comments);
+            notificationStore.setNotification(
+                true,
+                'Rating submitted successfully!',
+                'success',
+            );
         } catch (error) {
-            console.error("Failed to set doctor rating:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to set doctor rating: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
         } finally {
             setLoading(false);
         }

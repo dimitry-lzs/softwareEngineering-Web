@@ -4,9 +4,7 @@ import { useAppointment, useCreateDoctorRating } from "../../hooks";
 import SectionTitle from "../../components/SectionTitle";
 import { useState } from "react";
 import MaterialRating from "../../components/MaterialRating";
-import Snackbar from '@mui/joy/Snackbar';
-import InfoIcon from '@mui/icons-material/Info';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { notificationStore } from "../../stores";
 
 export default function AppointmentFeedback() {
     const { id } = useParams<{ id: string }>();
@@ -16,11 +14,14 @@ export default function AppointmentFeedback() {
     const { createRating } = useCreateDoctorRating();
     const [comments, setComments] = useState<string>('');
     const [rating, setRating] = useState<number>(0);
-    const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; type: string; }>({ open: false, message: '', type: 'info' });
 
     const submitHandler = async () => {
         if (rating === 0) {
-            setSnackbar({ open: true, message: "Please provide a rating before submitting.", type: "info" });
+            notificationStore.setNotification(
+                true,
+                'Please provide a rating before submitting.',
+                'danger',
+            );
             return;
         }
         if (appointment) {
@@ -29,22 +30,12 @@ export default function AppointmentFeedback() {
                 stars: rating,
                 comments,
             });
+            setTimeout(() => navigate('/history'), 1500);
         }
-        setSnackbar({ open: true, message: "Feedback submitted successfully!" , type: "success" });
-        setTimeout(() => navigate('/history'), 1500);
     };
 
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
-            <Snackbar
-                open={snackbar.open}
-                autoHideDuration={2000}
-                onClose={() => setSnackbar({ ...snackbar, open: false })}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                startDecorator={snackbar.type === 'info' ? <InfoIcon /> : <CheckCircleIcon />}
-            >
-                {snackbar.message}
-            </Snackbar>
             <SectionTitle title="Feedback" subtitle="Let us know of your experience with our doctors" />
             <Stack
                 spacing={2}

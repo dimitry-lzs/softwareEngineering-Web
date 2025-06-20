@@ -1,42 +1,56 @@
 import { useEffect, useState } from "react";
-import { LowercaseType } from "./lowercase";
-import { Appointment, NewAppointment } from "../types";
+import { Appointment, NewAppointment, AppointmentWithPatientInfo } from "../types";
 import patient from "../api/patient";
+import { notificationStore } from "../stores";
+import { APIError } from "../api";
+import doctor from "../api/doctor";
 
-export const useAppointments = (status?: string) => {
-    const [appointments, setAppointments] = useState<Appointment[]>([]);
+export const useAppointments = (isPatient?: boolean) => {
+    const [appointments, setAppointments] = useState<AppointmentWithPatientInfo[]>([]);
     const [loading, setLoading] = useState(false);
 
-    const fetchAppointments = async (status?: string) => {
+    const fetchAppointments = async () => {
         setLoading(true);
         try {
-            const { data } = await patient.appointments(status);
+            const method = isPatient ? patient.appointments : doctor.appointments;
+            const { data } = await method();
             setAppointments(data);
         } catch (error) {
-            console.error("Failed to fetch appointments:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to fetch appointments: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
         } finally {
             setLoading(false);
         }
     }
 
     useEffect(() => {
-        fetchAppointments(status);
-    }, []);
+        fetchAppointments();
+    }, [isPatient]);
 
     return { appointments, loading, fetchAppointments };
 }
 
-export const useAppointment = (id?: string) => {
-    const [appointment, setAppointment] = useState<LowercaseType<Appointment> | null>(null);
+export const useAppointment = (id?: string, isDoctor?: boolean) => {
+    const [appointment, setAppointment] = useState<Appointment | null>(null);
     const [loading, setLoading] = useState(false);
 
     const fetchAppointment = async (id: string) => {
         setLoading(true);
         try {
-            const { data } = await patient.appointment(id);
+            const method = isDoctor ? doctor.appointment : patient.appointment;
+            const { data } = await method(id);
             setAppointment(data);
         } catch (error) {
-            console.error("Failed to fetch appointment:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to fetch appointment: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
         } finally {
             setLoading(false);
         }
@@ -48,7 +62,7 @@ export const useAppointment = (id?: string) => {
         } else {
             setAppointment(null);
         }
-    }, [id]);
+    }, [id, isDoctor]);
 
     return { appointment, loading, fetchAppointment };
 }
@@ -60,8 +74,19 @@ export const useCreateAppointment = () => {
         setLoading(true);
         try {
             await patient.setAppointment(appointment);
+            notificationStore.setNotification(
+                true,
+                'Appointment booked successfully!',
+                'success',
+            );
         } catch (error) {
-            console.error("Failed to create Appointment:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to create appointment: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
+            throw error; // Re-throw so the calling component can handle it
         } finally {
             setLoading(false);
         }
@@ -78,11 +103,45 @@ export const useCancelAppointment = () => {
         try {
             await patient.cancelAppointment(id);
         } catch (error) {
-            console.error("Failed to cancel appointment:", error);
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to cancel appointment: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
         } finally {
             setLoading(false);
         }
     }
-    
+
     return { cancelAppointment, loading };
+}
+
+export const useCompleteAppointment = () => {
+    const [loading, setLoading] = useState(false);
+
+    const completeAppointment = async (id: string) => {
+        setLoading(true);
+        try {
+            await doctor.completeAppointment(id);
+            notificationStore.setNotification(
+                true,
+                'Appointment completed successfully!',
+                'success',
+            );
+            return true;
+        } catch (error) {
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to complete appointment: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return { completeAppointment, loading };
 }

@@ -7,6 +7,27 @@ export const client = axios.create({
     baseURL: '/api',
 });
 
+// Response interceptor to handle 401 unauthorized errors
+client.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => {
+        if (error.response?.status === 401) {
+            // Dynamically import stores to avoid circular dependencies
+            import('../stores').then(({ userStore, notificationStore }) => {
+                notificationStore.setNotification(
+                    true,
+                    'Session expired. You have been logged out.',
+                    'danger'
+                );
+                userStore.logout();
+            });
+            return;
+        }
+        return Promise.reject(error);
+    }
+);
+
+
 const user = {
     register: async (userData: {
         fullName: string;

@@ -1,5 +1,5 @@
 import { client } from '.';
-import { Appointment, NewAppointment, Speciality } from '../types';
+import { NewAppointment, Speciality } from '../types';
 
 export default {
     doctors: async () => client.get('/doctors'),
@@ -8,9 +8,7 @@ export default {
     doctorRatings: async (doctorID: string) => client.get('/doctor-ratings', {
         params: { doctorID }
     }),
-    appointments: async (status?: string) => client.get('/patient-appointments', {
-        params: { status }
-    }),
+    appointments: async () => client.get('/patient-appointments'),
     appointment: async (id: string) => client.get(`/view-appointment-details`, {
         params: { appointmentID: id }
     }),
@@ -25,7 +23,7 @@ export default {
         stars,
         comments
     }),
-    doctorAvailability: async (doctorID: string) => client.get('/doctor-availabilities', {
+    doctorAvailability: async (doctorID: string) => client.get('/get-doctor-availabilities', {
         params: { doctorID }
     }),
 }

@@ -6,19 +6,30 @@ import BlockIcon from '@mui/icons-material/Block';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import SectionTitle from '../../components/SectionTitle';
-import { useAppointments } from '../../hooks';
+import SectionTitle from '../../../components/SectionTitle';
+import { useAppointments } from '../../../hooks';
 import { useNavigate } from 'react-router';
 
-export default function AppointmentHistory() {
+export default function DoctorAppointmentHistory() {
 
-    const { appointments } = useAppointments(true);
+    const { appointments } = useAppointments(false); // false = not patient, so use doctor endpoint
     const [status, setStatus] = useState('');
 
     const navigate = useNavigate();
 
+    // Helper functions for patient display
+    const getPatientDisplayName = (appointment: any) => {
+        // Since we don't have patient data in the list view, show patient ID
+        return `Patient #${appointment?.patientid || 'Unknown'}`;
+    };
+
+    const getPatientInitials = (_appointment: any) => {
+        // Since we don't have patient name in appointment, use generic initial
+        return 'P';
+    };
+
     useEffect(() => {
-        console.log('Appointments:', appointments);
+        // Component mounted - appointments will be loaded by the hook
     }, [appointments]);
 
     const renderFilters = () => (
@@ -46,19 +57,23 @@ export default function AppointmentHistory() {
     );
 
     const filteredAppointments = useMemo(() => {
-        return appointments.filter(appointment => {
-            if (status === '') {
-                console.log(appointment.slot_timeFrom);
-                return appointment.status === 'COMPLETED' || appointment.status === 'CANCELLED';
-            }
-            return appointment.status === status;
+        // First filter out PENDING appointments, then apply status filter
+        const nonPendingAppointments = appointments.filter(appointment =>
+            appointment.status !== 'PENDING'
+        );
 
-        });
+        if (status === '') {
+            return nonPendingAppointments;
+        }
+
+        return nonPendingAppointments.filter(appointment =>
+            appointment.status === status
+        );
     }, [appointments, status]);
 
     return (
         <React.Fragment>
-            <SectionTitle title='History' subtitle='Find all your past appointments here' />
+            <SectionTitle title='Appointments' subtitle='View and manage your appointment history' />
             <Box
                 className="SearchAndFilters-tabletUp"
                 sx={{
@@ -96,6 +111,7 @@ export default function AppointmentHistory() {
                 )
 
                 : (
+
                     <Sheet
                         className="OrderTableContainer"
                         variant="outlined"
@@ -123,11 +139,13 @@ export default function AppointmentHistory() {
                                     <th style={{ width: 120, padding: '12px 6px' }}>Date</th>
                                     <th style={{ width: 140, padding: '12px 6px' }}>Time</th>
                                     <th style={{ width: 140, padding: '12px 6px' }}>Status</th>
-                                    <th style={{ width: 240, padding: '12px 6px' }}>Doctor</th>
+                                    <th style={{ width: 240, padding: '12px 6px' }}>Patient</th>
                                     <th style={{ width: 140, padding: '12px 6px' }}> </th>
                                 </tr>
                             </thead>
+
                             <tbody>
+
                                 {[...filteredAppointments]
                                     .sort(
                                         (a, b) => new Date(b.slot_timeFrom).getTime() - new Date(a.slot_timeFrom).getTime())
@@ -145,7 +163,7 @@ export default function AppointmentHistory() {
                                         });
                                         return (
 
-                                            <tr style={{ cursor: 'pointer' }} key={appointment.appointmentid} onClick={() => navigate(`/history/${appointment.appointmentid}`)}>
+                                            <tr style={{ cursor: 'pointer' }} key={appointment.appointmentid} onClick={() => navigate(`/doctor-appointments/${appointment.appointmentid}`)}>
                                                 <td>
                                                     <Typography level="body-xs">A25-{appointment.appointmentid}</Typography>
                                                 </td>
@@ -179,18 +197,23 @@ export default function AppointmentHistory() {
                                                 </td>
                                                 <td>
                                                     <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                                        <Avatar size="sm">
-                                                            {
-                                                                appointment?.doctor_avatar ? (
-                                                                    <img alt="" src={appointment.doctor_avatar} />
-                                                                ) : (
-                                                                    appointment.doctor_name ? appointment.doctor_name.slice(0, 1) : '?'
-                                                                )
-                                                            }
+                                                        <Avatar
+                                                            size="sm"
+                                                            sx={{
+                                                                bgcolor: 'primary.softBg',
+                                                                color: 'primary.solidColor',
+                                                                fontWeight: 'bold'
+                                                            }}
+                                                        >
+                                                            {getPatientInitials(appointment)}
                                                         </Avatar>
                                                         <div>
-                                                            <Typography level="body-xs">{appointment.doctor_name}</Typography>
-                                                            <Typography level="body-xs">({appointment.doctor_specialty?.toLowerCase() || 'Unknown Specialty'})</Typography>
+                                                            <Typography level="body-xs" sx={{ fontWeight: 'md' }}>
+                                                                {getPatientDisplayName(appointment)}
+                                                            </Typography>
+                                                            <Typography level="body-xs" sx={{ color: 'text.tertiary' }}>
+                                                                Click to view details
+                                                            </Typography>
                                                         </div>
                                                     </Box>
                                                 </td>
@@ -204,11 +227,12 @@ export default function AppointmentHistory() {
                                             </tr>
                                         );
                                     })}
+
+
                             </tbody>
                         </Table>
                     </Sheet>
-                )
-            }
+                )}
         </React.Fragment>
     );
 }

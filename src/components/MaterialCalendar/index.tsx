@@ -1,13 +1,30 @@
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useColorScheme } from '@mui/joy/styles';
+import { PaletteMode, ThemeProvider, createTheme } from '@mui/material/styles';
 import { DateCalendar } from '@mui/x-date-pickers';
+import { PickerValue } from '@mui/x-date-pickers/internals';
 
-export default function MaterialCalendar() {
-    const materialTheme = createTheme();
+export default function MaterialCalendar({ setDate }: { setDate?: (date: PickerValue | null) => void }) {
+    const { mode } = useColorScheme();
+    // There is a difference between the mode used by Joy UI and Material UI.
+    // Joy UI: 'light', 'dark', 'system'
+    // Material UI: 'light', 'dark'
+    const resolvedMode: PaletteMode = mode === 'dark' ? 'dark' : 'light';
+
+    const materialTheme = createTheme({
+        palette: {
+            mode: resolvedMode,
+        },
+    });
 
     return (
 
         <ThemeProvider theme={materialTheme}>
             <DateCalendar
+                onChange={(newValue: PickerValue | null) => {
+                    if (setDate) {
+                        setDate(newValue);
+                    }
+                }}
                 sx={{
                     width: '500px',
                     minHeight: '400px',
@@ -34,7 +51,7 @@ export default function MaterialCalendar() {
                         gap: '18px', // Add spacing between day cells
                     },
                     '& .MuiDayCalendar-header': {
-                        gap: '32px', // Add spacing between day cells 
+                        gap: '32px', // Add spacing between day cells
                     },
                 }}
             />
