@@ -7,12 +7,6 @@ export default {
     appointment: async (id: string) => client.get(`/view-appointment-details`, {
         params: { appointmentID: id }
     }),
-    saveDiagnosis: async (appointmentId: string, diagnosis: string, diagnosisDetails: string) =>
-        client.post('/save-diagnosis', {
-            appointmentID: appointmentId,
-            diagnosis,
-            diagnosisDetails
-        }),
     setDiagnosis: async (appointmentID: string, decease: string, details: string) =>
         client.post('/set-diagnosis', {
             appointmentID,
