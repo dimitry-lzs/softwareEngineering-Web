@@ -119,9 +119,6 @@ export default function DoctorAppointmentHistory() {
                             display: { xs: 'none', sm: 'initial' },
                             width: '100%',
                             borderRadius: 'sm',
-                            flexShrink: 1,
-                            overflow: 'auto',
-                            minHeight: 0,
                         }}
                     >
                         <Table

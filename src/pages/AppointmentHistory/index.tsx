@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { ColorPaletteProp } from '@mui/joy/styles';
-import { Box, Chip, Link, Typography, FormControl, FormLabel, Select, Option, Sheet, Input, Button, Table, Avatar, Stack } from '@mui/joy';
+import { Box, Chip, Link, Typography, FormControl, FormLabel, Select, Option, Sheet, Table, Avatar, Stack } from '@mui/joy';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
@@ -103,9 +103,6 @@ export default function AppointmentHistory() {
                             display: { xs: 'none', sm: 'initial' },
                             width: '100%',
                             borderRadius: 'sm',
-                            flexShrink: 1,
-                            overflow: 'auto',
-                            minHeight: 0,
                         }}
                     >
                         <Table
@@ -193,7 +190,7 @@ export default function AppointmentHistory() {
                                                         </Avatar>
                                                         <div>
                                                             <Typography level="body-xs">{appointment.doctor_name}</Typography>
-                                                            <Typography level="body-xs">({appointment.doctor_specialty.toLowerCase()})</Typography>
+                                                            <Typography level="body-xs">({appointment.doctor_specialty?.toLowerCase() || 'Unknown Specialty'})</Typography>
                                                         </div>
                                                     </Box>
                                                 </td>

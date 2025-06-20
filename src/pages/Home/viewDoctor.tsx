@@ -157,21 +157,27 @@ export default function ViewDoctor({
                         {selectedTab === 3 && (
                             <div>
                                 <Stack spacing={2}>
-                                    <Stack
-                                        direction="column"
-                                        divider={<Divider orientation="horizontal" />}
-                                        spacing={2}
-                                    >
-                                        {ratings.map((rating) => (
-                                            <Stack direction="row" mx={1} gap={1}>
-                                                <Avatar size="lg" sx={{ mr: 0.5 }}>A</Avatar>
-                                                <Stack direction="column" gap={1} ml={1}>
-                                                    <Typography level="body-sm">{rating.comments}</Typography>
-                                                    <Rating rating={rating.stars} />
+                                    {ratings.length > 0 ? (
+                                        <Stack
+                                            direction="column"
+                                            divider={<Divider orientation="horizontal" />}
+                                            spacing={2}
+                                        >
+                                            {ratings.map((rating) => (
+                                                <Stack direction="row" mx={1} gap={1}>
+                                                    <Avatar size="lg" sx={{ mr: 0.5 }}>A</Avatar>
+                                                    <Stack direction="column" gap={1} ml={1}>
+                                                        <Typography level="body-sm">{rating.comments}</Typography>
+                                                        <Rating rating={rating.stars} />
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        ))}
-                                    </Stack>
+                                            ))}
+                                        </Stack>
+                                    ) : (
+                                        <Typography level="body-md" sx={{ textAlign: 'center', py: 2, color: 'text.secondary' }}>
+                                            No reviews available yet.
+                                        </Typography>
+                                    )}
                                 </Stack>
                             </div>
                         )}

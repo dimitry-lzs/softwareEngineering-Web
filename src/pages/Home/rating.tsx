@@ -34,7 +34,7 @@ export default function Rating({ rating }: RatingProps) {
         </React.Fragment>
       }
     >
-      {safeRating === 0 ? 'No ratings' : safeRating.toFixed(1)}
+      {safeRating === 0 ? 'No reviews' : safeRating.toFixed(1)}
     </Typography>
   );
 }
