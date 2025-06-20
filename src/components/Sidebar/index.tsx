@@ -137,7 +137,7 @@ const DoctorList = () => <>
 
 export default observer(function Sidebar() {
     const home = userStore.userType === UserType.Patient ? '/home' : '/doctor-home';
-    
+
     return (
         <Sheet
             className='Sidebar'
@@ -246,7 +246,7 @@ export default observer(function Sidebar() {
                     <Typography level='title-sm'>{`${userStore.fullName}`}</Typography>
                     <Typography level='body-xs'>{`${userStore.email}`}</Typography>
                 </Box>
-                <DarkModeToggle 
+                <DarkModeToggle
                     size='sm'
                     sx={{ mr: 0.5 }}
                 />
