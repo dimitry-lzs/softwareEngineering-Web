@@ -1,4 +1,4 @@
-import { AspectRatio, Avatar, Box, Button, Card, CardActions, CardOverflow, Chip, ColorPaletteProp, Divider, FormControl, FormLabel, Sheet, Stack, Textarea, Typography } from "@mui/joy";
+import { AspectRatio, Avatar, Box, Button, Card, CardActions, CardOverflow, Chip, ColorPaletteProp, Divider, FormControl, FormLabel, Stack, Textarea, Typography } from "@mui/joy";
 import { useNavigate, useParams } from "react-router";
 import { useAppointment, useCancelAppointment } from "../../hooks";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';

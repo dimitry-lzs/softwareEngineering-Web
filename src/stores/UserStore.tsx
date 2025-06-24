@@ -82,17 +82,12 @@ class UserStore {
             if (response.status === 200) {
                 const { data } = response;
                 this.setUserData(data);
-            } else {
-                notificationStore.setNotification(
-                    true,
-                    'Invalid email or password',
-                    'danger',
-                );
             }
         } catch (error) {
+            const axiosError = error as APIError;
             notificationStore.setNotification(
                 true,
-                'Invalid email or password',
+                `Cannot login: ${axiosError.response?.data?.error || 'Unknown error'}`,
                 'danger',
             );
         } finally {
