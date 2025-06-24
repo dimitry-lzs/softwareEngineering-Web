@@ -70,6 +70,7 @@ export type Doctor = User & {
 };
 
 export type Rating = {
+    appointmentID: number;
     stars: number;
     comments: string;
     doctorId?: number;

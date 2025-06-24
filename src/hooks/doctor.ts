@@ -100,18 +100,20 @@ export const useDoctorRatings = (doctorId?: string) => {
 export const useCreateDoctorRating = () => {
     const [loading, setLoading] = useState(false);
 
-    const createRating = async (rating: Rating) => {
+    const createRating = async (rating: Rating, callback?: () => void) => {
         setLoading(true);
         try {
-            if (!rating.doctorId) {
-                throw new Error("Doctor ID is required to create a rating.");
+            if (!rating.appointmentID) {
+                throw new Error("Appointment ID is required to create a rating.");
             }
-            await patient.setRating(rating.doctorId.toString(), rating.stars, rating.comments);
+            console.log('Creating rating:', rating);
+            await patient.setRating(rating.appointmentID, rating.stars, rating.comments);
             notificationStore.setNotification(
                 true,
                 'Rating submitted successfully!',
                 'success',
             );
+            if (callback) callback();
         } catch (error) {
             const axiosError = error as APIError;
             notificationStore.setNotification(

@@ -11,7 +11,7 @@ export default function AppointmentFeedback() {
 
     const navigate = useNavigate();
     const { appointment, loading } = useAppointment(id);
-    const { createRating } = useCreateDoctorRating();
+    const { createRating, loading: creatingRating } = useCreateDoctorRating();
     const [comments, setComments] = useState<string>('');
     const [rating, setRating] = useState<number>(0);
 
@@ -26,11 +26,10 @@ export default function AppointmentFeedback() {
         }
         if (appointment) {
             await createRating({
-                doctorId: appointment?.doctor_id ?? 0,
+                appointmentID: appointment.appointmentid as number,
                 stars: rating,
                 comments,
-            });
-            setTimeout(() => navigate('/history'), 1500);
+            }, () => navigate('/history'));
         }
     };
 
@@ -72,7 +71,7 @@ export default function AppointmentFeedback() {
                             onChange={(e) => setComments(e.target.value)}
                         />
                         <FormHelperText sx={{ mt: 0.75, fontSize: 'xs' }}>
-                            400 characters left
+                            {400 - comments.length} characters remaining
                         </FormHelperText>
                     </Stack>
                     {loading && <Typography>Loading...</Typography>}
@@ -95,6 +94,7 @@ export default function AppointmentFeedback() {
                                 variant="solid"
                                 color="primary"
                                 onClick={submitHandler}
+                                loading={creatingRating}
                             >
                                 Submit
                             </Button>

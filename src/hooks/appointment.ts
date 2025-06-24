@@ -4,6 +4,7 @@ import patient from "../api/patient";
 import { notificationStore } from "../stores";
 import { APIError } from "../api";
 import doctor from "../api/doctor";
+import { LowercaseType } from "./lowercase";
 
 export const useAppointments = (isPatient?: boolean) => {
     const [appointments, setAppointments] = useState<AppointmentWithPatientInfo[]>([]);
@@ -35,7 +36,7 @@ export const useAppointments = (isPatient?: boolean) => {
 }
 
 export const useAppointment = (id?: string, isDoctor?: boolean) => {
-    const [appointment, setAppointment] = useState<Appointment | null>(null);
+    const [appointment, setAppointment] = useState<LowercaseType<Appointment> | null>(null);
     const [loading, setLoading] = useState(false);
 
     const fetchAppointment = async (id: string) => {
