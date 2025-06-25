@@ -1,7 +1,7 @@
 import Box from '@mui/joy/Box';
 import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
-import { ListItem, ListItemContent, ListItemDecorator, List, ListDivider, Stack } from '@mui/joy';
+import { ListItem, ListItemContent, ListItemDecorator, List, Stack } from '@mui/joy';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useAppointments } from '../../hooks';
@@ -66,12 +66,29 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
                         {
                             filteredAppointments.map((appointment) => (
                                 <List key={appointment.appointmentid} size="sm" sx={{ '--ListItem-paddingX': 0 }}>
-                                    <ListItem>
+                                    <ListItem
+                                        sx={{
+                                            borderRadius: '12px',
+                                            border: '1px solid',
+                                            borderColor: 'divider',
+                                            mb: 1,
+                                            bgcolor: 'background.surface',
+                                            '&:hover': {
+                                                bgcolor: 'background.level1',
+                                                borderColor: 'primary.outlinedBorder',
+                                                transform: 'translateY(-1px)',
+                                                boxShadow: 'sm',
+                                                transition: 'all 0.2s ease-in-out'
+                                            },
+                                            transition: 'all 0.2s ease-in-out',
+                                            p: 2
+                                        }}
+                                    >
                                         <ListItemContent>
 
                                             <Stack direction="column" sx={{ display: 'flex' }}>
 
-                                                <Stack direction="row" spacing={1}>
+                                                <Stack direction="row" spacing={2} alignItems="center">
                                                     <ListItemDecorator>
                                                         <SmartAvatar
                                                             size="lg"
@@ -81,70 +98,97 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
                                                                 (hasDoctorInfo(appointment) ? (appointment.doctor_name || 'Unknown Doctor') : 'Unknown Doctor')
                                                             }
                                                             sx={{
-                                                                mr: 0.5,
                                                                 bgcolor: isDoctor ? 'primary.softBg' : 'success.softBg',
                                                                 color: isDoctor ? 'primary.solidColor' : 'success.solidColor',
-                                                                fontWeight: 'bold'
+                                                                fontWeight: 'bold',
+                                                                borderRadius: '50%',
+                                                                width: 48,
+                                                                height: 48
                                                             }}
                                                         />
                                                     </ListItemDecorator>
 
-                                                    <Stack direction="row" alignItems="center" justifyContent="flex-start">
-                                                        <Typography level="title-md" sx={{ fontWeight: 600 }}>
-                                                            {isDoctor ?
-                                                                getPatientDisplayName(appointment) :
-                                                                (hasDoctorInfo(appointment) ? appointment.doctor_name : 'Unknown Doctor')
-                                                            }
-                                                        </Typography>
-                                                        {!isDoctor && hasDoctorInfo(appointment) && (
-                                                            <Typography level="title-sm" variant="outlined" sx={{ color: 'text.tertiary', ml: 0.5, borderRadius: 18, px: 1 }}>
-                                                                {appointment.doctor_specialty}
+                                                    <Stack direction="column" sx={{ flex: 1 }}>
+                                                        <Stack direction="row" alignItems="center" spacing={1}>
+                                                            <Typography level="title-md" sx={{ fontWeight: 600 }}>
+                                                                {isDoctor ?
+                                                                    getPatientDisplayName(appointment) :
+                                                                    (hasDoctorInfo(appointment) ? appointment.doctor_name : 'Unknown Doctor')
+                                                                }
                                                             </Typography>
-                                                        )}
-                                                        {isDoctor && hasPatientInfo(appointment) && appointment.patient_phone && (
-                                                            <Typography level="title-sm" variant="outlined" sx={{ color: 'text.tertiary', ml: 0.5, borderRadius: 18, px: 1 }}>
-                                                                📞 {appointment.patient_phone}
+                                                            {!isDoctor && hasDoctorInfo(appointment) && (
+                                                                <Typography 
+                                                                    level="body-xs" 
+                                                                    sx={{ 
+                                                                        color: 'primary.500', 
+                                                                        bgcolor: 'primary.softBg',
+                                                                        borderRadius: '12px', 
+                                                                        px: 1.5,
+                                                                        py: 0.25,
+                                                                        fontWeight: 500
+                                                                    }}
+                                                                >
+                                                                    {appointment.doctor_specialty}
+                                                                </Typography>
+                                                            )}
+                                                        </Stack>
+                                                        
+                                                        <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 0.5 }}>
+                                                            <Typography level="body-sm" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+                                                                📅 {new Date(appointment.slot_timeFrom).toLocaleDateString('en-US', {
+                                                                    weekday: 'short',
+                                                                    month: 'short',
+                                                                    day: 'numeric',
+                                                                })}
                                                             </Typography>
-                                                        )}
+                                                            <Typography level="body-sm" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+                                                                🕐 {new Date(appointment.slot_timeFrom).toLocaleTimeString('en-US', {
+                                                                    hour: '2-digit',
+                                                                    minute: '2-digit',
+                                                                })}
+                                                            </Typography>
+                                                            {isDoctor && hasPatientInfo(appointment) && appointment.patient_phone && (
+                                                                <Typography 
+                                                                    level="body-xs" 
+                                                                    sx={{ 
+                                                                        color: 'success.600',
+                                                                        bgcolor: 'success.softBg',
+                                                                        borderRadius: '12px', 
+                                                                        px: 1.5,
+                                                                        py: 0.25,
+                                                                        fontWeight: 500
+                                                                    }}
+                                                                >
+                                                                    📞 {appointment.patient_phone}
+                                                                </Typography>
+                                                            )}
+                                                        </Stack>
                                                     </Stack>
 
-
-                                                    <Stack direction="row" alignItems="center" justifyContent="flex-end">
-                                                        <Typography level="body-sm" sx={{ color: 'text.tertiary' }}>
-                                                            {new Date(appointment.slot_timeFrom).toLocaleDateString('en-US', {
-                                                                weekday: 'short',
-                                                                month: 'short',
-                                                                day: 'numeric',
-                                                            })
+                                                    <Link
+                                                        level="body-sm"
+                                                        component="button"
+                                                        sx={{ 
+                                                            fontWeight: 600,
+                                                            color: 'primary.500',
+                                                            textDecoration: 'none',
+                                                            '&:hover': {
+                                                                color: 'primary.600',
+                                                                textDecoration: 'underline'
                                                             }
-                                                        </Typography>
-                                                        <Typography level="body-sm" sx={{ ml: 0.5, color: 'text.tertiary' }}>
-                                                            - {new Date(appointment.slot_timeFrom).toLocaleTimeString('en-US', {
-                                                                hour: '2-digit',
-                                                                minute: '2-digit',
-                                                            })}
-                                                        </Typography>
-                                                    </Stack>
-
+                                                        }}
+                                                        onClick={() => navigate(
+                                                            isDoctor ?
+                                                                `/doctor-home/${appointment.appointmentid}` :
+                                                                `/my-appointments/${appointment.appointmentid}`
+                                                        )}
+                                                    >
+                                                        View details →
+                                                    </Link>
                                                 </Stack>
-
-                                                <Link
-                                                    level="body-sm"
-                                                    component="button"
-                                                    mb={0.5}
-                                                    sx={{ ml: 'auto' }}
-                                                    onClick={() => navigate(
-                                                        isDoctor ?
-                                                            `/doctor-home/${appointment.appointmentid}` :
-                                                            `/my-appointments/${appointment.appointmentid}`
-                                                    )}
-                                                >
-                                                    See details
-                                                </Link>
                                             </Stack>
                                         </ListItemContent>
                                     </ListItem>
-                                    <ListDivider />
                                 </List>
                             ))
                         }
