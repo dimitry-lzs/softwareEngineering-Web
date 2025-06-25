@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { Speciality } from '../types';
 import patient from '../api/patient';
 import { notificationStore } from '.';
+import { APIError } from '../api';
 
 class DataStore {
     private loading = false;
@@ -36,9 +37,10 @@ class DataStore {
                 this.setSpecialities(response.data);
             }
         } catch (error) {
+            const apiError = error as APIError;
             notificationStore.setNotification(
                 true,
-                'Failed to fetch specialities',
+                `Failed to fetch specialities: ${apiError.response?.data?.error || 'Unknown error'}`,
                 'danger',
             );
         } finally {

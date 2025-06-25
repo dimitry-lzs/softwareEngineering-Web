@@ -1,18 +1,40 @@
 import { AspectRatio, Avatar, Box, Button, Card, CardActions, CardOverflow, Chip, ColorPaletteProp, Divider, FormControl, FormLabel, Stack, Textarea, Typography } from "@mui/joy";
-import { useNavigate, useParams } from "react-router";
-import { useAppointment, useCancelAppointment } from "../../hooks";
+import { useParams } from "react-router";
+import { useAppointment, useCancelAppointment, useCreateDoctorRating, useAppointmentRating, useUpdateRating } from "../../hooks";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import EditIcon from '@mui/icons-material/Edit';
 import SectionTitle from "../../components/SectionTitle";
+import MaterialRating from "../../components/MaterialRating";
+import { useState, useEffect, useMemo } from "react";
+import { Rating } from "../../types";
+import { LowercaseType } from "../../hooks/lowercase";
 
 export default function Appointment() {
     const { id } = useParams<{ id: string }>();
 
     const { appointment, loading, fetchAppointment } = useAppointment(id);
     const { cancelAppointment } = useCancelAppointment();
-    const navigate = useNavigate();
+    const { rating, fetchRating } = useAppointmentRating(id);
+    const { updateRating, loading: updateLoading } = useUpdateRating();
+    const { createRating, loading: createLoading } = useCreateDoctorRating();
+
+    const [editingRating, setEditingRating] = useState(false);
+    const [ratingStars, setRatingStars] = useState(0);
+    const [ratingComments, setRatingComments] = useState('');
+    const [updatedRating, setUpdatedRating] = useState<LowercaseType<Rating> | null>(null);
+
+    useEffect(() => {
+        if (rating) {
+            setRatingStars(rating.stars);
+            setRatingComments(rating.comments);
+        } else {
+            setRatingStars(0);
+            setRatingComments('');
+        }
+    }, [rating]);
 
     const handleCancelAppointment = async () => {
         if (id) {
@@ -23,6 +45,45 @@ export default function Appointment() {
                 console.error("Failed to cancel appointment:", error);
             }
         }
+    };
+
+    const appointmentRating = useMemo(() => {
+        if (updatedRating) return updatedRating;
+        if (rating) return rating;
+        return null;
+    }, [updatedRating, rating]);
+
+    const handleSaveRating = async () => {
+        if (!id || ratingStars === 0) return;
+        if (rating) {
+            const newRating = await updateRating(id, ratingStars, ratingComments);
+            setUpdatedRating(newRating);
+            setEditingRating(false);
+        } else {
+            // Create new rating
+            if (appointment) {
+                await createRating({
+                    appointmentID: appointment.appointmentid!,
+                    stars: ratingStars,
+                    comments: ratingComments,
+                }, () => {
+                    // Refresh rating after creation
+                    fetchRating(id);
+                    setEditingRating(false);
+                });
+            }
+        }
+    };
+
+    const handleCancelEdit = () => {
+        if (rating) {
+            setRatingStars(rating.stars);
+            setRatingComments(rating.comments);
+        } else {
+            setRatingStars(0);
+            setRatingComments('');
+        }
+        setEditingRating(false);
     };
 
     return (
@@ -77,7 +138,7 @@ export default function Appointment() {
                                     <FormControl>
                                         <FormLabel>Date</FormLabel>
                                         <Typography level="body-sm">
-                                            {new Date(appointment.slot_timeFrom).toLocaleDateString('en-US', {
+                                            {new Date(appointment.slot_timefrom).toLocaleDateString('en-US', {
                                                 year: 'numeric',
                                                 month: '2-digit',
                                                 day: '2-digit',
@@ -87,7 +148,7 @@ export default function Appointment() {
                                     <FormControl>
                                         <FormLabel>Time</FormLabel>
                                         <Typography level="body-sm">
-                                            {new Date(appointment.slot_timeFrom).toLocaleTimeString('en-US', {
+                                            {new Date(appointment.slot_timefrom).toLocaleTimeString('en-US', {
                                                 hour: '2-digit',
                                                 minute: '2-digit',
                                                 hour12: true,
@@ -186,15 +247,6 @@ export default function Appointment() {
                         <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
                             <Button
                                 size="sm"
-                                variant="solid"
-                                onClick={() => navigate(`/history/${id}/feedback`)}
-                                disabled={appointment?.status !== 'COMPLETED'}
-                                startDecorator={<CheckRoundedIcon />}
-                            >
-                                Leave Feedback
-                            </Button>
-                            <Button
-                                size="sm"
                                 variant="outlined"
                                 color="neutral"
                                 onClick={() => window.history.back()}
@@ -204,25 +256,161 @@ export default function Appointment() {
                         </CardActions>
                     </CardOverflow>
                 </Card>
-                {appointment?.status == 'COMPLETED' && appointment?.diagnoses?.map(diagnosis =>
+
+                {/* Rating Section - Only show for completed appointments */}
+                {appointment?.status === 'COMPLETED' && (
                     <Card>
                         <Box sx={{ mb: 1 }}>
+                            <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
+                                <Typography level="title-md">
+                                    {appointmentRating ? 'Your Rating' : 'Rate Your Experience'}
+                                </Typography>
+                                {appointmentRating && !editingRating && (
+                                    <Button
+                                        size="sm"
+                                        variant="outlined"
+                                        startDecorator={<EditIcon />}
+                                        onClick={() => setEditingRating(true)}
+                                    >
+                                        Edit Rating
+                                    </Button>
+                                )}
+                            </Stack>
+                            <Typography level="body-sm">
+                                {appointmentRating ? 'Your rating for Dr. ' + appointment?.doctor_name : 'Rate your experience with Dr. ' + appointment?.doctor_name}
+                            </Typography>
+                        </Box>
+                        <Divider />
+                        {!appointmentRating && !editingRating ? (
+                            <Stack spacing={2} sx={{ my: 2 }}>
+                                <Box>
+                                    <Typography level="body-sm" sx={{ mb: 1 }}>Rating:</Typography>
+                                    <MaterialRating
+                                        value={ratingStars}
+                                        setValue={setRatingStars}
+                                        readOnly={false}
+                                    />
+                                </Box>
+                                <FormControl>
+                                    <FormLabel>Comments (optional)</FormLabel>
+                                    <Textarea
+                                        value={ratingComments}
+                                        onChange={(e) => setRatingComments(e.target.value)}
+                                        placeholder="Share your experience with this doctor..."
+                                        minRows={3}
+                                    />
+                                </FormControl>
+                                <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+                                    <Button
+                                        size="sm"
+                                        variant="solid"
+                                        onClick={handleSaveRating}
+                                        disabled={ratingStars === 0}
+                                        loading={createLoading}
+                                    >
+                                        Submit Rating
+                                    </Button>
+                                </Stack>
+                            </Stack>
+                        ) : appointmentRating && !editingRating ? (
+                            // Display existing rating
+                            <Stack spacing={2} sx={{ my: 2 }}>
+                                <Box>
+                                    <Typography level="body-sm" sx={{ mb: 1 }}>Your Rating:</Typography>
+                                    <MaterialRating
+                                        value={appointmentRating.stars}
+                                        setValue={() => { }} // Read-only
+                                        readOnly={true}
+                                    />
+                                </Box>
+                                {appointmentRating.comments && (
+                                    <FormControl>
+                                        <FormLabel>Your Comments:</FormLabel>
+                                        <Box sx={{
+                                            p: 1.5,
+                                            bgcolor: 'background.level1',
+                                            borderRadius: 'sm',
+                                            border: '1px solid',
+                                            borderColor: 'divider'
+                                        }}>
+                                            <Typography level="body-sm">
+                                                {appointmentRating.comments}
+                                            </Typography>
+                                        </Box>
+                                    </FormControl>
+                                )}
+                            </Stack>
+                        ) : (
+                            // Edit rating form
+                            <Stack spacing={2} sx={{ my: 2 }}>
+                                <Box>
+                                    <Typography level="body-sm" sx={{ mb: 1 }}>Rating:</Typography>
+                                    <MaterialRating
+                                        value={ratingStars}
+                                        setValue={setRatingStars}
+                                        readOnly={false}
+                                    />
+                                </Box>
+                                <FormControl>
+                                    <FormLabel>Comments (optional)</FormLabel>
+                                    <Textarea
+                                        value={ratingComments}
+                                        onChange={(e) => setRatingComments(e.target.value)}
+                                        placeholder="Share your experience with this doctor..."
+                                        minRows={3}
+                                    />
+                                </FormControl>
+                                <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+                                    <Button
+                                        size="sm"
+                                        variant="solid"
+                                        onClick={handleSaveRating}
+                                        disabled={ratingStars === 0}
+                                        loading={updateLoading}
+                                    >
+                                        Update Rating
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        variant="outlined"
+                                        onClick={handleCancelEdit}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Stack>
+                            </Stack>
+                        )}
+                    </Card>
+                )}
+
+                {/* Diagnosis Section */}
+                {appointment?.status == 'COMPLETED' && appointment?.diagnoses?.map((diagnosis, index) =>
+                    <Card key={index} variant="outlined">
+                        <Box sx={{ mb: 1 }}>
                             <Stack direction="row" spacing={1} alignItems="center">
-                                <Typography level="title-md">Diagnosis: </Typography>
-                                <Typography level="title-md" sx={{ fontWeight: 'bolder' }}>
+                                <Typography level="title-md">Diagnosis {appointment.diagnoses!.length > 1 ? `#${index + 1}` : ''}: </Typography>
+                                <Typography level="title-md" sx={{ fontWeight: 'bold', color: 'primary.500' }}>
                                     {diagnosis.decease ?? 'No diagnosis provided.'}
                                 </Typography>
                             </Stack>
                         </Box>
                         <Divider />
-                        <Stack sx={{ my: 1 }}>
-                            <Typography level="title-sm">Diagnosis Details:</Typography>
-                            <Textarea
-                                size="sm"
-                                minRows={4}
-                                sx={{ mt: 1.5 }}
-                                defaultValue={diagnosis.details ?? ''}
-                            />
+                        <Stack sx={{ my: 2 }}>
+                            <FormControl>
+                                <FormLabel>Diagnosis Details:</FormLabel>
+                                <Box sx={{
+                                    p: 1.5,
+                                    bgcolor: 'background.level1',
+                                    borderRadius: 'sm',
+                                    border: '1px solid',
+                                    borderColor: 'divider',
+                                    minHeight: '80px'
+                                }}>
+                                    <Typography level="body-sm" sx={{ whiteSpace: 'pre-wrap' }}>
+                                        {diagnosis.details || 'No additional details provided.'}
+                                    </Typography>
+                                </Box>
+                            </FormControl>
                         </Stack>
                     </Card>
                 )}

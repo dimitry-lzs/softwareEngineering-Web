@@ -23,6 +23,11 @@ export default {
         stars,
         comments
     }),
+    getRating: async (appointmentID: string) => client.get(`/ratings/${appointmentID}`),
+    updateRating: async (appointmentID: string, stars: number, comments: string) => client.put(`/ratings/${appointmentID}`, {
+        stars,
+        comments
+    }),
     doctorAvailability: async (doctorID: string) => client.get('/get-doctor-availabilities', {
         params: { doctorID }
     }),

@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import SectionTitle from "../../../components/SectionTitle";
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useAppointment, useAddDiagnosis, useCompleteAppointment } from '../../../hooks';
-import { usePatient } from '../../../hooks/patient';
+import { usePatient } from '../../../hooks';
 import { useState, useEffect } from 'react';
 import { ColorPaletteProp } from '@mui/joy/styles';
 
@@ -16,7 +16,7 @@ export default function DoctorAppointment() {
     const navigate = useNavigate();
     const location = useLocation();
     const { appointment, loading, fetchAppointment } = useAppointment(id, true); // true for doctor context
-    const { patient } = usePatient((appointment?.patientID || appointment?.patientid)?.toString());
+    const { patient } = usePatient((appointment?.patientid)?.toString());
     const { addDiagnosis, loading: addingDiagnosis } = useAddDiagnosis();
     const { completeAppointment, loading: completingAppointment } = useCompleteAppointment();
 
@@ -33,7 +33,7 @@ export default function DoctorAppointment() {
         if (patient?.fullname && patient.fullname.trim()) {
             return patient.fullname;
         }
-        return `Patient #${appointment?.patientID || appointment?.patientid || 'Unknown'}`;
+        return `Patient #${appointment?.patientid || 'Unknown'}`;
     };
 
     // Helper function to get patient initials
@@ -69,7 +69,7 @@ export default function DoctorAppointment() {
     const handleAddDiagnosis = async () => {
         if (!appointment || !diagnosis.trim()) return;
 
-        const appointmentId = appointment.appointmentID || appointment.appointmentid;
+        const appointmentId = appointment.appointmentid;
         if (!appointmentId) return;
 
         const success = await addDiagnosis(
@@ -92,7 +92,7 @@ export default function DoctorAppointment() {
     const handleCompleteAppointment = async () => {
         if (!appointment) return;
 
-        const appointmentId = appointment.appointmentID || appointment.appointmentid;
+        const appointmentId = appointment.appointmentid;
         if (!appointmentId) return;
 
         const success = await completeAppointment(appointmentId.toString());
@@ -167,7 +167,7 @@ export default function DoctorAppointment() {
                 <Card>
                     <Box sx={{ mb: 1 }}>
                         <Typography level="title-md">
-                            Appointment A25-{appointment.appointmentID || appointment.appointmentid}
+                            Appointment A25-{appointment.appointmentid}
                         </Typography>
                     </Box>
 
@@ -195,11 +195,11 @@ export default function DoctorAppointment() {
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Date</FormLabel>
-                                <Typography level="body-sm">{formatDate(appointment.slot_timeFrom)}</Typography>
+                                <Typography level="body-sm">{formatDate(appointment.slot_timefrom)}</Typography>
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Time</FormLabel>
-                                <Typography level="body-sm">{formatTime(appointment.slot_timeFrom)}</Typography>
+                                <Typography level="body-sm">{formatTime(appointment.slot_timefrom)}</Typography>
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Reason</FormLabel>
