@@ -3,7 +3,6 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import HistoryIcon from '@mui/icons-material/History';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Divider from '@mui/joy/Divider';
 import GlobalStyles from '@mui/joy/GlobalStyles';
@@ -19,6 +18,7 @@ import { Link } from 'react-router-dom';
 import { userStore } from '../../stores';
 import { UserType } from '../../types';
 import DarkModeToggle from '../DarkModeToggle';
+import SmartAvatar from '../SmartAvatar';
 
 const PatientList = () => <>
     <ListItem>
@@ -237,10 +237,14 @@ export default observer(function Sidebar() {
             </Box>
             <Divider />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                <Avatar
-                    variant='outlined'
-                    size='sm'
+                <SmartAvatar
                     src={userStore.avatarData}
+                    name={userStore.fullName}
+                    size='sm'
+                    sx={{
+                        border: '1px solid',
+                        borderColor: 'divider'
+                    }}
                 />
                 <Box sx={{ minWidth: 0, flex: 1 }}>
                     <Typography level='title-sm'>{`${userStore.fullName}`}</Typography>

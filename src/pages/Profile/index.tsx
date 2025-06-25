@@ -28,6 +28,7 @@ import {
     UserType,
 } from '../../types';
 import SectionTitle from '../../components/SectionTitle';
+import SmartAvatar from '../../components/SmartAvatar';
 
 export default observer(function Profile() {
     const formRef = useRef<HTMLFormElement>(null);
@@ -54,7 +55,7 @@ export default observer(function Profile() {
                     zIndex: 9995,
                 }}
             >
-                <SectionTitle title="My Profile" subtitle="View your profile details"/>
+                <SectionTitle title="My Profile" subtitle="View your profile details" />
             </Box>
             <Stack
                 spacing={4}
@@ -76,63 +77,57 @@ export default observer(function Profile() {
                     <Divider />
                     <Stack direction='row' spacing={3}>
                         <Stack direction='column' spacing={1}>
-                            <AspectRatio
-                                ratio='1'
-                                maxHeight={200}
-                                sx={{
-                                    flex: 1,
-                                    minWidth: 120,
-                                    borderRadius: '100%',
-                                }}
-                            >
-                                <img
-                                    src={
-                                        userStore.avatarData ||
-                                        'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286'
-                                    }
-                                    loading='lazy'
-                                    alt=''
-                                />
-                            </AspectRatio>
-                            <IconButton
-                                aria-label='upload new picture'
-                                size='sm'
-                                variant='outlined'
-                                component='label'
-                                color='neutral'
-                                sx={{
-                                    bgcolor: 'background.body',
-                                    position: 'absolute',
-                                    zIndex: 2,
-                                    borderRadius: '50%',
-                                    left: 100,
-                                    top: 170,
-                                    boxShadow: 'sm',
-                                }}
-                            >
-                                <EditRoundedIcon />
-                                <input
-                                    type='file'
-                                    accept='image/*'
-                                    style={{
-                                        display: 'none',
-                                        height: '20px',
-                                        width: '30px',
-                                    }}
-                                    onChange={(event) => {
-                                        const file = event.target.files?.[0];
-                                        if (file) {
-                                            const reader = new FileReader();
-                                            reader.onloadend = async () => {
-                                                await userStore.updateAvatar(
-                                                    reader.result as string,
-                                                );
-                                            };
-                                            reader.readAsDataURL(file);
-                                        }
+                            <Box sx={{ position: 'relative', display: 'inline-block' }}>
+                                <SmartAvatar
+                                    src={userStore.avatarData}
+                                    name={userStore.fullName}
+                                    size='lg'
+                                    sx={{
+                                        width: 200,
+                                        height: 200,
+                                        fontSize: '3rem'
                                     }}
                                 />
-                            </IconButton>
+                                <IconButton
+                                    aria-label='upload new picture'
+                                    size='sm'
+                                    variant='outlined'
+                                    component='label'
+                                    color='neutral'
+                                    sx={{
+                                        bgcolor: 'background.body',
+                                        position: 'absolute',
+                                        zIndex: 2,
+                                        borderRadius: '50%',
+                                        right: 10,
+                                        bottom: 10,
+                                        boxShadow: 'sm',
+                                    }}
+                                >
+                                    <EditRoundedIcon />
+                                    <input
+                                        type='file'
+                                        accept='image/*'
+                                        style={{
+                                            display: 'none',
+                                            height: '20px',
+                                            width: '30px',
+                                        }}
+                                        onChange={(event) => {
+                                            const file = event.target.files?.[0];
+                                            if (file) {
+                                                const reader = new FileReader();
+                                                reader.onloadend = async () => {
+                                                    await userStore.updateAvatar(
+                                                        reader.result as string,
+                                                    );
+                                                };
+                                                reader.readAsDataURL(file);
+                                            }
+                                        }}
+                                    />
+                                </IconButton>
+                            </Box>
                         </Stack>
                         <Stack spacing={2} sx={{ flex: 1 }}>
                             <form
@@ -217,7 +212,7 @@ export default observer(function Profile() {
                                                             key={key}
                                                             value={
                                                                 Speciality[
-                                                                    key as keyof typeof Speciality
+                                                                key as keyof typeof Speciality
                                                                 ]
                                                             }
                                                         >
@@ -268,7 +263,7 @@ export default observer(function Profile() {
                                                             key={key}
                                                             value={
                                                                 OfficeLocation[
-                                                                    key as keyof typeof OfficeLocation
+                                                                key as keyof typeof OfficeLocation
                                                                 ]
                                                             }
                                                         >

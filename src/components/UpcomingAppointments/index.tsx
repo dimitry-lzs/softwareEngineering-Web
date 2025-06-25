@@ -1,4 +1,3 @@
-import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
@@ -6,6 +5,7 @@ import { ListItem, ListItemContent, ListItemDecorator, List, ListDivider, Stack 
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useAppointments } from '../../hooks';
+import SmartAvatar from '../SmartAvatar';
 
 interface UpcomingAppointmentsProps {
     isDoctor?: boolean;
@@ -33,19 +33,6 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
             return appointment.patient_name;
         }
         return `Patient #${appointment?.patientid || 'Unknown'}`;
-    };
-
-    const getPatientInitials = (appointment: any) => {
-        // Use patient_name from the upcoming appointments API to generate initials
-        if (hasPatientInfo(appointment) && appointment.patient_name.trim()) {
-            return appointment.patient_name
-                .split(' ')
-                .map((name: string) => name[0])
-                .join('')
-                .toUpperCase()
-                .slice(0, 2);
-        }
-        return 'P';
     };
 
     const filteredAppointments = useMemo(() => {
@@ -86,24 +73,20 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
 
                                                 <Stack direction="row" spacing={1}>
                                                     <ListItemDecorator>
-                                                        <Avatar size="lg" sx={{
-                                                            mr: 0.5,
-                                                            bgcolor: isDoctor ? 'primary.softBg' : 'success.softBg',
-                                                            color: isDoctor ? 'primary.solidColor' : 'success.solidColor',
-                                                            fontWeight: 'bold'
-                                                        }}>
-                                                            {isDoctor ? (
-                                                                // For doctors, show patient initial
-                                                                getPatientInitials(appointment)
-                                                            ) : (
-                                                                // For patients, show doctor avatar/initial
-                                                                hasDoctorInfo(appointment) && appointment.doctor_avatar ? (
-                                                                    <img alt="" src={appointment.doctor_avatar} />
-                                                                ) : (
-                                                                    hasDoctorInfo(appointment) && appointment.doctor_name ? appointment.doctor_name.slice(0, 1) : '?'
-                                                                )
-                                                            )}
-                                                        </Avatar>
+                                                        <SmartAvatar
+                                                            size="lg"
+                                                            src={isDoctor ? undefined : (hasDoctorInfo(appointment) ? appointment.doctor_avatar : undefined)}
+                                                            name={isDoctor ?
+                                                                getPatientDisplayName(appointment) :
+                                                                (hasDoctorInfo(appointment) ? (appointment.doctor_name || 'Unknown Doctor') : 'Unknown Doctor')
+                                                            }
+                                                            sx={{
+                                                                mr: 0.5,
+                                                                bgcolor: isDoctor ? 'primary.softBg' : 'success.softBg',
+                                                                color: isDoctor ? 'primary.solidColor' : 'success.solidColor',
+                                                                fontWeight: 'bold'
+                                                            }}
+                                                        />
                                                     </ListItemDecorator>
 
                                                     <Stack direction="row" alignItems="center" justifyContent="flex-start">
