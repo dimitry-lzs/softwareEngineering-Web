@@ -90,3 +90,31 @@ export const useSetAvailability = () => {
 
     return { loading, setAvailability };
 }
+
+export const useDeleteAvailability = () => {
+    const [loading, setLoading] = useState(false);
+
+    const deleteAvailability = async (availabilityId: number, callback?: () => void) => {
+        setLoading(true);
+        try {
+            await doctor.deleteAvailability(availabilityId);
+            notificationStore.setNotification(
+                true,
+                'Availability slot deleted successfully!',
+                'success',
+            );
+            if (callback) callback();
+        } catch (error) {
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to delete availability: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return { loading, deleteAvailability };
+}

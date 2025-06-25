@@ -1,18 +1,30 @@
-import { Box, Button, Card, CardActions, CardOverflow, Divider, FormControl, FormLabel, Select, Stack, Typography, Option } from "@mui/joy";
+import { Box, Button, Card, CardActions, CardOverflow, Divider, FormControl, FormLabel, Select, Stack, Typography, Option, IconButton } from "@mui/joy";
 import SectionTitle from "../../../components/SectionTitle";
 import React from "react";
 import MaterialCalendar from "../../../components/MaterialCalendar";
 import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
-import { useAvailabilities, useSetAvailability } from "../../../hooks/availability";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useAvailabilities, useSetAvailability, useDeleteAvailability } from "../../../hooks/availability";
 
 export default function SetAvailabilities() {
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
     const [selectedTime, setSelectedTime] = React.useState<string>("9");
     const [previewSlots, setPreviewSlots] = React.useState<string[]>([]);
     const { setAvailability } = useSetAvailability();
+    const { deleteAvailability } = useDeleteAvailability();
     const { availabilities, refreshAvailabilities } = useAvailabilities();
+
+    // Helper function to check if a date is in the past
+    const isDateInPast = (date: Date | null) => {
+        if (!date) return false;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const checkDate = new Date(date);
+        checkDate.setHours(0, 0, 0, 0);
+        return checkDate < today;
+    };
 
     React.useEffect(() => {
         if (selectedDate && previewSlots.length > 0) {
@@ -28,6 +40,17 @@ export default function SetAvailabilities() {
 
     const addSlot = () => {
         if (selectedDate) {
+            // Check if selected date is in the past
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Reset time to beginning of day for comparison
+            const selectedDateOnly = new Date(selectedDate);
+            selectedDateOnly.setHours(0, 0, 0, 0);
+
+            if (selectedDateOnly < today) {
+                // Don't add slots for past dates
+                return;
+            }
+
             const dateTime = new Date(selectedDate);
             dateTime.setHours(parseInt(selectedTime), 0, 0, 0);
             const isoString = dateTime.toISOString();
@@ -45,11 +68,29 @@ export default function SetAvailabilities() {
     };
 
     const submitSlots = () => {
-        const slotsData = { slots: previewSlots };
+        // Filter out any slots that might be in the past
+        const validSlots = previewSlots.filter(slot => {
+            const slotDate = new Date(slot);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            slotDate.setHours(0, 0, 0, 0);
+            return slotDate >= today;
+        });
+
+        if (validSlots.length === 0) {
+            // No valid slots to submit
+            return;
+        }
+
+        const slotsData = { slots: validSlots };
         setAvailability(slotsData, () => {
             setPreviewSlots([]);
             refreshAvailabilities();
         });
+    };
+
+    const handleDeleteAvailability = (availabilityId: number) => {
+        deleteAvailability(availabilityId, refreshAvailabilities);
     };
 
     return (
@@ -65,60 +106,29 @@ export default function SetAvailabilities() {
                     <Stack direction="row" alignItems='flex-start' spacing={3} sx={{ width: '100%' }}>
 
                         <Card variant="outlined" sx={{ flex: '0 0 auto' }}>
-                            <MaterialCalendar setDate={value => {
-                                setSelectedDate(value?.toDate() || null);
-                            }} />
-                        </Card>
-
-                        <Card sx={{ flex: 1, minHeight: '360px' }}>
-                            <Box sx={{ mb: 1 }}>
-                                <Typography level="title-md">Submitted Availabilities</Typography>
-                                <Typography level="body-sm">
-                                    Your confirmed availability time slots
-                                </Typography>
-                            </Box>
-                            <Divider />
-
-                            <Stack
-                                direction="column"
-                                divider={<Divider orientation="horizontal" />}
-                                spacing={2}
-                                sx={{
-                                    height: '306px',
-                                    display: 'flex',
-                                    my: 1,
-                                    overflowY: 'auto',
-                                    overflowX: 'hidden'
+                            <MaterialCalendar
+                                setDate={value => {
+                                    const date = value?.toDate() || null;
+                                    // Double check to prevent past dates from being set
+                                    if (date && !isDateInPast(date)) {
+                                        setSelectedDate(date);
+                                    } else if (date && isDateInPast(date)) {
+                                        // Clear selection if past date is somehow selected
+                                        setSelectedDate(null);
+                                    } else {
+                                        setSelectedDate(date);
+                                    }
                                 }}
-                            >
-                                {availabilities.length === 0 ? (
-                                    <Typography level="body-sm" color="neutral">
-                                        No submitted slots yet
-                                    </Typography>
-                                ) : (
-                                    availabilities.map((availability) => (
-                                        <Stack key={availability.availabilityid} direction="row" alignItems="center" spacing={1}>
-                                            {availability.free === 1 ? (
-                                                <CheckCircleIcon fontSize="small" sx={{ color: 'success.500' }} />
-                                            ) : (
-                                                <EventBusyIcon fontSize="small" sx={{ color: 'danger.500' }} />
-                                            )}
-                                            <Typography level="body-sm">
-                                                {new Date(availability.timefrom).toLocaleDateString()} at {new Date(availability.timefrom).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            </Typography>
-                                            <Typography level="body-xs" sx={{ color: availability.free === 1 ? 'success.500' : 'danger.500', ml: 'auto' }}>
-                                                {availability.free === 1 ? 'Available' : 'Booked'}
-                                            </Typography>
-                                        </Stack>
-                                    ))
-                                )}
-                            </Stack>
+                                shouldDisableDate={(date) => {
+                                    const today = new Date();
+                                    today.setHours(0, 0, 0, 0);
+                                    return date.toDate() < today;
+                                }}
+                            />
                         </Card>
-                    </Stack>
 
-                    {/* Add Availabilities Section - Full Width */}
-                    <Stack direction='column' spacing={2} sx={{ width: '100%' }}>
-                        <Card>
+                        {/* Add Availabilities Section - Now beside calendar */}
+                        <Card sx={{ flex: 1, minHeight: '360px' }}>
                             <Stack direction='column' sx={{ mb: 1 }}>
                                 <Typography level="title-md">Add Availabilities</Typography>
                                 <Typography level="body-sm">
@@ -139,6 +149,11 @@ export default function SetAvailabilities() {
                                             <Typography level="body-sm">
                                                 {selectedDate ? selectedDate.toLocaleDateString() : 'No date selected'}
                                             </Typography>
+                                            {selectedDate && isDateInPast(selectedDate) && (
+                                                <Typography level="body-xs" sx={{ color: 'danger.500', mt: 0.5 }}>
+                                                    ⚠️ Cannot select past dates for availability
+                                                </Typography>
+                                            )}
                                         </FormControl>
                                         {selectedDate && (
                                             <FormControl>
@@ -161,52 +176,127 @@ export default function SetAvailabilities() {
                                         )}
                                     </Stack>
                                 </Box>
+
+                                {/* Preview List - Now inside the add form */}
+                                {previewSlots.length > 0 && (
+                                    <Box>
+                                        <Typography level="body-sm" sx={{ mb: 1, fontWeight: 'md' }}>
+                                            Preview - Pending Slots
+                                        </Typography>
+                                        <Stack
+                                            direction="column"
+                                            spacing={1}
+                                            sx={{
+                                                maxHeight: '120px',
+                                                overflowY: 'auto',
+                                                border: '1px solid',
+                                                borderColor: 'divider',
+                                                borderRadius: 'sm',
+                                                p: 1
+                                            }}
+                                        >
+                                            {previewSlots.map((slot, index) => (
+                                                <Stack key={index} direction="row" justifyContent="space-between" alignItems="center">
+                                                    <Typography level="body-xs">
+                                                        {new Date(slot).toLocaleDateString()} at {new Date(slot).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    </Typography>
+                                                    <IconButton size="sm" variant="soft" color="danger" onClick={() => removePreviewSlot(slot)}>
+                                                        ×
+                                                    </IconButton>
+                                                </Stack>
+                                            ))}
+                                        </Stack>
+                                    </Box>
+                                )}
                             </Stack>
                             <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
                                 <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                                    <Button size="sm" variant="solid" onClick={addSlot} disabled={!selectedDate}>
-                                        Add
+                                    <Button
+                                        size="sm"
+                                        variant="solid"
+                                        onClick={addSlot}
+                                        disabled={!selectedDate || isDateInPast(selectedDate)}
+                                        title={
+                                            !selectedDate
+                                                ? "Please select a date first"
+                                                : isDateInPast(selectedDate)
+                                                ? "Cannot add slots for past dates"
+                                                : "Add this time slot"
+                                        }
+                                    >
+                                        {!selectedDate
+                                            ? "Select Date First"
+                                            : isDateInPast(selectedDate)
+                                            ? "Past Date Selected"
+                                            : "Add Time Slot"
+                                        }
                                     </Button>
-                                </CardActions>
-                            </CardOverflow>                            </Card>
-
-                        {/* Preview List - Now directly below Add form */}
-                        {previewSlots.length > 0 && (
-                            <Card>
-                                <Box sx={{ mb: 1 }}>
-                                    <Typography level="title-md">Preview - Pending Slots</Typography>
-                                    <Typography level="body-sm">
-                                        Review your selections before submitting
-                                    </Typography>
-                                </Box>
-                                <Divider />
-                                <Stack
-                                    direction="column"
-                                    divider={<Divider orientation="horizontal" />}
-                                    spacing={1}
-                                    sx={{ my: 1, maxHeight: '200px', overflowY: 'auto' }}
-                                >
-                                    {previewSlots.map((slot, index) => (
-                                        <Stack key={index} direction="row" justifyContent="space-between" alignItems="center">
-                                            <Typography level="body-sm">
-                                                {new Date(slot).toLocaleDateString()} at {new Date(slot).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            </Typography>
-                                            <Button size="sm" variant="soft" color="danger" onClick={() => removePreviewSlot(slot)}>
-                                                ×
-                                            </Button>
-                                        </Stack>
-                                    ))}
-                                </Stack>
-                                <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
-                                    <CardActions sx={{ justifyContent: 'center', pt: 2 }}>
-                                        <Button size="md" variant="solid" color="primary" onClick={submitSlots}>
-                                            Submit Slots ({previewSlots.length})
+                                    {previewSlots.length > 0 && (
+                                        <Button size="sm" variant="solid" color="primary" onClick={submitSlots}>
+                                            Submit All ({previewSlots.length})
                                         </Button>
-                                    </CardActions>
-                                </CardOverflow>
-                            </Card>
-                        )}
+                                    )}
+                                </CardActions>
+                            </CardOverflow>
+                        </Card>
                     </Stack>
+
+                    {/* Submitted Availabilities Section - Now at bottom */}
+                    <Card>
+                        <Box sx={{ mb: 1 }}>
+                            <Typography level="title-md">Submitted Availabilities</Typography>
+                            <Typography level="body-sm">
+                                Your confirmed availability time slots. You can delete available slots that haven't been booked yet.
+                            </Typography>
+                        </Box>
+                        <Divider />
+
+                        <Stack
+                            direction="column"
+                            divider={<Divider orientation="horizontal" />}
+                            spacing={2}
+                            sx={{
+                                maxHeight: '300px',
+                                display: 'flex',
+                                my: 1,
+                                overflowY: 'auto',
+                                overflowX: 'hidden'
+                            }}
+                        >
+                            {availabilities.length === 0 ? (
+                                <Typography level="body-sm" color="neutral">
+                                    No submitted slots yet
+                                </Typography>
+                            ) : (
+                                availabilities.map((availability) => (
+                                    <Stack key={availability.availabilityid} direction="row" alignItems="center" spacing={1}>
+                                        {availability.free === 1 ? (
+                                            <CheckCircleIcon fontSize="small" sx={{ color: 'success.500' }} />
+                                        ) : (
+                                            <EventBusyIcon fontSize="small" sx={{ color: 'danger.500' }} />
+                                        )}
+                                        <Typography level="body-sm" sx={{ flex: 1 }}>
+                                            {new Date(availability.timefrom).toLocaleDateString()} at {new Date(availability.timefrom).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        </Typography>
+                                        <Typography level="body-xs" sx={{ color: availability.free === 1 ? 'success.500' : 'danger.500' }}>
+                                            {availability.free === 1 ? 'Available' : 'Booked'}
+                                        </Typography>
+                                        {availability.free === 1 && (
+                                            <IconButton
+                                                size="sm"
+                                                variant="soft"
+                                                color="danger"
+                                                onClick={() => handleDeleteAvailability(availability.availabilityid)}
+                                                sx={{ ml: 1 }}
+                                            >
+                                                <DeleteIcon fontSize="small" />
+                                            </IconButton>
+                                        )}
+                                    </Stack>
+                                ))
+                            )}
+                        </Stack>
+                    </Card>
                 </Stack>
             </Box>
         </React.Fragment>

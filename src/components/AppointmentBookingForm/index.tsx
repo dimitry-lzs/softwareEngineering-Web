@@ -66,10 +66,10 @@ export default function AppointmentBookingForm({
                 }}
                 >
                     {!availabilities || availabilities.length === 0 ? (
-                        <Box sx={{ 
-                            display: 'flex', 
-                            flexDirection: 'column', 
-                            alignItems: 'center', 
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
                             justifyContent: 'center',
                             width: '100%',
                             height: '200px',
@@ -83,8 +83,8 @@ export default function AppointmentBookingForm({
                         <Box
                             role="group"
                             aria-labelledby="available-time-slot"
-                            sx={{ 
-                                display: 'grid', 
+                            sx={{
+                                display: 'grid',
                                 gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
                                 gap: 2,
                                 width: '100%'
@@ -113,18 +113,18 @@ export default function AppointmentBookingForm({
                                         cursor: 'pointer',
                                         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                         minHeight: '90px',
-                                        background: checked 
+                                        background: checked
                                             ? 'linear-gradient(135deg, var(--joy-palette-primary-500) 0%, var(--joy-palette-primary-600) 100%)'
                                             : 'var(--joy-palette-background-surface)',
-                                        border: checked 
+                                        border: checked
                                             ? '2px solid var(--joy-palette-primary-400)'
                                             : '2px solid var(--joy-palette-neutral-300)',
                                         '&:hover': {
                                             transform: 'translateY(-4px)',
-                                            boxShadow: checked 
+                                            boxShadow: checked
                                                 ? '0 8px 25px rgba(var(--joy-palette-primary-mainChannel), 0.25)'
                                                 : '0 8px 25px rgba(0, 0, 0, 0.1)',
-                                            border: checked 
+                                            border: checked
                                                 ? '2px solid var(--joy-palette-primary-300)'
                                                 : '2px solid var(--joy-palette-primary-400)',
                                         },
@@ -136,8 +136,8 @@ export default function AppointmentBookingForm({
                                     }}
                                 >
                                     {checked && (
-                                        <CheckIcon 
-                                            sx={{ 
+                                        <CheckIcon
+                                            sx={{
                                                 position: 'absolute',
                                                 top: 8,
                                                 right: 8,
@@ -151,20 +151,20 @@ export default function AppointmentBookingForm({
                                                     '0%': { opacity: 0, transform: 'scale(0.5)' },
                                                     '100%': { opacity: 1, transform: 'scale(1)' }
                                                 }
-                                            }} 
+                                            }}
                                         />
                                     )}
                                     <Stack spacing={1.5} alignItems="center" py={1.5}>
                                         <Stack direction="row" spacing={1.5} alignItems="center">
-                                            <CalendarTodayIcon 
-                                                sx={{ 
+                                            <CalendarTodayIcon
+                                                sx={{
                                                     fontSize: '1.1rem',
                                                     color: checked ? 'rgba(255, 255, 255, 0.9)' : 'primary.500'
-                                                }} 
+                                                }}
                                             />
-                                            <Typography 
+                                            <Typography
                                                 level="title-sm"
-                                                sx={{ 
+                                                sx={{
                                                     color: checked ? 'white' : 'text.primary',
                                                     fontWeight: 600,
                                                     fontSize: '0.95rem'
@@ -174,15 +174,15 @@ export default function AppointmentBookingForm({
                                             </Typography>
                                         </Stack>
                                         <Stack direction="row" spacing={1.5} alignItems="center">
-                                            <AccessTimeIcon 
-                                                sx={{ 
+                                            <AccessTimeIcon
+                                                sx={{
                                                     fontSize: '1.1rem',
                                                     color: checked ? 'rgba(255, 255, 255, 0.8)' : 'primary.400'
-                                                }} 
+                                                }}
                                             />
-                                            <Typography 
+                                            <Typography
                                                 level="body-md"
-                                                sx={{ 
+                                                sx={{
                                                     color: checked ? 'rgba(255, 255, 255, 0.95)' : 'text.secondary',
                                                     fontWeight: 500,
                                                     fontSize: '0.9rem'

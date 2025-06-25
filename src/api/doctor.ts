@@ -3,6 +3,7 @@ import { client } from '.';
 export default {
     setDoctorAvailability: async (availabilities: { slots: string[] }) => client.post('/set-availability', availabilities),
     getAvailabilities: async () => client.get('/doctor-availabilities'),
+    deleteAvailability: async (availabilityId: number) => client.delete(`/delete-availability/${availabilityId}`),
     appointments: async () => client.get('/doctor-appointments'),
     appointment: async (id: string) => client.get(`/view-appointment-details`, {
         params: { appointmentID: id }
