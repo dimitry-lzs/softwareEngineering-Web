@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Doctor, Rating } from "../types";
 import { LowercaseType } from "./lowercase";
 import patient from "../api/patient";
+import doctor from "../api/doctor";
 import { notificationStore } from "../stores";
 import { APIError } from "../api";
 
@@ -127,4 +128,32 @@ export const useCreateDoctorRating = () => {
     }
 
     return { createRating, loading };
+}
+
+export const useMyDoctorRatings = () => {
+    const [ratings, setRatings] = useState<LowercaseType<Rating>[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    const fetchMyRatings = async () => {
+        setLoading(true);
+        try {
+            const { data } = await doctor.getRatings();
+            setRatings(data);
+        } catch (error) {
+            const axiosError = error as APIError;
+            notificationStore.setNotification(
+                true,
+                `Failed to fetch your ratings: ${axiosError.response?.data?.error || 'Unknown error'}`,
+                'danger',
+            );
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchMyRatings();
+    }, []);
+
+    return { ratings, loading, fetchMyRatings };
 }

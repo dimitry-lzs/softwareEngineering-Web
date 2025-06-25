@@ -3,6 +3,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import HistoryIcon from '@mui/icons-material/History';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import StarIcon from '@mui/icons-material/Star';
 import Box from '@mui/joy/Box';
 import Divider from '@mui/joy/Divider';
 import GlobalStyles from '@mui/joy/GlobalStyles';
@@ -115,6 +116,20 @@ const DoctorList = () => <>
             <ListItemContent>
                 <Typography level='title-sm'>
                     History
+                </Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
+    <ListItem>
+        <ListItemButton
+            to='/doctor-ratings'
+            component={Link}
+            role='menuitem'
+        >
+            <StarIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>
+                    My Reviews
                 </Typography>
             </ListItemContent>
         </ListItemButton>

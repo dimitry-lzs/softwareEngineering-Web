@@ -18,4 +18,5 @@ export default {
         appointmentID: id
     }),
     getPatient: async (id?: string) => client.get(`/patients/${id}`),
+    getRatings: async () => client.get('/ratings'),
 }
