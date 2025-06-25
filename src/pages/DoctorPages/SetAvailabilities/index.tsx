@@ -233,6 +233,11 @@ export default function SetAvailabilities() {
                             </Stack>
                             <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
                                 <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+                                    {previewSlots.length > 0 && (
+                                        <Button size="sm" variant="solid" color="primary" onClick={submitSlots}>
+                                            Submit All ({previewSlots.length})
+                                        </Button>
+                                    )}
                                     <Button
                                         size="sm"
                                         variant="solid"
@@ -242,22 +247,17 @@ export default function SetAvailabilities() {
                                             !selectedDate
                                                 ? "Please select a date first"
                                                 : isDateInPastOrToday(selectedDate)
-                                                ? "Can only schedule for tomorrow and later"
-                                                : "Add this time slot"
+                                                    ? "Can only schedule for tomorrow and later"
+                                                    : "Add this time slot"
                                         }
                                     >
                                         {!selectedDate
                                             ? "Select Date First"
                                             : isDateInPastOrToday(selectedDate)
-                                            ? "Tomorrow+ Only"
-                                            : "Add Time Slot"
+                                                ? "Tomorrow+ Only"
+                                                : "Add Time Slot"
                                         }
                                     </Button>
-                                    {previewSlots.length > 0 && (
-                                        <Button size="sm" variant="solid" color="primary" onClick={submitSlots}>
-                                            Submit All ({previewSlots.length})
-                                        </Button>
-                                    )}
                                 </CardActions>
                             </CardOverflow>
                         </Card>
@@ -295,31 +295,31 @@ export default function SetAvailabilities() {
                                 availabilities
                                     .filter(availability => isDateTimeInFuture(availability.timefrom))
                                     .map((availability) => (
-                                    <Stack key={availability.availabilityid} direction="row" alignItems="center" spacing={1}>
-                                        {availability.free === 1 ? (
-                                            <CheckCircleIcon fontSize="small" sx={{ color: 'success.500' }} />
-                                        ) : (
-                                            <EventBusyIcon fontSize="small" sx={{ color: 'danger.500' }} />
-                                        )}
-                                        <Typography level="body-sm" sx={{ flex: 1 }}>
-                                            {new Date(availability.timefrom).toLocaleDateString()} at {new Date(availability.timefrom).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                        </Typography>
-                                        <Typography level="body-xs" sx={{ color: availability.free === 1 ? 'success.500' : 'danger.500' }}>
-                                            {availability.free === 1 ? 'Available' : 'Booked'}
-                                        </Typography>
-                                        {availability.free === 1 && (
-                                            <IconButton
-                                                size="sm"
-                                                variant="soft"
-                                                color="danger"
-                                                onClick={() => handleDeleteAvailability(availability.availabilityid)}
-                                                sx={{ ml: 1 }}
-                                            >
-                                                <DeleteIcon fontSize="small" />
-                                            </IconButton>
-                                        )}
-                                    </Stack>
-                                ))
+                                        <Stack key={availability.availabilityid} direction="row" alignItems="center" spacing={1}>
+                                            {availability.free === 1 ? (
+                                                <CheckCircleIcon fontSize="small" sx={{ color: 'success.500' }} />
+                                            ) : (
+                                                <EventBusyIcon fontSize="small" sx={{ color: 'danger.500' }} />
+                                            )}
+                                            <Typography level="body-sm" sx={{ flex: 1 }}>
+                                                {new Date(availability.timefrom).toLocaleDateString()} at {new Date(availability.timefrom).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </Typography>
+                                            <Typography level="body-xs" sx={{ color: availability.free === 1 ? 'success.500' : 'danger.500' }}>
+                                                {availability.free === 1 ? 'Available' : 'Booked'}
+                                            </Typography>
+                                            {availability.free === 1 && (
+                                                <IconButton
+                                                    size="sm"
+                                                    variant="soft"
+                                                    color="danger"
+                                                    onClick={() => handleDeleteAvailability(availability.availabilityid)}
+                                                    sx={{ ml: 1 }}
+                                                >
+                                                    <DeleteIcon fontSize="small" />
+                                                </IconButton>
+                                            )}
+                                        </Stack>
+                                    ))
                             )}
                         </Stack>
                     </Card>
