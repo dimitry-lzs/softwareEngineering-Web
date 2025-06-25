@@ -5,7 +5,7 @@ import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import NumbersIcon from '@mui/icons-material/Numbers';
 import Phone from '@mui/icons-material/PhoneRounded';
 import { Option, Select, Textarea } from '@mui/joy';
-import AspectRatio from '@mui/joy/AspectRatio';
+
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
@@ -28,6 +28,7 @@ import {
     UserType,
 } from '../../../types';
 import SectionTitle from '../../../components/SectionTitle';
+import SmartAvatar from '../../../components/SmartAvatar';
 
 export default observer(function DoctorProfile() {
     const formRef = useRef<HTMLFormElement>(null);
@@ -76,24 +77,24 @@ export default observer(function DoctorProfile() {
                     <Divider />
                     <Stack direction='row' spacing={3}>
                         <Stack direction='column' spacing={1}>
-                            <AspectRatio
-                                ratio='1'
-                                maxHeight={200}
+                            <Box
                                 sx={{
-                                    flex: 1,
-                                    minWidth: 120,
-                                    borderRadius: '100%',
+                                    width: 200,
+                                    height: 200,
+                                    borderRadius: '50%',
+                                    overflow: 'hidden',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    flexShrink: 0
                                 }}
                             >
-                                <img
-                                    src={
-                                        userStore.avatarData ||
-                                        'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286'
-                                    }
-                                    loading='lazy'
-                                    alt=''
+                                <SmartAvatar
+                                    src={userStore.avatarData}
+                                    name={userStore.fullName || 'Doctor'}
+                                    sx={{ width: '100%', height: '100%' }}
                                 />
-                            </AspectRatio>
+                            </Box>
                             <IconButton
                                 aria-label='upload new picture'
                                 size='sm'

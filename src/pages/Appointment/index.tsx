@@ -1,4 +1,5 @@
-import { AspectRatio, Avatar, Box, Button, Card, CardActions, CardOverflow, Chip, ColorPaletteProp, Divider, FormControl, FormLabel, Stack, Textarea, Typography } from "@mui/joy";
+import { Box, Button, Card, CardActions, CardOverflow, Chip, ColorPaletteProp, Divider, FormControl, FormLabel, Stack, Textarea, Typography } from "@mui/joy";
+import SmartAvatar from '../../components/SmartAvatar';
 import { useParams } from "react-router";
 import { useAppointment, useCancelAppointment, useCreateDoctorRating, useAppointmentRating, useUpdateRating } from "../../hooks";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -200,21 +201,14 @@ export default function Appointment() {
                                         <Typography level="title-sm">Contact Information</Typography>
 
                                         <Stack>
-                                            <AspectRatio
-                                                ratio="1"
-                                                maxHeight={200}
-                                                sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
-                                            >
-                                                <Avatar size="lg" sx={{ width: '100%', height: '100%' }}>
-                                                    {
-                                                        appointment?.doctor_avatar ? (
-                                                            <img alt="" src={appointment.doctor_avatar} />
-                                                        ) : (
-                                                            appointment.doctor_name ? appointment.doctor_name.slice(0, 1) : '?'
-                                                        )
-                                                    }
-                                                </Avatar>
-                                            </AspectRatio>
+                                            <Box sx={{ width: 120, height: 120, mx: 'auto' }}>
+                                                <SmartAvatar
+                                                    src={appointment?.doctor_avatar}
+                                                    name={appointment.doctor_name || 'Unknown Doctor'}
+                                                    size="lg"
+                                                    sx={{ width: '100%', height: '100%' }}
+                                                />
+                                            </Box>
                                         </Stack>
 
                                         <FormControl>

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { ColorPaletteProp } from '@mui/joy/styles';
-import { Box, Chip, Link, Typography, FormControl, FormLabel, Select, Option, Sheet, Table, Avatar, Stack } from '@mui/joy';
+import { Box, Chip, Link, Typography, FormControl, FormLabel, Select, Option, Sheet, Table, Stack } from '@mui/joy';
+import SmartAvatar from '../../components/SmartAvatar';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
@@ -179,15 +180,12 @@ export default function AppointmentHistory() {
                                                 </td>
                                                 <td>
                                                     <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                                        <Avatar size="sm">
-                                                            {
-                                                                appointment?.doctor_avatar ? (
-                                                                    <img alt="" src={appointment.doctor_avatar} />
-                                                                ) : (
-                                                                    appointment.doctor_name ? appointment.doctor_name.slice(0, 1) : '?'
-                                                                )
-                                                            }
-                                                        </Avatar>
+                                                        <SmartAvatar
+                                                            size="sm"
+                                                            src={appointment?.doctor_avatar}
+                                                            name={appointment.doctor_name || 'Unknown Doctor'}
+                                                            sx={{ borderRadius: '50%' }}
+                                                        />
                                                         <div>
                                                             <Typography level="body-xs">{appointment.doctor_name}</Typography>
                                                             <Typography level="body-xs">({appointment.doctor_specialty?.toLowerCase() || 'Unknown Specialty'})</Typography>

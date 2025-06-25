@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { ColorPaletteProp } from '@mui/joy/styles';
-import { Box, Chip, Link, Typography, FormControl, FormLabel, Select, Option, Sheet, Table, Avatar, Stack } from '@mui/joy';
+import { Box, Chip, Link, Typography, FormControl, FormLabel, Select, Option, Sheet, Table, Stack } from '@mui/joy';
+import SmartAvatar from '../../../components/SmartAvatar';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
@@ -21,11 +22,6 @@ export default function DoctorAppointmentHistory() {
     const getPatientDisplayName = (appointment: any) => {
         // Since we don't have patient data in the list view, show patient ID
         return `Patient #${appointment?.patientid || 'Unknown'}`;
-    };
-
-    const getPatientInitials = (_appointment: any) => {
-        // Since we don't have patient name in appointment, use generic initial
-        return 'P';
     };
 
     useEffect(() => {
@@ -197,16 +193,16 @@ export default function DoctorAppointmentHistory() {
                                                 </td>
                                                 <td>
                                                     <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                                        <Avatar
+                                                        <SmartAvatar
                                                             size="sm"
+                                                            name={getPatientDisplayName(appointment)}
                                                             sx={{
                                                                 bgcolor: 'primary.softBg',
                                                                 color: 'primary.solidColor',
-                                                                fontWeight: 'bold'
+                                                                fontWeight: 'bold',
+                                                                borderRadius: '50%'
                                                             }}
-                                                        >
-                                                            {getPatientInitials(appointment)}
-                                                        </Avatar>
+                                                        />
                                                         <div>
                                                             <Typography level="body-xs" sx={{ fontWeight: 'md' }}>
                                                                 {getPatientDisplayName(appointment)}

@@ -1,15 +1,14 @@
-import AspectRatio from '@mui/joy/AspectRatio';
+import Box from '@mui/joy/Box';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
-import CardOverflow from '@mui/joy/CardOverflow';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
 import Rating from './rating';
-import Button from '@mui/joy/Button';
 import { OfficeLocation, Speciality } from '../../types';
 import formatString from '../../misc/formatSpeciality';
 import { useNavigate } from 'react-router';
+import SmartAvatar from '../../components/SmartAvatar';
 
 type DoctorCardProps = {
     id: number;
@@ -24,41 +23,58 @@ export default function DoctorCard(props: DoctorCardProps) {
     const navigate = useNavigate();
     const { specialty: category, title, location, rating, image, id } = props;
 
+    const handleCardClick = () => {
+        navigate(`/home/${id}`);
+    };
+
     return (
         <Card
             variant="outlined"
             orientation="horizontal"
+            onClick={handleCardClick}
             sx={{
                 bgcolor: 'neutral.softBg',
                 display: 'flex',
                 flexDirection: { xs: 'column', sm: 'row' },
+                cursor: 'pointer',
                 '&:hover': {
                     boxShadow: 'lg',
-                    borderColor: 'var(--joy-palette-neutral-outlinedDisabledBorder)',
+                    borderColor: 'primary.outlinedBorder',
+                    transform: 'translateY(-1px)',
+                    transition: 'all 0.2s ease-in-out',
+                    '& .MuiAvatar-root': {
+                        transform: 'scale(1.02)',
+                    }
                 },
+                '&:active': {
+                    transform: 'translateY(0px)',
+                    boxShadow: 'md',
+                },
+                transition: 'all 0.2s ease-in-out',
             }}
         >
-            <CardOverflow
+            <Box
                 sx={{
-                    mr: { xs: 'var(--CardOverflow-offset)', sm: 0 },
-                    mb: { xs: 0, sm: 'var(--CardOverflow-offset)' },
-                    '--AspectRatio-radius': {
-                        xs: 'calc(var(--CardOverflow-radius) - var(--variant-borderWidth, 0px)) calc(var(--CardOverflow-radius) - var(--variant-borderWidth, 0px)) 0 0',
-                        sm: 'calc(var(--CardOverflow-radius) - var(--variant-borderWidth, 0px)) 0 0 calc(var(--CardOverflow-radius) - var(--variant-borderWidth, 0px))',
-                    },
+                    width: { xs: '100%', sm: '120px', md: '160px' },
+                    height: '100%',
+                    minHeight: { xs: '200px', sm: '100%' },
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    p: 1
                 }}
             >
-                <AspectRatio
-                    ratio="1"
-                    flex
+                <SmartAvatar
+                    src={image}
+                    name={title}
                     sx={{
-                        minWidth: { sm: 120, md: 160 },
-                        '--AspectRatio-maxHeight': { xs: '160px', sm: '9999px' },
+                        width: { xs: '120px', sm: '100px', md: '120px' },
+                        height: { xs: '120px', sm: '100px', md: '120px' },
+                        borderRadius: '50%'
                     }}
-                >
-                    <img alt="" src={image} />
-                </AspectRatio>
-            </CardOverflow>
+                />
+            </Box>
             <CardContent>
                 <Stack
                     spacing={1}
@@ -82,17 +98,8 @@ export default function DoctorCard(props: DoctorCardProps) {
                         {formatString(location)}
                     </Typography>
                 </Stack>
-                <Stack direction="row" sx={{ mt: 'auto' }}>
+                <Stack direction="row" sx={{ mt: 'auto', alignItems: 'center' }}>
                     <Rating rating={rating} />
-                    <Button
-                        size="sm"
-                        variant="solid"
-                        sx={{ textAlign: 'right', ml: 'auto' }}
-                        color="primary"
-                        onClick={() => navigate(`/home/${id}`)}
-                    >
-                        Check Availability
-                    </Button>
                 </Stack>
             </CardContent>
         </Card>

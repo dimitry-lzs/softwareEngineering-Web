@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AspectRatio from '@mui/joy/AspectRatio';
+
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Divider from '@mui/joy/Divider';
@@ -15,7 +15,7 @@ import CardActions from '@mui/joy/CardActions';
 import CardOverflow from '@mui/joy/CardOverflow';
 
 import Rating from './rating';
-import { Avatar } from '@mui/joy';
+import SmartAvatar from '../../components/SmartAvatar';
 import SectionTitle from '../../components/SectionTitle';
 import { useDoctor, useDoctorRatings } from '../../hooks';
 import formatString from '../../misc/formatSpeciality';
@@ -58,15 +58,25 @@ export default function ViewDoctor({
                         sx={{ display: 'flex', my: 1 }}
                     >
                         <Stack direction="row" spacing={2} px={1}>
-                            <Stack direction="column" spacing={1}>
-                                <AspectRatio
-                                    ratio="1"
-                                    maxHeight={108}
-                                    sx={{ flex: 1, minWidth: 108, borderRadius: '100%' }}
-                                >
-                                    <img alt="" src={doctor?.avatar} />
-                                </AspectRatio>
-                            </Stack>
+                            <Box
+                                sx={{
+                                    width: 108,
+                                    height: 108,
+                                    borderRadius: '50%',
+                                    overflow: 'hidden',
+                                    flexShrink: 0,
+                                }}
+                            >
+                                <SmartAvatar
+                                    src={doctor?.avatar}
+                                    name={doctor?.fullname || 'Doctor'}
+                                    sx={{
+                                        width: '100%',
+                                        height: '100%',
+                                        borderRadius: 0, // Remove border radius from avatar since container handles it
+                                    }}
+                                />
+                            </Box>
                             <Stack direction="column" spacing={0.5} sx={{ flexGrow: 1 }}>
                                 <Stack gap={0} pl={2}>
                                     <FormControl>
@@ -165,7 +175,11 @@ export default function ViewDoctor({
                                         >
                                             {ratings.map((rating) => (
                                                 <Stack direction="row" mx={1} gap={1}>
-                                                    <Avatar size="lg" sx={{ mr: 0.5 }}>A</Avatar>
+                                                    <SmartAvatar
+                                                        size="lg"
+                                                        name="Anonymous"
+                                                        sx={{ mr: 0.5 }}
+                                                    />
                                                     <Stack direction="column" gap={1} ml={1}>
                                                         <Typography level="body-sm">{rating.comments}</Typography>
                                                         <Rating rating={rating.stars} />
@@ -187,13 +201,13 @@ export default function ViewDoctor({
                             <Button
                                 size="sm"
                                 variant="outlined"
-                                onClick={() => {navigate('/home');}}>
+                                onClick={() => { navigate('/home'); }}>
                                 Return to search
                             </Button>
                             <Button
                                 size="sm"
                                 variant="solid"
-                                onClick={() => {setPage(2);}}>
+                                onClick={() => { setPage(2); }}>
                                 Continue
                             </Button>
                         </CardActions>

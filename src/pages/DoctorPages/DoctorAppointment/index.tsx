@@ -1,4 +1,5 @@
-import { Box, Button, Card, CardActions, CardOverflow, Chip, Divider, FormControl, FormLabel, Stack, Textarea, Typography, Avatar } from "@mui/joy";
+import { Box, Button, Card, CardActions, CardOverflow, Chip, Divider, FormControl, FormLabel, Stack, Textarea, Typography } from "@mui/joy";
+import SmartAvatar from '../../../components/SmartAvatar';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
@@ -34,19 +35,6 @@ export default function DoctorAppointment() {
             return patient.fullname;
         }
         return `Patient #${appointment?.patientid || 'Unknown'}`;
-    };
-
-    // Helper function to get patient initials
-    const getPatientInitials = () => {
-        if (patient?.fullname && patient.fullname.trim()) {
-            return patient.fullname
-                .split(' ')
-                .map((name: string) => name[0])
-                .join('')
-                .toUpperCase()
-                .slice(0, 2);
-        }
-        return 'P';
     };
 
     // Load existing diagnosis if available
@@ -179,17 +167,16 @@ export default function DoctorAppointment() {
                             <FormControl>
                                 <FormLabel>Patient</FormLabel>
                                 <Stack direction="row" spacing={1} alignItems="center">
-                                    <Avatar
+                                    <SmartAvatar
                                         size="sm"
                                         src={patient?.avatar}
+                                        name={getPatientDisplayName()}
                                         sx={{
                                             bgcolor: 'primary.softBg',
                                             color: 'primary.solidColor',
                                             fontWeight: 'bold'
                                         }}
-                                    >
-                                        {getPatientInitials()}
-                                    </Avatar>
+                                    />
                                     <Typography level="body-sm">{getPatientDisplayName()}</Typography>
                                 </Stack>
                             </FormControl>
@@ -225,18 +212,17 @@ export default function DoctorAppointment() {
                             <Typography level="title-sm">Patient Information</Typography>
 
                             <Stack alignItems="center" spacing={1}>
-                                <Avatar
+                                <SmartAvatar
                                     size="lg"
                                     src={patient?.avatar}
+                                    name={getPatientDisplayName()}
                                     sx={{
                                         bgcolor: 'primary.softBg',
                                         color: 'primary.solidColor',
                                         fontWeight: 'bold',
                                         fontSize: '1.2rem'
                                     }}
-                                >
-                                    {getPatientInitials()}
-                                </Avatar>
+                                />
                                 <Typography level="body-sm" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
                                     {getPatientDisplayName()}
                                 </Typography>
