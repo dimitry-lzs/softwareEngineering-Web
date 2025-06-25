@@ -136,7 +136,7 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
                                                     onClick={() => navigate(
                                                         isDoctor ?
                                                             `/doctor-home/${appointment.appointmentid}` :
-                                                            `/calendar/${appointment.appointmentid}`
+                                                            `/my-appointments/${appointment.appointmentid}`
                                                     )}
                                                 >
                                                     See details
