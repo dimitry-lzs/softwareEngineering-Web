@@ -91,10 +91,11 @@ export default function Appointment() {
         <Box sx={{ flex: 1, width: '100%' }}>
 
             <SectionTitle title="Appointment Details" subtitle="View appointment details and diagnosis information" />
-            <Stack
-                spacing={2}
+            <Box
                 sx={{
                     display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
                     maxWidth: '800px',
                     mx: 'auto',
                     px: { xs: 2, md: 6 },
@@ -201,9 +202,9 @@ export default function Appointment() {
                                         <Typography level="title-sm">Contact Information</Typography>
 
                                         <Stack>
-                                            <Box sx={{ 
-                                                width: 150, 
-                                                height: 150, 
+                                            <Box sx={{
+                                                width: 150,
+                                                height: 150,
                                                 mx: 'auto',
                                                 borderRadius: '8px',
                                                 overflow: 'hidden',
@@ -416,7 +417,7 @@ export default function Appointment() {
                         </Stack>
                     </Card>
                 )}
-            </Stack>
+            </Box>
         </Box>
     );
 }

@@ -43,19 +43,17 @@ export default function Home() {
                 />
 
                 <Stack spacing={2} sx={{ px: { xs: 2, md: 4 } }}>
-                    <Stack spacing={2} sx={{ overflowY: 'auto', overflowX: 'hidden', height: '450px' }}>
-                        {filteredDoctors.map((doctor) => (
-                            <DoctorCard
-                                key={doctor.id}
-                                id={doctor.id}
-                                title={`${doctor.fullname}`}
-                                specialty={doctor.speciality}
-                                location={doctor.officelocation}
-                                rating={doctor.rating}
-                                image={doctor.avatar}
-                            />
-                        ))}
-                    </Stack>
+                    {filteredDoctors.map((doctor) => (
+                        <DoctorCard
+                            key={doctor.id}
+                            id={doctor.id}
+                            title={`${doctor.fullname}`}
+                            specialty={doctor.speciality}
+                            location={doctor.officelocation}
+                            rating={doctor.rating}
+                            image={doctor.avatar}
+                        />
+                    ))}
                 </Stack>
             </Box>
         </CssVarsProvider>
