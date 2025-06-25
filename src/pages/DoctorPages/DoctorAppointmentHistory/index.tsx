@@ -202,6 +202,7 @@ export default function DoctorAppointmentHistory() {
                                                                 fontWeight: 'bold',
                                                                 borderRadius: '50%'
                                                             }}
+                                                            src={appointment.patient_avatar}
                                                         />
                                                         <div>
                                                             <Typography level="body-xs" sx={{ fontWeight: 'md' }}>
