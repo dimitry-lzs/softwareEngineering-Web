@@ -29,10 +29,10 @@ export default function MaterialRating({
                 name="simple-controlled"
                 value={value}
                 onChange={(_, newValue) => {
-                    setValue(newValue ? newValue : 0.5);
+                    setValue(newValue ? newValue : 0);
                 }}
                 readOnly={readOnly}
-                precision={0.5}
+                precision={1}
             />
         </ThemeProvider>
     );
