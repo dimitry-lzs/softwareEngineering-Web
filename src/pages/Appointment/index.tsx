@@ -201,7 +201,15 @@ export default function Appointment() {
                                         <Typography level="title-sm">Contact Information</Typography>
 
                                         <Stack>
-                                            <Box sx={{ width: 120, height: 120, mx: 'auto' }}>
+                                            <Box sx={{ 
+                                                width: 150, 
+                                                height: 150, 
+                                                mx: 'auto',
+                                                borderRadius: '8px',
+                                                overflow: 'hidden',
+                                                display: 'flex',
+                                                alignItems: 'stretch'
+                                            }}>
                                                 <SmartAvatar
                                                     src={appointment?.doctor_avatar}
                                                     name={appointment.doctor_name || 'Unknown Doctor'}
