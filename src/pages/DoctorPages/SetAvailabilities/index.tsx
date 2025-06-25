@@ -16,14 +16,22 @@ export default function SetAvailabilities() {
     const { deleteAvailability } = useDeleteAvailability();
     const { availabilities, refreshAvailabilities } = useAvailabilities();
 
-    // Helper function to check if a date is in the past
-    const isDateInPast = (date: Date | null) => {
+    // Helper function to check if a date is in the past or today
+    const isDateInPastOrToday = (date: Date | null) => {
         if (!date) return false;
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
         const checkDate = new Date(date);
         checkDate.setHours(0, 0, 0, 0);
-        return checkDate < today;
+        return checkDate < tomorrow;
+    };
+
+    // Helper function to check if a datetime is in the future
+    const isDateTimeInFuture = (dateTime: string) => {
+        const now = new Date();
+        const checkDateTime = new Date(dateTime);
+        return checkDateTime > now;
     };
 
     React.useEffect(() => {
@@ -40,14 +48,15 @@ export default function SetAvailabilities() {
 
     const addSlot = () => {
         if (selectedDate) {
-            // Check if selected date is in the past
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // Reset time to beginning of day for comparison
+            // Check if selected date is tomorrow or later
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
             const selectedDateOnly = new Date(selectedDate);
             selectedDateOnly.setHours(0, 0, 0, 0);
 
-            if (selectedDateOnly < today) {
-                // Don't add slots for past dates
+            if (selectedDateOnly < tomorrow) {
+                // Don't add slots for today or past dates
                 return;
             }
 
@@ -59,6 +68,14 @@ export default function SetAvailabilities() {
             const existingSlots = availabilities.map(a => a.timefrom);
             if (!previewSlots.includes(isoString) && !existingSlots.includes(isoString)) {
                 setPreviewSlots([...previewSlots, isoString]);
+
+                // Auto-scroll to bottom after adding new slot
+                setTimeout(() => {
+                    const previewContainer = document.querySelector('[data-preview-container]');
+                    if (previewContainer) {
+                        previewContainer.scrollTop = previewContainer.scrollHeight;
+                    }
+                }, 100);
             }
         }
     };
@@ -68,13 +85,14 @@ export default function SetAvailabilities() {
     };
 
     const submitSlots = () => {
-        // Filter out any slots that might be in the past
+        // Filter out any slots that aren't tomorrow or later
         const validSlots = previewSlots.filter(slot => {
             const slotDate = new Date(slot);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
             slotDate.setHours(0, 0, 0, 0);
-            return slotDate >= today;
+            return slotDate >= tomorrow;
         });
 
         if (validSlots.length === 0) {
@@ -98,7 +116,7 @@ export default function SetAvailabilities() {
         <React.Fragment>
             <SectionTitle
                 title="Set Availabilities"
-                subtitle="Choose your open time slots to make scheduling easy for your patients"
+                subtitle="Schedule your availability for tomorrow and beyond to make booking easy for your patients"
             />
             <Box sx={{ px: 2, flex: 1, width: '100%' }}>
                 <Stack direction="column" spacing={3} alignItems='stretch'>
@@ -109,20 +127,21 @@ export default function SetAvailabilities() {
                             <MaterialCalendar
                                 setDate={value => {
                                     const date = value?.toDate() || null;
-                                    // Double check to prevent past dates from being set
-                                    if (date && !isDateInPast(date)) {
+                                    // Double check to prevent past dates from being set - only allow tomorrow and later
+                                    if (date && !isDateInPastOrToday(date)) {
                                         setSelectedDate(date);
-                                    } else if (date && isDateInPast(date)) {
-                                        // Clear selection if past date is somehow selected
+                                    } else if (date && isDateInPastOrToday(date)) {
+                                        // Clear selection if past/today date is somehow selected
                                         setSelectedDate(null);
                                     } else {
                                         setSelectedDate(date);
                                     }
                                 }}
                                 shouldDisableDate={(date) => {
-                                    const today = new Date();
-                                    today.setHours(0, 0, 0, 0);
-                                    return date.toDate() < today;
+                                    const tomorrow = new Date();
+                                    tomorrow.setDate(tomorrow.getDate() + 1);
+                                    tomorrow.setHours(0, 0, 0, 0);
+                                    return date.toDate() < tomorrow;
                                 }}
                             />
                         </Card>
@@ -132,7 +151,7 @@ export default function SetAvailabilities() {
                             <Stack direction='column' sx={{ mb: 1 }}>
                                 <Typography level="title-md">Add Availabilities</Typography>
                                 <Typography level="body-sm">
-                                    Consult your calendar, select a date and add open time slots to allow patients book an appointment with you
+                                    Select a date (tomorrow or later) and add time slots for patient appointments
                                 </Typography>
                             </Stack>
                             <Divider />
@@ -149,9 +168,9 @@ export default function SetAvailabilities() {
                                             <Typography level="body-sm">
                                                 {selectedDate ? selectedDate.toLocaleDateString() : 'No date selected'}
                                             </Typography>
-                                            {selectedDate && isDateInPast(selectedDate) && (
+                                            {selectedDate && isDateInPastOrToday(selectedDate) && (
                                                 <Typography level="body-xs" sx={{ color: 'danger.500', mt: 0.5 }}>
-                                                    ⚠️ Cannot select past dates for availability
+                                                    ⚠️ Can only schedule for tomorrow and later
                                                 </Typography>
                                             )}
                                         </FormControl>
@@ -186,13 +205,16 @@ export default function SetAvailabilities() {
                                         <Stack
                                             direction="column"
                                             spacing={1}
+                                            data-preview-container
                                             sx={{
                                                 maxHeight: '120px',
                                                 overflowY: 'auto',
                                                 border: '1px solid',
                                                 borderColor: 'divider',
                                                 borderRadius: 'sm',
-                                                p: 1
+                                                p: 1,
+                                                zIndex: 1, // Fix scrollbar z-index
+                                                position: 'relative'
                                             }}
                                         >
                                             {previewSlots.map((slot, index) => (
@@ -215,19 +237,19 @@ export default function SetAvailabilities() {
                                         size="sm"
                                         variant="solid"
                                         onClick={addSlot}
-                                        disabled={!selectedDate || isDateInPast(selectedDate)}
+                                        disabled={!selectedDate || isDateInPastOrToday(selectedDate)}
                                         title={
                                             !selectedDate
                                                 ? "Please select a date first"
-                                                : isDateInPast(selectedDate)
-                                                ? "Cannot add slots for past dates"
+                                                : isDateInPastOrToday(selectedDate)
+                                                ? "Can only schedule for tomorrow and later"
                                                 : "Add this time slot"
                                         }
                                     >
                                         {!selectedDate
                                             ? "Select Date First"
-                                            : isDateInPast(selectedDate)
-                                            ? "Past Date Selected"
+                                            : isDateInPastOrToday(selectedDate)
+                                            ? "Tomorrow+ Only"
                                             : "Add Time Slot"
                                         }
                                     </Button>
@@ -244,9 +266,9 @@ export default function SetAvailabilities() {
                     {/* Submitted Availabilities Section - Now at bottom */}
                     <Card>
                         <Box sx={{ mb: 1 }}>
-                            <Typography level="title-md">Submitted Availabilities</Typography>
+                            <Typography level="title-md">Future Availabilities</Typography>
                             <Typography level="body-sm">
-                                Your confirmed availability time slots. You can delete available slots that haven't been booked yet.
+                                Your confirmed availability time slots for upcoming dates. You can delete available slots that haven't been booked yet.
                             </Typography>
                         </Box>
                         <Divider />
@@ -260,15 +282,19 @@ export default function SetAvailabilities() {
                                 display: 'flex',
                                 my: 1,
                                 overflowY: 'auto',
-                                overflowX: 'hidden'
+                                overflowX: 'hidden',
+                                zIndex: 1, // Fix scrollbar z-index
+                                position: 'relative'
                             }}
                         >
-                            {availabilities.length === 0 ? (
+                            {availabilities.filter(availability => isDateTimeInFuture(availability.timefrom)).length === 0 ? (
                                 <Typography level="body-sm" color="neutral">
-                                    No submitted slots yet
+                                    No future available slots
                                 </Typography>
                             ) : (
-                                availabilities.map((availability) => (
+                                availabilities
+                                    .filter(availability => isDateTimeInFuture(availability.timefrom))
+                                    .map((availability) => (
                                     <Stack key={availability.availabilityid} direction="row" alignItems="center" spacing={1}>
                                         {availability.free === 1 ? (
                                             <CheckCircleIcon fontSize="small" sx={{ color: 'success.500' }} />
