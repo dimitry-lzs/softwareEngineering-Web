@@ -92,7 +92,7 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
                                                     <ListItemDecorator>
                                                         <SmartAvatar
                                                             size="lg"
-                                                            src={isDoctor ? undefined : (hasDoctorInfo(appointment) ? appointment.doctor_avatar : undefined)}
+                                                            src={isDoctor ? appointment.patient_avatar : (hasDoctorInfo(appointment) ? appointment.doctor_avatar : undefined)}
                                                             name={isDoctor ?
                                                                 getPatientDisplayName(appointment) :
                                                                 (hasDoctorInfo(appointment) ? (appointment.doctor_name || 'Unknown Doctor') : 'Unknown Doctor')
@@ -117,12 +117,12 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
                                                                 }
                                                             </Typography>
                                                             {!isDoctor && hasDoctorInfo(appointment) && (
-                                                                <Typography 
-                                                                    level="body-xs" 
-                                                                    sx={{ 
-                                                                        color: 'primary.500', 
+                                                                <Typography
+                                                                    level="body-xs"
+                                                                    sx={{
+                                                                        color: 'primary.500',
                                                                         bgcolor: 'primary.softBg',
-                                                                        borderRadius: '12px', 
+                                                                        borderRadius: '12px',
                                                                         px: 1.5,
                                                                         py: 0.25,
                                                                         fontWeight: 500
@@ -132,28 +132,28 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
                                                                 </Typography>
                                                             )}
                                                         </Stack>
-                                                        
+
                                                         <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 0.5 }}>
                                                             <Typography level="body-sm" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-                                                                📅 {new Date(appointment.slot_timeFrom).toLocaleDateString('en-US', {
+                                                                📅 {new Date(appointment.slot_timefrom).toLocaleDateString('en-US', {
                                                                     weekday: 'short',
                                                                     month: 'short',
                                                                     day: 'numeric',
                                                                 })}
                                                             </Typography>
                                                             <Typography level="body-sm" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-                                                                🕐 {new Date(appointment.slot_timeFrom).toLocaleTimeString('en-US', {
+                                                                🕐 {new Date(appointment.slot_timefrom).toLocaleTimeString('en-US', {
                                                                     hour: '2-digit',
                                                                     minute: '2-digit',
                                                                 })}
                                                             </Typography>
                                                             {isDoctor && hasPatientInfo(appointment) && appointment.patient_phone && (
-                                                                <Typography 
-                                                                    level="body-xs" 
-                                                                    sx={{ 
+                                                                <Typography
+                                                                    level="body-xs"
+                                                                    sx={{
                                                                         color: 'success.600',
                                                                         bgcolor: 'success.softBg',
-                                                                        borderRadius: '12px', 
+                                                                        borderRadius: '12px',
                                                                         px: 1.5,
                                                                         py: 0.25,
                                                                         fontWeight: 500
@@ -168,7 +168,7 @@ export default function UpcomingAppointments({ isDoctor = false }: UpcomingAppoi
                                                     <Link
                                                         level="body-sm"
                                                         component="button"
-                                                        sx={{ 
+                                                        sx={{
                                                             fontWeight: 600,
                                                             color: 'primary.500',
                                                             textDecoration: 'none',

@@ -135,8 +135,9 @@ const DoctorList = () => <>
     </ListItem>
 </>
 
-export default observer(function Sidebar() {
+export default observer(() => {
     const home = userStore.userType === UserType.Patient ? '/home' : '/doctor-home';
+    const { avatarData, fullName, email } = userStore;
 
     return (
         <Sheet
@@ -238,8 +239,8 @@ export default observer(function Sidebar() {
             <Divider />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                 <SmartAvatar
-                    src={userStore.avatarData}
-                    name={userStore.fullName}
+                    src={avatarData}
+                    name={fullName}
                     size='sm'
                     sx={{
                         border: '1px solid',
@@ -247,8 +248,8 @@ export default observer(function Sidebar() {
                     }}
                 />
                 <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography level='title-sm'>{`${userStore.fullName}`}</Typography>
-                    <Typography level='body-xs'>{`${userStore.email}`}</Typography>
+                    <Typography level='title-sm'>{`${fullName}`}</Typography>
+                    <Typography level='body-xs'>{`${email}`}</Typography>
                 </Box>
                 <DarkModeToggle
                     size='sm'

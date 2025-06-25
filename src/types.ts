@@ -92,6 +92,7 @@ export type Diagnosis = {
 export type Appointment = {
     appointmentID: number;
     patientID: number;
+    patient_avatar: string;
     doctorID: number;
     slotID: number;
     status: string;
@@ -108,7 +109,7 @@ export type Appointment = {
     doctor_licenceID: string;
     // Slot information
     slot_id: number;
-    slot_timeFrom: string;
+    slot_timefrom: string;
     // Multiple diagnoses (NEW STRUCTURE)
     diagnoses?: Diagnosis[];
     // Legacy fields (for backward compatibility)
@@ -128,8 +129,9 @@ export type UpcomingAppointment = {
     slotid: number;
     status: string;
     reason: string;
-    slot_timeFrom: string;
+    slot_timefrom: string;
     patient_name: string;
+    patient_avatar: string;
     patient_phone: string;
     // Doctor info might also be included in upcoming appointments
     doctor_name?: string;

@@ -49,7 +49,7 @@ export default function AppointmentHistory() {
     const filteredAppointments = useMemo(() => {
         return appointments.filter(appointment => {
             if (status === '') {
-                console.log(appointment.slot_timeFrom);
+                console.log(appointment.slot_timefrom);
                 return appointment.status === 'COMPLETED' || appointment.status === 'CANCELLED';
             }
             return appointment.status === status;
@@ -131,9 +131,9 @@ export default function AppointmentHistory() {
                             <tbody>
                                 {[...filteredAppointments]
                                     .sort(
-                                        (a, b) => new Date(b.slot_timeFrom).getTime() - new Date(a.slot_timeFrom).getTime())
+                                        (a, b) => new Date(b.slot_timefrom).getTime() - new Date(a.slot_timefrom).getTime())
                                     .map((appointment) => {
-                                        const date = new Date(appointment.slot_timeFrom);
+                                        const date = new Date(appointment.slot_timefrom);
                                         const appointmentDate = date.toLocaleDateString('en-US', {
                                             year: 'numeric',
                                             month: '2-digit',

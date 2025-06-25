@@ -60,7 +60,7 @@ class UserStore {
             if (response.status === 200) {
                 const { data } = response;
                 this.setUserData(data);
-                this.getAvatar();
+                await this.getAvatar();
             }
         } catch (_) {
         } finally {
@@ -82,6 +82,7 @@ class UserStore {
             if (response.status === 200) {
                 const { data } = response;
                 this.setUserData(data);
+                await this.getAvatar();
             }
         } catch (error) {
             const axiosError = error as APIError;
@@ -125,6 +126,7 @@ class UserStore {
             const response = await user.logout();
             if (response.status === 200) {
                 this.setUserData(null);
+                this.setAvatar(null);
             } else {
                 notificationStore.setNotification(
                     true,

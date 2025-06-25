@@ -1,5 +1,7 @@
-import { Box, Checkbox, Chip, Divider, Textarea, Typography, Card, CardActions, CardOverflow } from "@mui/joy";
+import { Box, Divider, Textarea, Typography, Card, CardActions, CardOverflow, Stack } from "@mui/joy";
 import CheckIcon from '@mui/icons-material/Check';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { useDoctorAvailability } from "../../hooks/availability";
 import { LowercaseType } from '../../hooks/lowercase';
 import { Availability } from '../../types';
@@ -42,64 +44,159 @@ export default function AppointmentBookingForm({
             </Card>
             <Card>
                 <Box sx={{ mb: 1 }}>
-                    <Typography level="title-md">Available Appointments</Typography>
-                    <Typography level="body-sm">
-                        Book an appointment by selecting one of the available times and dates
+                    <Stack direction="row" spacing={1} alignItems="center" mb={0.5}>
+                        <CalendarTodayIcon sx={{ color: 'primary.500', fontSize: '1.2rem' }} />
+                        <Typography level="title-md">Available Appointments</Typography>
+                    </Stack>
+                    <Typography level="body-sm" sx={{ color: 'text.secondary' }}>
+                        Select your preferred appointment time from the available slots below
                     </Typography>
                 </Box>
                 <Divider />
                 <Box sx={{
                     display: 'flex',
-                    gap: 1,
-                    alignItems: 'center',
+                    gap: 2,
+                    alignItems: 'flex-start',
                     mb: 1,
                     ml: 0.5,
-                    height: '250px',
+                    height: '300px',
                     overflowX: 'hidden',
                     overflowY: 'auto',
+                    p: 1,
                 }}
                 >
-                    <div>
+                    {!availabilities || availabilities.length === 0 ? (
+                        <Box sx={{ 
+                            display: 'flex', 
+                            flexDirection: 'column', 
+                            alignItems: 'center', 
+                            justifyContent: 'center',
+                            width: '100%',
+                            height: '200px',
+                            color: 'text.secondary'
+                        }}>
+                            <CalendarTodayIcon sx={{ fontSize: '3rem', mb: 2, opacity: 0.3 }} />
+                            <Typography level="body-lg" sx={{ mb: 1 }}>No appointments available</Typography>
+                            <Typography level="body-sm">Please check back later or contact the doctor directly</Typography>
+                        </Box>
+                    ) : (
                         <Box
                             role="group"
                             aria-labelledby="available-time-slot"
-                            sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}
+                            sx={{ 
+                                display: 'grid', 
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                                gap: 2,
+                                width: '100%'
+                            }}
                         >
-                            {availabilities?.map((availability: LowercaseType<Availability>) => {
-                                const dateObj = new Date(availability.timefrom);
-                                const formattedDate = dateObj.toLocaleDateString('en-CA');
-                                const formattedTime = dateObj.toLocaleTimeString([], {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    hour12: false
-                                });
+                        {availabilities?.map((availability: LowercaseType<Availability>) => {
+                            const dateObj = new Date(availability.timefrom);
+                            const formattedDate = dateObj.toLocaleDateString('en-US', {
+                                weekday: 'short',
+                                month: 'short',
+                                day: 'numeric'
+                            });
+                            const formattedTime = dateObj.toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true
+                            });
 
-                                const checked = selectedSlot === availability.availabilityid;
-                                return (
-                                    <Chip
-                                        key={availability.availabilityid}
-                                        variant="plain"
-                                        color={checked ? 'primary' : 'neutral'}
-                                        startDecorator={
-                                            checked && <CheckIcon sx={{ zIndex: 1, pointerEvents: 'none' }} />
-                                        }
-                                    >
-                                        <Checkbox
-                                            variant="outlined"
-                                            color={checked ? 'primary' : 'neutral'}
-                                            disableIcon
-                                            overlay
-                                            label={`${formattedDate} ${formattedTime}`}
-                                            checked={checked}
-                                            onChange={() => {
-                                                setSelectedSlot(checked ? null : availability.availabilityid);
-                                            }}
+                            const checked = selectedSlot === availability.availabilityid;
+                            return (
+                                <Card
+                                    key={availability.availabilityid}
+                                    variant={checked ? 'solid' : 'outlined'}
+                                    color={checked ? 'primary' : 'neutral'}
+                                    sx={{
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                        minHeight: '90px',
+                                        background: checked 
+                                            ? 'linear-gradient(135deg, var(--joy-palette-primary-500) 0%, var(--joy-palette-primary-600) 100%)'
+                                            : 'var(--joy-palette-background-surface)',
+                                        border: checked 
+                                            ? '2px solid var(--joy-palette-primary-400)'
+                                            : '2px solid var(--joy-palette-neutral-300)',
+                                        '&:hover': {
+                                            transform: 'translateY(-4px)',
+                                            boxShadow: checked 
+                                                ? '0 8px 25px rgba(var(--joy-palette-primary-mainChannel), 0.25)'
+                                                : '0 8px 25px rgba(0, 0, 0, 0.1)',
+                                            border: checked 
+                                                ? '2px solid var(--joy-palette-primary-300)'
+                                                : '2px solid var(--joy-palette-primary-400)',
+                                        },
+                                        position: 'relative',
+                                        overflow: 'visible'
+                                    }}
+                                    onClick={() => {
+                                        setSelectedSlot(checked ? null : availability.availabilityid);
+                                    }}
+                                >
+                                    {checked && (
+                                        <CheckIcon 
+                                            sx={{ 
+                                                position: 'absolute',
+                                                top: 8,
+                                                right: 8,
+                                                fontSize: '1.4rem',
+                                                color: 'white',
+                                                background: 'rgba(255, 255, 255, 0.2)',
+                                                borderRadius: '50%',
+                                                p: 0.3,
+                                                animation: 'fadeIn 0.3s ease-in-out',
+                                                '@keyframes fadeIn': {
+                                                    '0%': { opacity: 0, transform: 'scale(0.5)' },
+                                                    '100%': { opacity: 1, transform: 'scale(1)' }
+                                                }
+                                            }} 
                                         />
-                                    </Chip>
-                                );
-                            })}
+                                    )}
+                                    <Stack spacing={1.5} alignItems="center" py={1.5}>
+                                        <Stack direction="row" spacing={1.5} alignItems="center">
+                                            <CalendarTodayIcon 
+                                                sx={{ 
+                                                    fontSize: '1.1rem',
+                                                    color: checked ? 'rgba(255, 255, 255, 0.9)' : 'primary.500'
+                                                }} 
+                                            />
+                                            <Typography 
+                                                level="title-sm"
+                                                sx={{ 
+                                                    color: checked ? 'white' : 'text.primary',
+                                                    fontWeight: 600,
+                                                    fontSize: '0.95rem'
+                                                }}
+                                            >
+                                                {formattedDate}
+                                            </Typography>
+                                        </Stack>
+                                        <Stack direction="row" spacing={1.5} alignItems="center">
+                                            <AccessTimeIcon 
+                                                sx={{ 
+                                                    fontSize: '1.1rem',
+                                                    color: checked ? 'rgba(255, 255, 255, 0.8)' : 'primary.400'
+                                                }} 
+                                            />
+                                            <Typography 
+                                                level="body-md"
+                                                sx={{ 
+                                                    color: checked ? 'rgba(255, 255, 255, 0.95)' : 'text.secondary',
+                                                    fontWeight: 500,
+                                                    fontSize: '0.9rem'
+                                                }}
+                                            >
+                                                {formattedTime}
+                                            </Typography>
+                                        </Stack>
+                                    </Stack>
+                                </Card>
+                            );
+                        })}
                         </Box>
-                    </div>
+                    )}
                 </Box>
                 {actions && (
                     <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>

@@ -144,9 +144,9 @@ export default function DoctorAppointmentHistory() {
 
                                 {[...filteredAppointments]
                                     .sort(
-                                        (a, b) => new Date(b.slot_timeFrom).getTime() - new Date(a.slot_timeFrom).getTime())
+                                        (a, b) => new Date(b.slot_timefrom).getTime() - new Date(a.slot_timefrom).getTime())
                                     .map((appointment) => {
-                                        const date = new Date(appointment.slot_timeFrom);
+                                        const date = new Date(appointment.slot_timefrom);
                                         const appointmentDate = date.toLocaleDateString('en-US', {
                                             year: 'numeric',
                                             month: '2-digit',
