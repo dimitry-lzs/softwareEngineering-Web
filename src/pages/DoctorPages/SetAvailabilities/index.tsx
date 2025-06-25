@@ -284,7 +284,8 @@ export default function SetAvailabilities() {
                                 overflowY: 'auto',
                                 overflowX: 'hidden',
                                 zIndex: 1, // Fix scrollbar z-index
-                                position: 'relative'
+                                position: 'relative',
+                                pr: 2 // Add right padding to prevent scrollbar overlap with buttons
                             }}
                         >
                             {availabilities.filter(availability => isDateTimeInFuture(availability.timefrom)).length === 0 ? (
