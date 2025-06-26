@@ -86,9 +86,9 @@ export const useSummary = () => {
 
     const generatePatientRoast = async (diagnoses: [string, string][], params: UseSummaryParams = {}) => {
         const diagnosesText = diagnoses.map(d => `[${d[0]}: ${d[1]}]`).join(',\n');
-
-        const prompt = `Based on the medical diagnoses below, generate a short, dark-humored, ironic one-liner directed at the patient. The line should mention or clearly imply at least one of the conditions, optionally include a detail or two, and end with a sarcastic or witty punch — like a brutally honest remark from a doctor with no filter, or a cynical AI assistant. Do not list the conditions or summarize clinically. Turn them into a single smart joke or biting comment.
-            The output must be one sentence, clever, and addressed directly to the patient. Do not include explanations, disclaimers, or anything else.
+        const prompt = `You are a sarcastic digital assistant reviewing a patient's medical records. Based on the diagnoses listed below, generate a short, dark-humored, ironic one-liner **about the patient**, spoken as if you're making a witty comment to someone else (or directly to the patient) — not as a doctor, but as a brutally honest observer or AI sidekick.
+            The line should mention or clearly imply at least one condition, optionally with a specific detail, and end with a dry, clever punch. Do not just summarize clinically. Turn the input into a biting or funny comment like a roast — think black comedy, but not mean-spirited.
+            Output only the one-liner. No preamble, no notes.
             Here are the diagnoses: ${diagnosesText}`;
 
         return generateSummary(prompt, params);
