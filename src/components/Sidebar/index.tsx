@@ -267,32 +267,68 @@ export default observer(() => {
                 </List>
             </Box>
             <Divider />
-            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                <SmartAvatar
-                    src={avatarData}
-                    name={fullName}
-                    size='sm'
-                    sx={{
-                        border: '1px solid',
-                        borderColor: 'divider'
-                    }}
-                />
-                <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography level='title-sm'>{`${fullName}`}</Typography>
-                    <Typography level='body-xs'>{`${email}`}</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 1 }}>
+                {/* User Info Row */}
+                <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+                    <SmartAvatar
+                        src={avatarData}
+                        name={fullName}
+                        size='sm'
+                        sx={{
+                            border: '1px solid',
+                            borderColor: 'divider',
+                            flexShrink: 0
+                        }}
+                    />
+                    <Box sx={{ minWidth: 0, flex: 1, overflow: 'hidden' }}>
+                        <Typography
+                            level='title-sm'
+                            sx={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap'
+                            }}
+                        >
+                            {`${fullName}`}
+                        </Typography>
+                        <Typography
+                            level='body-xs'
+                            sx={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                color: 'text.tertiary'
+                            }}
+                        >
+                            {`${email}`}
+                        </Typography>
+                    </Box>
                 </Box>
-                <DarkModeToggle
-                    size='sm'
-                    sx={{ mr: 0.5 }}
-                />
-                <IconButton
-                    size='sm'
-                    variant='plain'
-                    color='neutral'
-                    onClick={() => userStore.logout()}
-                >
-                    <LogoutRoundedIcon />
-                </IconButton>
+
+                {/* Controls Row */}
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mt: 0.5
+                }}>
+                    <DarkModeToggle
+                        size='sm'
+                        sx={{ mr: 'auto' }}
+                    />
+                    <IconButton
+                        size='sm'
+                        variant='soft'
+                        color='danger'
+                        onClick={() => userStore.logout()}
+                        sx={{
+                            ml: 'auto',
+                            '--IconButton-size': '32px'
+                        }}
+                    >
+                        <LogoutRoundedIcon />
+                    </IconButton>
+                </Box>
             </Box>
         </Sheet>
     );
