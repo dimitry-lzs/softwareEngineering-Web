@@ -8,9 +8,10 @@ import DarkModeToggle from '../../components/DarkModeToggle';
 import Notification from '../../components/Notification';
 
 // Import assets
-import mediqLogo from '../../assets/mediq.png';
-import doctorsLight from '../../assets/doctors_light.png';
-import doctorsDark from '../../assets/doctors_dark.png';
+import doctorsLight from '../../assets/doctors_light.jpg';
+import doctorsDark from '../../assets/doctors_dark.jpg';
+
+import MediqLogo from '../../components/MediqLogo';
 
 const customTheme = extendTheme();
 
@@ -69,14 +70,12 @@ export default function FormPage() {
                         >
                             <Box
                                 sx={{
-                                    backgroundImage: `url(${mediqLogo})`,
-                                    backgroundSize: 'contain',
-                                    backgroundPosition: 'center',
-                                    backgroundRepeat: 'no-repeat',
                                     width: 128,
                                     height: 60,
                                 }}
-                            />
+                            >
+                                <MediqLogo />
+                            </Box>
                         </Box>
                         <DarkModeToggle />
                     </Box>

@@ -14,8 +14,7 @@ import ListItem from '@mui/joy/ListItem';
 import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton';
 import ListItemContent from '@mui/joy/ListItemContent';
 
-// Import assets
-import mediqLogo from '../../assets/mediq.png';
+// SVG from public directory
 import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
 import { observer } from 'mobx-react-lite';
@@ -24,6 +23,7 @@ import { userStore } from '../../stores';
 import { UserType } from '../../types';
 import DarkModeToggle from '../DarkModeToggle';
 import SmartAvatar from '../SmartAvatar';
+import MediqLogo from '../MediqLogo';
 
 const PatientList = () => <>
     <ListItem>
@@ -234,15 +234,13 @@ export default observer(() => {
                 <Link to={home} style={{ textDecoration: 'none' }}>
                     <Box
                         sx={{
-                            backgroundImage: `url(${mediqLogo})`,
-                            backgroundSize: 'contain',
-                            backgroundPosition: 'center',
-                            backgroundRepeat: 'no-repeat',
                             width: 128,
                             height: 60,
                             cursor: 'pointer',
                         }}
-                    />
+                    >
+                        <MediqLogo />
+                    </Box>
                 </Link>
             </Box>
             <Divider />
