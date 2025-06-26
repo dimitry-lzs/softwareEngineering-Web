@@ -150,21 +150,21 @@ export default function PatientDiagnoses() {
                 {/* Diagnoses List */}
                 <Card>
                     <Box sx={{ mb: 2 }}>
-                        <Typography 
-                            level="title-md" 
-                            sx={{ 
-                                color: (theme) => theme.palette.mode === 'dark' 
-                                    ? 'common.white' 
+                        <Typography
+                            level="title-md"
+                            sx={{
+                                color: (theme) => theme.palette.mode === 'dark'
+                                    ? 'common.white'
                                     : 'common.black'
                             }}
                         >
                             Medical Diagnoses
                         </Typography>
-                        <Typography 
-                            level="body-sm" 
-                            sx={{ 
-                                color: (theme) => theme.palette.mode === 'dark' 
-                                    ? 'neutral.400' 
+                        <Typography
+                            level="body-sm"
+                            sx={{
+                                color: (theme) => theme.palette.mode === 'dark'
+                                    ? 'neutral.400'
                                     : 'neutral.600'
                             }}
                         >
@@ -179,22 +179,22 @@ export default function PatientDiagnoses() {
                         </Box>
                     ) : !diagnoses || diagnoses.length === 0 ? (
                         <Box sx={{ textAlign: 'center', py: 6 }}>
-                            <Typography 
-                                level="body-lg" 
-                                sx={{ 
-                                    color: (theme) => theme.palette.mode === 'dark' 
-                                        ? 'neutral.400' 
+                            <Typography
+                                level="body-lg"
+                                sx={{
+                                    color: (theme) => theme.palette.mode === 'dark'
+                                        ? 'neutral.400'
                                         : 'neutral.600'
                                 }}
                             >
                                 No diagnoses recorded yet
                             </Typography>
-                            <Typography 
-                                level="body-sm" 
-                                sx={{ 
+                            <Typography
+                                level="body-sm"
+                                sx={{
                                     mt: 1,
-                                    color: (theme) => theme.palette.mode === 'dark' 
-                                        ? 'neutral.500' 
+                                    color: (theme) => theme.palette.mode === 'dark'
+                                        ? 'neutral.500'
                                         : 'neutral.500'
                                 }}
                             >
@@ -222,12 +222,12 @@ export default function PatientDiagnoses() {
                                         </Box>
                                         <Box sx={{ flex: 1 }}>
                                             <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
-                                                <Typography 
-                                                    level="title-md" 
-                                                    sx={{ 
+                                                <Typography
+                                                    level="title-md"
+                                                    sx={{
                                                         fontWeight: 'bold',
-                                                        color: (theme) => theme.palette.mode === 'dark' 
-                                                            ? 'common.white' 
+                                                        color: (theme) => theme.palette.mode === 'dark'
+                                                            ? 'common.white'
                                                             : 'common.black'
                                                     }}
                                                 >
@@ -244,12 +244,12 @@ export default function PatientDiagnoses() {
                                             </Stack>
 
                                             {diagnosis.details && (
-                                                <Typography 
-                                                    level="body-md" 
-                                                    sx={{ 
-                                                        lineHeight: 1.6, 
-                                                        color: (theme) => theme.palette.mode === 'dark' 
-                                                            ? 'neutral.300' 
+                                                <Typography
+                                                    level="body-md"
+                                                    sx={{
+                                                        lineHeight: 1.6,
+                                                        color: (theme) => theme.palette.mode === 'dark'
+                                                            ? 'neutral.300'
                                                             : 'neutral.700'
                                                     }}
                                                 >

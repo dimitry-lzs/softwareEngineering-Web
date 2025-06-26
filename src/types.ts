@@ -12,7 +12,7 @@ export enum OfficeLocation {
 export enum Speciality {
     Cardiologist = 'CARDIOLOGIST',
     Dermatologist = 'DERMATOLOGIST',
-
+    Dentist = 'DENTIST',
     Endocrinologist = 'ENDOCRINOLOGIST',
     Gastroenterologist = 'GASTROENTEROLOGIST',
     Gynecologist = 'GYNECOLOGY',
@@ -25,6 +25,7 @@ export enum Speciality {
     Radiologist = 'RADIOLOGIST',
     Urologist = 'UROLOGIST',
     Ornithologist = 'ORNITHOLOGIST',
+    Ophthalmologist = 'OPHTHALMOLOGIST',
 }
 
 export enum AppointmentStatus {

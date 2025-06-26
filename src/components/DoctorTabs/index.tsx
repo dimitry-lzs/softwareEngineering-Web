@@ -29,7 +29,7 @@ export default function DoctorTabs({ doctor, ratings }: DoctorTabsProps) {
 
     const generateSummary = async () => {
         if (!doctor || !ratings) return;
-        
+
         setLoadingSummary(true);
         try {
             const reviewComments = ratings.map((rating) => rating.comments).filter(Boolean);
@@ -37,7 +37,7 @@ export default function DoctorTabs({ doctor, ratings }: DoctorTabsProps) {
                 reviewComments,
                 doctor.bio || ''
             );
-            
+
             // Extract the summary from the response
             const summaryText = response?.choices?.[0]?.message?.content || 'No summary generated';
             setAiSummary(summaryText);
@@ -126,28 +126,28 @@ export default function DoctorTabs({ doctor, ratings }: DoctorTabsProps) {
                                     {aiSummary ? 'New Summary' : 'Get Summary'}
                                 </Button>
                             </Stack>
-                            
+
                             {aiSummary ? (
                                 <Card
                                     variant="soft"
                                     color="primary"
                                     sx={{
-                                        background: (theme) => theme.palette.mode === 'dark' 
+                                        background: (theme) => theme.palette.mode === 'dark'
                                             ? 'linear-gradient(135deg, rgba(25, 118, 210, 0.15) 0%, rgba(33, 150, 243, 0.08) 100%)'
                                             : 'linear-gradient(135deg, rgba(25, 118, 210, 0.1) 0%, rgba(33, 150, 243, 0.05) 100%)',
                                         border: '1px dashed',
-                                        borderColor: (theme) => theme.palette.mode === 'dark' 
-                                            ? 'primary.400' 
+                                        borderColor: (theme) => theme.palette.mode === 'dark'
+                                            ? 'primary.400'
                                             : 'primary.300',
                                         mb: 2
                                     }}
                                 >
-                                    <Typography 
-                                        level="body-sm" 
-                                        sx={{ 
-                                            fontStyle: 'italic', 
-                                            color: (theme) => theme.palette.mode === 'dark' 
-                                                ? 'primary.300' 
+                                    <Typography
+                                        level="body-sm"
+                                        sx={{
+                                            fontStyle: 'italic',
+                                            color: (theme) => theme.palette.mode === 'dark'
+                                                ? 'primary.300'
                                                 : 'primary.700',
                                             lineHeight: 1.5
                                         }}
@@ -157,13 +157,13 @@ export default function DoctorTabs({ doctor, ratings }: DoctorTabsProps) {
                                 </Card>
                             ) : (
                                 <Typography level="body-xs" color="neutral" sx={{ mb: 2 }}>
-                                    {ratings && ratings.length > 0 
+                                    {ratings && ratings.length > 0
                                         ? 'Get an AI-powered summary of this doctor based on patient reviews and experience!'
                                         : 'No reviews available for AI summary 🤖'
                                     }
                                 </Typography>
                             )}
-                            
+
                             <Divider sx={{ my: 2 }} />
                         </Box>
 
