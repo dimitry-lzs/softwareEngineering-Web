@@ -7,7 +7,7 @@ import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import AddIcon from '@mui/icons-material/Add';
 import SectionTitle from "../../../components/SectionTitle";
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useAppointment, useAddDiagnosis, useCompleteAppointment } from '../../../hooks';
+import { useAppointment, useAddDiagnosis, useCompleteAppointment, useCancelAppointment } from '../../../hooks';
 import { usePatient } from '../../../hooks';
 import { useState, useEffect } from 'react';
 import { ColorPaletteProp } from '@mui/joy/styles';
@@ -20,6 +20,7 @@ export default function DoctorAppointment() {
     const { patient } = usePatient((appointment?.patientid)?.toString());
     const { addDiagnosis, loading: addingDiagnosis } = useAddDiagnosis();
     const { completeAppointment, loading: completingAppointment } = useCompleteAppointment();
+    const { cancelAppointment, loading: cancellingAppointment } = useCancelAppointment();
 
     const [diagnosis, setDiagnosis] = useState('');
     const [diagnosisDetails, setDiagnosisDetails] = useState('');
@@ -90,6 +91,23 @@ export default function DoctorAppointment() {
             if (fetchAppointment) {
                 fetchAppointment(appointmentId.toString());
             }
+        }
+    };
+
+    const handleCancelAppointment = async () => {
+        if (!appointment) return;
+
+        const appointmentId = appointment.appointmentid;
+        if (!appointmentId) return;
+
+        try {
+            await cancelAppointment(appointmentId.toString());
+            // Refresh appointment data to show updated status
+            if (fetchAppointment) {
+                fetchAppointment(appointmentId.toString());
+            }
+        } catch (error) {
+            console.error("Failed to cancel appointment:", error);
         }
     };
 
@@ -266,6 +284,18 @@ export default function DoctorAppointment() {
 
                     <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
                         <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+                            {appointment.status === 'PENDING' && (
+                                <Button
+                                    size="sm"
+                                    variant="soft"
+                                    color="danger"
+                                    onClick={handleCancelAppointment}
+                                    loading={cancellingAppointment}
+                                    startDecorator={<BlockIcon />}
+                                >
+                                    Cancel Appointment
+                                </Button>
+                            )}
                             <Button
                                 size="sm"
                                 variant="outlined"
