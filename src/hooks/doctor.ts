@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useColorScheme } from '@mui/joy/styles';
 import { Doctor, Rating } from "../types";
 import { LowercaseType } from "./lowercase";
 import patient from "../api/patient";
@@ -9,11 +10,13 @@ import { APIError } from "../api";
 export const useDoctors = () => {
     const [doctors, setDoctors] = useState<LowercaseType<Doctor>[]>([]);
     const [loading, setLoading] = useState(false);
+    const { mode } = useColorScheme();
 
     const fetchDoctors = async () => {
         setLoading(true);
         try {
-            const { data } = await patient.doctors();
+            const isDark = mode === 'dark';
+            const { data } = await patient.doctors(isDark);
             setDoctors(data);
         } catch (error) {
             const axiosError = error as APIError;

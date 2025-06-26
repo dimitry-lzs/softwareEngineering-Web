@@ -2,7 +2,13 @@ import { client } from '.';
 import { NewAppointment, Speciality } from '../types';
 
 export default {
-    doctors: async () => client.get('/doctors'),
+    doctors: async (isDark?: boolean) => {
+        const params: any = {};
+        if (isDark !== undefined) {
+            params.is_dark = isDark.toString();
+        }
+        return client.get('/doctors', { params });
+    },
     doctor: async (id: string) => client.get(`/doctors/${id}`),
     specialities: async () => client.get<Speciality[]>('/specialities'),
     doctorRatings: async (doctorID: string) => client.get('/ratings', {
