@@ -31,4 +31,5 @@ export default {
     doctorAvailability: async (doctorID: string) => client.get('/get-doctor-availabilities', {
         params: { doctorID }
     }),
+    getDiagnoses: async () => client.get('/diagnoses'),
 }

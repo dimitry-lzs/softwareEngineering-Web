@@ -85,6 +85,7 @@ export type NewAppointment = {
 }
 
 export type Diagnosis = {
+    appointmentID: number;
     decease: string;
     details: string;
 }

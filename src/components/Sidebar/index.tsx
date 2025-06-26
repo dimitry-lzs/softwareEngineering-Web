@@ -4,6 +4,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import StarIcon from '@mui/icons-material/Star';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import Box from '@mui/joy/Box';
 import Divider from '@mui/joy/Divider';
 import GlobalStyles from '@mui/joy/GlobalStyles';
@@ -58,6 +59,20 @@ const PatientList = () => <>
             <ListItemContent>
                 <Typography level='title-sm'>
                     History
+                </Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
+    <ListItem>
+        <ListItemButton
+            to='/diagnoses'
+            component={Link}
+            role='menuitem'
+        >
+            <MedicalServicesIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>
+                    My Diagnoses
                 </Typography>
             </ListItemContent>
         </ListItemButton>

@@ -9,7 +9,7 @@ export default {
         params: { appointmentID: id }
     }),
     setDiagnosis: async (appointmentID: string, decease: string, details: string) =>
-        client.post('/set-diagnosis', {
+        client.post('/diagnosis', {
             appointmentID,
             decease,
             details

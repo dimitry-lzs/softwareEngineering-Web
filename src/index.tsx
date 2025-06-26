@@ -22,6 +22,7 @@ import DoctorAppointmentHistory from './pages/DoctorPages/DoctorAppointmentHisto
 import DoctorProfile from './pages/DoctorPages/DoctorProfile';
 import DoctorAppointment from './pages/DoctorPages/DoctorAppointment';
 import DoctorRatings from './pages/DoctorPages/DoctorRatings';
+import PatientDiagnoses from './pages/PatientDiagnoses';
 
 const root = document.getElementById('root');
 
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
             {
                 path: '/history/:id/feedback',
                 element: <AppointmentFeedback />,
+            },
+            {
+                path: '/diagnoses',
+                element: <PatientDiagnoses />,
             },
             {
                 path: '/doctor-home',
