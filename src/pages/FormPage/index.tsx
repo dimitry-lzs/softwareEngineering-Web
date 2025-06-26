@@ -7,6 +7,11 @@ import { Outlet } from 'react-router';
 import DarkModeToggle from '../../components/DarkModeToggle';
 import Notification from '../../components/Notification';
 
+// Import assets
+import mediqLogo from '../../assets/mediq.png';
+import doctorsLight from '../../assets/doctors_light.png';
+import doctorsDark from '../../assets/doctors_dark.png';
+
 const customTheme = extendTheme();
 
 export default function FormPage() {
@@ -64,8 +69,7 @@ export default function FormPage() {
                         >
                             <Box
                                 sx={{
-                                    backgroundImage:
-                                        'url(/src/assets/mediq.png)',
+                                    backgroundImage: `url(${mediqLogo})`,
                                     backgroundSize: 'contain',
                                     backgroundPosition: 'center',
                                     backgroundRepeat: 'no-repeat',
@@ -126,9 +130,9 @@ export default function FormPage() {
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
-                    backgroundImage: 'url(/src/assets/doctors_light.png)',
+                    backgroundImage: `url(${doctorsLight})`,
                     [theme.getColorSchemeSelector('dark')]: {
-                        backgroundImage: 'url(/src/assets/doctors_dark.png)',
+                        backgroundImage: `url(${doctorsDark})`,
                     },
                 })}
             />

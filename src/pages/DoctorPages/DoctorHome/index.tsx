@@ -1,5 +1,4 @@
-import MaterialCalendar from "../../../components/MaterialCalendar";
-import { Box, Card, Stack } from "@mui/joy";
+import { Box, Stack } from "@mui/joy";
 import UpcomingAppointments from "../../../components/UpcomingAppointments";
 import SectionTitle from "../../../components/SectionTitle";
 import React from "react";

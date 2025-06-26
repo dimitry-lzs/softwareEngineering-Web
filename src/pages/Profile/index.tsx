@@ -5,7 +5,6 @@ import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import NumbersIcon from '@mui/icons-material/Numbers';
 import Phone from '@mui/icons-material/PhoneRounded';
 import { Option, Select, Textarea } from '@mui/joy';
-import AspectRatio from '@mui/joy/AspectRatio';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';

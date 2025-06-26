@@ -13,6 +13,9 @@ import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
 import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton';
 import ListItemContent from '@mui/joy/ListItemContent';
+
+// Import assets
+import mediqLogo from '../../assets/mediq.png';
 import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
 import { observer } from 'mobx-react-lite';
@@ -231,7 +234,7 @@ export default observer(() => {
                 <Link to={home} style={{ textDecoration: 'none' }}>
                     <Box
                         sx={{
-                            backgroundImage: 'url(/src/assets/mediq.png)',
+                            backgroundImage: `url(${mediqLogo})`,
                             backgroundSize: 'contain',
                             backgroundPosition: 'center',
                             backgroundRepeat: 'no-repeat',
