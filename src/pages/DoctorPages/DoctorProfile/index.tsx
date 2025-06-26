@@ -77,63 +77,57 @@ export default observer(function DoctorProfile() {
                     <Divider />
                     <Stack direction='row' spacing={3}>
                         <Stack direction='column' spacing={1}>
-                            <Box
-                                sx={{
-                                    width: 200,
-                                    height: 200,
-                                    borderRadius: '50%',
-                                    overflow: 'hidden',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    flexShrink: 0
-                                }}
-                            >
+                            <Box sx={{ position: 'relative', display: 'inline-block' }}>
                                 <SmartAvatar
                                     src={userStore.avatarData}
                                     name={userStore.fullName || 'Doctor'}
-                                    sx={{ width: '100%', height: '100%' }}
+                                    size='lg'
+                                    sx={{
+                                        width: 200,
+                                        height: 200,
+                                        fontSize: '3rem'
+                                    }}
                                 />
+                                <IconButton
+                                    aria-label='upload new picture'
+                                    size='sm'
+                                    variant='outlined'
+                                    component='label'
+                                    color='neutral'
+                                    sx={{
+                                        bgcolor: 'background.body',
+                                        position: 'absolute',
+                                        zIndex: 2,
+                                        borderRadius: '50%',
+                                        right: 10,
+                                        bottom: 10,
+                                        boxShadow: 'sm',
+                                    }}
+                                >
+                                    <EditRoundedIcon />
+                                    <input
+                                        type='file'
+                                        accept='image/*'
+                                        style={{
+                                            display: 'none',
+                                            height: '20px',
+                                            width: '30px',
+                                        }}
+                                        onChange={(event) => {
+                                            const file = event.target.files?.[0];
+                                            if (file) {
+                                                const reader = new FileReader();
+                                                reader.onloadend = async () => {
+                                                    await userStore.updateAvatar(
+                                                        reader.result as string,
+                                                    );
+                                                };
+                                                reader.readAsDataURL(file);
+                                            }
+                                        }}
+                                    />
+                                </IconButton>
                             </Box>
-                            <IconButton
-                                aria-label='upload new picture'
-                                size='sm'
-                                variant='outlined'
-                                component='label'
-                                color='neutral'
-                                sx={{
-                                    bgcolor: 'background.body',
-                                    position: 'absolute',
-                                    zIndex: 2,
-                                    borderRadius: '50%',
-                                    left: 100,
-                                    top: 170,
-                                    boxShadow: 'sm',
-                                }}
-                            >
-                                <EditRoundedIcon />
-                                <input
-                                    type='file'
-                                    accept='image/*'
-                                    style={{
-                                        display: 'none',
-                                        height: '20px',
-                                        width: '30px',
-                                    }}
-                                    onChange={(event) => {
-                                        const file = event.target.files?.[0];
-                                        if (file) {
-                                            const reader = new FileReader();
-                                            reader.onloadend = async () => {
-                                                await userStore.updateAvatar(
-                                                    reader.result as string,
-                                                );
-                                            };
-                                            reader.readAsDataURL(file);
-                                        }
-                                    }}
-                                />
-                            </IconButton>
                         </Stack>
                         <Stack spacing={2} sx={{ flex: 1 }}>
                             <form
