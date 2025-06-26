@@ -36,14 +36,18 @@ export default function Home() {
                     overflow: 'auto'
                 }}
             >
-                <SectionTitle title="Home" subtitle="Search for doctors in your area" />
+                <Box sx={{ px: { xs: 2, md: 4 } }}>
+                    <SectionTitle title="Home" subtitle="Search for doctors in your area" />
+                </Box>
 
-                <Search
-                    selectedLocation={selectedLocation}
-                    setSelectedLocation={setSelectedLocation}
-                    selectedSpeciality={selectedSpeciality}
-                    setSelectedSpeciality={setSelectedSpeciality}
-                />
+                <Box sx={{ px: { xs: 2, md: 4 } }}>
+                    <Search
+                        selectedLocation={selectedLocation}
+                        setSelectedLocation={setSelectedLocation}
+                        selectedSpeciality={selectedSpeciality}
+                        setSelectedSpeciality={setSelectedSpeciality}
+                    />
+                </Box>
 
                 <Box sx={{ flex: 1, overflow: 'auto' }}>
                     <Stack spacing={2} sx={{ px: { xs: 2, md: 4 }, py: 2 }}>
