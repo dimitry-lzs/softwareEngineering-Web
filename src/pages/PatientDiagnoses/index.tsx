@@ -96,6 +96,7 @@ export default function PatientDiagnoses() {
                         <Box sx={{ flex: 1 }}>
                             <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
                                 <Typography level="title-lg">AI Health Insights</Typography>
+                                <Chip size="sm" variant="soft" color="warning">AI Generated - Not Medical Advice</Chip>
                                 <Button
                                     size="sm"
                                     variant="soft"

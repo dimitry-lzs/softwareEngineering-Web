@@ -1,5 +1,9 @@
 // Helper function to format speciality display name
-export default function formatString(speciality: string): string {
+export default function formatString(speciality?: string | null): string {
+    if (!speciality) {
+        return '';
+    }
+
     return speciality
         .replace('_', ' ')
         .toLowerCase()

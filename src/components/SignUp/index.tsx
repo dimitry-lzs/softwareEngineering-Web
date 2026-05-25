@@ -1,6 +1,8 @@
 import { MedicalServices, Person } from '@mui/icons-material';
 import {
+    Box,
     Button,
+    Checkbox,
     FormControl,
     FormLabel,
     Input,
@@ -44,6 +46,7 @@ export default function SignUp() {
 
         const registered = await userStore.register({
             ...formJson,
+            consentAccepted: formJson.consentAccepted === 'on',
             userType,
         } as any);
         if (registered) {
@@ -193,6 +196,12 @@ export default function SignUp() {
                                 <Input type='text' name='amka' />
                             </FormControl>
                         )}
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Checkbox name="consentAccepted" required />
+                            <Typography level="body-sm">
+                                I accept the <Link to="/terms-and-conditions" target="_blank">Terms and Conditions</Link> and <Link to="/privacy-policy" target="_blank">Privacy Policy</Link>
+                            </Typography>
+                        </Box>
                         <Stack sx={{ gap: 4, mt: 2 }}>
                             <Button type='submit' fullWidth>
                                 Create Account

@@ -5,6 +5,7 @@ export type APIError = AxiosError & { response: { data: { error: string } } };
 
 export const client = axios.create({
     baseURL: '/api',
+    withCredentials: true,
 });
 
 // Response interceptor to handle 401 unauthorized errors
@@ -50,6 +51,8 @@ const user = {
         client.post('/update-avatar', { avatar }),
     updateUserData: async (userData: UserData) =>
         client.post('/update-user', userData),
+    deleteAccount: async () => client.delete('/delete-account'),
+    exportData: async () => client.get('/export-data'),
 };
 
 export { user };

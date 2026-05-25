@@ -8,6 +8,7 @@ import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
 import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
+import Chip from '@mui/joy/Chip';
 import { AutoAwesome } from '@mui/icons-material';
 
 import SmartAvatar from '../SmartAvatar';
@@ -113,6 +114,7 @@ export default function DoctorTabs({ doctor, ratings }: DoctorTabsProps) {
                                 <Typography level="title-sm" sx={{ fontWeight: 'bold' }}>
                                     AI Patient Insights
                                 </Typography>
+                                <Chip size="sm" variant="soft" color="warning">AI Generated - Not Medical Advice</Chip>
                                 <Button
                                     size="sm"
                                     variant="soft"

@@ -34,13 +34,23 @@ export default function SetAvailabilities() {
         return checkDateTime > now;
     };
 
+    const toLocalISOString = (date: Date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+    };
+
     React.useEffect(() => {
         if (selectedDate && previewSlots.length > 0) {
             const updatedSlots = previewSlots.map(slot => {
                 const oldDate = new Date(slot);
                 const newDateTime = new Date(selectedDate);
                 newDateTime.setHours(oldDate.getHours(), oldDate.getMinutes(), 0, 0);
-                return newDateTime.toISOString();
+                return toLocalISOString(newDateTime);
             });
             setPreviewSlots(updatedSlots);
         }
@@ -62,7 +72,7 @@ export default function SetAvailabilities() {
 
             const dateTime = new Date(selectedDate);
             dateTime.setHours(parseInt(selectedTime), 0, 0, 0);
-            const isoString = dateTime.toISOString();
+            const isoString = toLocalISOString(dateTime);
 
             // Check both preview slots and existing availabilities for uniqueness
             const existingSlots = availabilities.map(a => a.timefrom);

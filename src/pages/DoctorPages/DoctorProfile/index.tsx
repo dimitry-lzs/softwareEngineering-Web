@@ -4,7 +4,7 @@ import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import NumbersIcon from '@mui/icons-material/Numbers';
 import Phone from '@mui/icons-material/PhoneRounded';
-import { Option, Select, Textarea } from '@mui/joy';
+import { FormHelperText, Option, Select, Textarea } from '@mui/joy';
 
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
@@ -20,6 +20,7 @@ import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router';
 import { userStore } from '../../../stores';
 import {
     OfficeLocation,
@@ -37,6 +38,16 @@ export default observer(function DoctorProfile() {
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData.entries());
         await userStore.updateUserData(data as unknown as UserData);
+    };
+
+    const navigate = useNavigate();
+    const handleDeleteAccount = async () => {
+        if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            const success = await userStore.deleteAccount();
+            if (success) {
+                navigate('/auth/login');
+            }
+        }
     };
 
     useEffect(() => {
@@ -194,13 +205,12 @@ export default observer(function DoctorProfile() {
                                                     Speciality
                                                 </FormLabel>
                                                 <Select
-                                                    required
+                                                    disabled
                                                     size='sm'
                                                     placeholder='Speciality'
                                                     defaultValue={
                                                         userStore.speciality
                                                     }
-                                                    name='speciality'
                                                     startDecorator={
                                                         <MedicalServicesIcon />
                                                     }
@@ -220,6 +230,7 @@ export default observer(function DoctorProfile() {
                                                         </Option>
                                                     ))}
                                                 </Select>
+                                                <FormHelperText>Cannot be changed after registration</FormHelperText>
                                             </FormControl>
                                             <FormControl sx={{ flex: 1 }}>
                                                 <FormLabel>
@@ -229,14 +240,14 @@ export default observer(function DoctorProfile() {
                                                     defaultValue={
                                                         userStore.licenceID
                                                     }
-                                                    required
+                                                    disabled
                                                     startDecorator={
                                                         <NumbersIcon />
                                                     }
                                                     size='sm'
-                                                    name='licenceID'
                                                     placeholder='License ID'
                                                 />
+                                                <FormHelperText>Cannot be changed after registration</FormHelperText>
                                             </FormControl>
                                         </Stack>
                                         <Stack direction='row' spacing={2}>
@@ -282,9 +293,10 @@ export default observer(function DoctorProfile() {
                                                 defaultValue={userStore.amka}
                                                 startDecorator={<NumbersIcon />}
                                                 size='sm'
-                                                name='amka'
+                                                disabled
                                                 placeholder='AMKA'
                                             />
+                                            <FormHelperText>Cannot be changed after registration</FormHelperText>
                                         </FormControl>
                                     </Stack>
                                 )}
@@ -309,22 +321,45 @@ export default observer(function DoctorProfile() {
                     <CardOverflow
                         sx={{ borderTop: '1px solid', borderColor: 'divider' }}
                     >
-                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button
-                                size='sm'
-                                variant='outlined'
-                                color='neutral'
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                loading={userStore.isLoading}
-                                size='sm'
-                                variant='solid'
-                                onClick={() => formRef.current?.requestSubmit()}
-                            >
-                                Save
-                            </Button>
+                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2, display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <Button
+                                    type="button"
+                                    size='sm'
+                                    variant='outlined'
+                                    color='danger'
+                                    onClick={handleDeleteAccount}
+                                    loading={userStore.isLoading}
+                                >
+                                    Delete Account
+                                </Button>
+                                <Button
+                                    type="button"
+                                    size='sm'
+                                    variant='outlined'
+                                    color='primary'
+                                    onClick={() => userStore.exportData()}
+                                >
+                                    Export Data
+                                </Button>
+                            </Box>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <Button
+                                    size='sm'
+                                    variant='outlined'
+                                    color='neutral'
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    loading={userStore.isLoading}
+                                    size='sm'
+                                    variant='solid'
+                                    onClick={() => formRef.current?.requestSubmit()}
+                                >
+                                    Save
+                                </Button>
+                            </Box>
                         </CardActions>
                     </CardOverflow>
                 </Card>

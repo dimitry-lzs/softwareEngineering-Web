@@ -141,6 +141,52 @@ class UserStore {
         }
     };
 
+    deleteAccount = async (): Promise<boolean> => {
+        this.setLoading(true);
+        try {
+            const response = await user.deleteAccount();
+            if (response.status === 200) {
+                this.setUserData(null);
+                this.setAvatar(null);
+                notificationStore.setNotification(
+                    true,
+                    'Account deleted successfully',
+                    'success',
+                );
+                return true;
+            }
+            return false;
+        } catch (error) {
+            notificationStore.setNotification(
+                true,
+                'Failed to delete account',
+                'danger',
+            );
+            return false;
+        } finally {
+            this.setLoading(false);
+        }
+    };
+
+    exportData = async () => {
+        try {
+            const response = await user.exportData();
+            if (response.status === 200) {
+                const data = response.data;
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'mediq_data_export.json';
+                a.click();
+                window.URL.revokeObjectURL(url);
+                notificationStore.setNotification(true, 'Data exported successfully', 'success');
+            }
+        } catch (error) {
+            notificationStore.setNotification(true, 'Failed to export data', 'danger');
+        }
+    };
+
     updateUserData = async (userData: UserData): Promise<boolean> => {
         this.setLoading(true);
         try {

@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { observer } from 'mobx-react-lite';
 import Box from '@mui/joy/Box';
 import Divider from '@mui/joy/Divider';
 import IconButton from '@mui/joy/IconButton';
@@ -18,12 +19,12 @@ type SearchProps = {
     setSelectedSpeciality: (spec: string) => void;
 };
 
-export default function Search({
+const Search = observer(({
     selectedLocation,
     setSelectedLocation,
     selectedSpeciality,
     setSelectedSpeciality,
-}: SearchProps) {
+}: SearchProps) => {
 
     const [open, setOpen] = React.useState(false);
 
@@ -39,7 +40,7 @@ export default function Search({
                     onChange={(_, value) => setSelectedSpeciality(value as string)}
                 >
                     <Option value="all">All Specialities</Option>
-                    {dataStore.specialitiesList.map((speciality: Speciality) => (
+                    {Object.values(Speciality).map((speciality: Speciality) => (
                         <Option key={speciality} value={speciality}>
                             {formatString(speciality)}
                         </Option>
@@ -50,9 +51,12 @@ export default function Search({
                 <FormLabel>Location</FormLabel>
                 <Select size="sm" placeholder="All" value={selectedLocation} onChange={(_, value) => setSelectedLocation(value as string)}>
                     <Option value="all">All Locations</Option>
-                    <Option value={OfficeLocation.Athens}>Athens</Option>
-                    <Option value={OfficeLocation.Patras}>Patra</Option>
-                    <Option value={OfficeLocation.Thessaloniki}>Thessaloniki</Option>        </Select>
+                    {Object.values(OfficeLocation).map((location: OfficeLocation) => (
+                        <Option key={location} value={location}>
+                            {formatString(location)}
+                        </Option>
+                    ))}
+                </Select>
             </FormControl>
         </React.Fragment>
     );
@@ -110,4 +114,6 @@ export default function Search({
             </Box>
         </React.Fragment>
     );
-}
+});
+
+export default Search;

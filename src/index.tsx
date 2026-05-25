@@ -23,6 +23,8 @@ import DoctorProfile from './pages/DoctorPages/DoctorProfile';
 import DoctorAppointment from './pages/DoctorPages/DoctorAppointment';
 import DoctorRatings from './pages/DoctorPages/DoctorRatings';
 import PatientDiagnoses from './pages/PatientDiagnoses';
+import TermsAndConditions from './pages/Terms';
+import PrivacyPolicy from './pages/Privacy';
 
 const root = document.getElementById('root');
 
@@ -130,6 +132,14 @@ const router = createBrowserRouter([
             },
         ],
         errorElement: <ErrorPage />,
+    },
+    {
+        path: '/terms-and-conditions',
+        element: <TermsAndConditions />,
+    },
+    {
+        path: '/privacy-policy',
+        element: <PrivacyPolicy />,
     },
 ]);
 
