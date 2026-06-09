@@ -150,3 +150,26 @@ export type Availability = {
     free: number; // 1 for free, 0 for taken
     timefrom: string; // ISO string format
 };
+
+export enum SubscriptionPlan {
+    Monthly = 'MONTHLY',
+    Yearly = 'YEARLY',
+}
+
+export enum SubscriptionStatus {
+    Active = 'ACTIVE',
+    Cancelled = 'CANCELLED',
+    Expired = 'EXPIRED',
+}
+
+export type Subscription = {
+    id: number;
+    doctorID: number;
+    plan: SubscriptionPlan;
+    status: SubscriptionStatus;
+    autoRenew: boolean;
+    startDate: string;
+    endDate: string;
+    createdAt?: string;
+    updatedAt?: string;
+};

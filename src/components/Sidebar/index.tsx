@@ -1,5 +1,6 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import HistoryIcon from '@mui/icons-material/History';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
@@ -148,6 +149,20 @@ const DoctorList = () => <>
             <ListItemContent>
                 <Typography level='title-sm'>
                     My Reviews
+                </Typography>
+            </ListItemContent>
+        </ListItemButton>
+    </ListItem>
+    <ListItem>
+        <ListItemButton
+            to='/doctor-subscription'
+            component={Link}
+            role='menuitem'
+        >
+            <CardMembershipIcon />
+            <ListItemContent>
+                <Typography level='title-sm'>
+                    Subscription
                 </Typography>
             </ListItemContent>
         </ListItemButton>

@@ -7,6 +7,7 @@ import CheckAuth from './components/CheckAuth';
 import HomeRedirect from './components/HomeRedirect';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import SubscriptionGuard from './components/SubscriptionGuard';
 import AppointmentHistory from './pages/AppointmentHistory';
 import MyAppointments from './pages/MyAppointments';
 import ErrorPage from './pages/Error';
@@ -22,6 +23,7 @@ import DoctorAppointmentHistory from './pages/DoctorPages/DoctorAppointmentHisto
 import DoctorProfile from './pages/DoctorPages/DoctorProfile';
 import DoctorAppointment from './pages/DoctorPages/DoctorAppointment';
 import DoctorRatings from './pages/DoctorPages/DoctorRatings';
+import DoctorSubscription from './pages/DoctorPages/DoctorSubscription';
 import PatientDiagnoses from './pages/PatientDiagnoses';
 import TermsAndConditions from './pages/Terms';
 import PrivacyPolicy from './pages/Privacy';
@@ -81,19 +83,19 @@ const router = createBrowserRouter([
             },
             {
                 path: '/doctor-home',
-                element: <DoctorHome />,
+                element: <SubscriptionGuard><DoctorHome /></SubscriptionGuard>,
             },
             {
                 path: '/doctor-home/:id',
-                element: <DoctorAppointment />,
+                element: <SubscriptionGuard><DoctorAppointment /></SubscriptionGuard>,
             },
             {
                 path: '/availabilities',
-                element: <SetAvailabilities />,
+                element: <SubscriptionGuard><SetAvailabilities /></SubscriptionGuard>,
             },
             {
                 path: '/doctor-appointments',
-                element: <DoctorAppointmentHistory />,
+                element: <SubscriptionGuard><DoctorAppointmentHistory /></SubscriptionGuard>,
             },
             {
                 path: '/doctor-profile',
@@ -101,11 +103,15 @@ const router = createBrowserRouter([
             },
             {
                 path: '/doctor-appointments/:id',
-                element: <DoctorAppointment />,
+                element: <SubscriptionGuard><DoctorAppointment /></SubscriptionGuard>,
             },
             {
                 path: '/doctor-ratings',
-                element: <DoctorRatings />,
+                element: <SubscriptionGuard><DoctorRatings /></SubscriptionGuard>,
+            },
+            {
+                path: '/doctor-subscription',
+                element: <DoctorSubscription />,
             }
 
         ],
