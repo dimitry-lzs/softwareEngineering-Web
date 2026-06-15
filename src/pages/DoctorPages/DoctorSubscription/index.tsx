@@ -37,10 +37,10 @@ const PLANS = [
     {
         type: SubscriptionPlan.Monthly,
         name: 'Monthly',
-        price: '€29.99',
+        price: '€39.00',
         period: '/month',
-        commission: '5%',
-        commissionLabel: 'per appointment',
+        commission: '4.5%',
+        commissionLabel: 'for card payments',
         features: [
             'Full access to all doctor features',
             'Set unlimited availabilities',
@@ -55,14 +55,13 @@ const PLANS = [
     {
         type: SubscriptionPlan.Yearly,
         name: 'Yearly',
-        price: '€249.99',
+        price: '€390.00',
         period: '/year',
-        commission: '3%',
-        commissionLabel: 'per appointment',
+        commission: '4.5%',
+        commissionLabel: 'for card payments',
         features: [
             'Everything in Monthly',
-            'Save ~30% compared to monthly',
-            'Lower commission rate (3% vs 5%)',
+            'Lower overall yearly rate',
             'Annual performance analytics',
             'Featured doctor badge on profile',
             'Priority support',
@@ -191,9 +190,7 @@ function DoctorSubscription() {
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <Percent fontSize="small" />
                                 <Typography level="body-md">
-                                    <strong>Commission Rate:</strong>{' '}
-                                    {subscription.plan === SubscriptionPlan.Monthly ? '5%' : '3%'} per
-                                    appointment
+                                    <strong>Commission Rate:</strong> 4.5% for card payments
                                 </Typography>
                             </Box>
                         </Stack>
@@ -231,23 +228,12 @@ function DoctorSubscription() {
                             reviews.
                         </Typography>
                         <Typography level="body-md" sx={{ lineHeight: 1.7 }}>
-                            <strong>Commission Policy:</strong> In addition to the subscription fee, a
-                            small commission is charged per completed appointment. The commission rate
-                            depends on your subscription plan:
+                            <strong>Commission Policy:</strong> A commission of 4.5% is retained for all
+                            payments made electronically via card.
                         </Typography>
-                        <List marker="disc" size="sm" sx={{ ml: 3 }}>
-                            <ListItem>
-                                <Typography level="body-md">
-                                    <strong>Monthly Plan:</strong> 5% commission per completed appointment
-                                </Typography>
-                            </ListItem>
-                            <ListItem>
-                                <Typography level="body-md">
-                                    <strong>Yearly Plan:</strong> 3% commission per completed appointment
-                                    (lower rate as a reward for annual commitment)
-                                </Typography>
-                            </ListItem>
-                        </List>
+                        <Typography level="body-md" sx={{ lineHeight: 1.7 }}>
+                            <strong>Advertising:</strong> Possibility of sponsored display of doctors in search results with a charge per 1000 impressions, starting from 15€ per 1000 impressions.
+                        </Typography>
                         <Typography level="body-md" sx={{ lineHeight: 1.7 }}>
                             <strong>Auto-Renewal:</strong> Subscriptions renew automatically at the end of
                             each billing period. You can cancel auto-renewal at any time from this page —
@@ -391,7 +377,7 @@ function DoctorSubscription() {
                     <Typography level="body-md" sx={{ mb: 2 }}>
                         You are about to subscribe to the{' '}
                         <strong>
-                            {selectedPlan === SubscriptionPlan.Monthly ? 'Monthly (€29.99/mo)' : 'Yearly (€249.99/yr)'}
+                            {selectedPlan === SubscriptionPlan.Monthly ? 'Monthly (€39.00/mo)' : 'Yearly (€390.00/yr)'}
                         </strong>{' '}
                         plan.
                     </Typography>
